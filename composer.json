@@ -25,6 +25,7 @@
         "ext-phalcon": "~5.1",
         "ext-redis": "*",
         "ext-zlib": "*",
+        "ext-zip": "*",
         "symfony/console": "^6.2"
     },
     "require-dev": {
