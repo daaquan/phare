@@ -8,4 +8,9 @@ class IndexController extends \Phalcon\Mvc\Controller
     {
         return $this->response->setContent('ok');
     }
+
+    public function version()
+    {
+        return $this->response->setContent(env('APP_VER'));
+    }
 }
