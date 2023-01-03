@@ -40,5 +40,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
-    "prefer-stable": true
+    "prefer-stable": true,
+    "require-dev": {
+        "nunomaduro/phpinsights": "^2.6"
+    }
 }
