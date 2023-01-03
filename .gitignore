@@ -1,6 +1,18 @@
 /node_modules
 /vendor
 
+bootstrap/cache/*
+storage/*.key
+config/credentials.ini
+
+.phpunit.result.cache
+.php_cs.cache
+
+.env
+auth.json
+npm-debug.log
+yarn-error.log
+
 /.idea
 /.fleet
 /.vscode
