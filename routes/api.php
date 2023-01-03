@@ -6,6 +6,7 @@ $router = new MicroCollection();
 
 $router->setHandler('App\Http\Controllers\IndexController')
     ->setLazy(true)
-    ->get('/', 'index');
+    ->get('/', 'index')
+    ->get('/version', 'version');
 
 return $router;
