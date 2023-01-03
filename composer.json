@@ -1,0 +1,44 @@
+{
+    "name": "g/skeleton",
+    "description": "Game framework with Phalcon",
+    "type": "library",
+    "keywords": [
+        "phalcon",
+        "framework",
+        "skeleton"
+    ],
+    "homepage": "http://projectg-portal:10080/g/skeleton",
+    "support": {
+        "issues": "http://projectg-portal:10080/g/skeleton/issues",
+        "source": "http://projectg-portal:10080/g/skeleton"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.1",
+        "ext-curl": "*",
+        "ext-gmp": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-msgpack": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "ext-phalcon": "~5.1",
+        "ext-redis": "*",
+        "ext-zlib": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "prefer-stable": true
+}
