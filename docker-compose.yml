@@ -1,0 +1,40 @@
+version: "3"
+services:
+    db:
+        image: mysql:8.0
+        container_name: skeleton-db
+        environment:
+          TZ: "Asia/Tokyo"
+          MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+          MYSQL_DATABASE: "skeleton"
+          MYSQL_USER: "skeleton"
+          MYSQL_PASSWORD: "secret"
+        ports:
+            - "3306:3306"
+
+    php-fpm:
+        build: docker/php
+        container_name: skeleton-php
+        environment:
+            TZ: Asia/Tokyo
+        ports:
+            - "9000:9000"
+        volumes:
+            - .:/var/www/html
+            - ./docker/php/config/extra.ini:/usr/local/etc/php/conf.d/extra.ini
+
+    nginx:
+        image: nginx
+        container_name: skeleton-nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - .:/var/www/html
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+
+    redis:
+        image: redis:6
+        container_name: skeleton-redis
+        ports:
+            - "6379:6379"
