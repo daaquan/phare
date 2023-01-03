@@ -24,9 +24,10 @@
         "ext-pdo": "*",
         "ext-phalcon": "~5.1",
         "ext-redis": "*",
-        "ext-zlib": "*",
         "ext-zip": "*",
-        "symfony/console": "^6.2"
+        "ext-zlib": "*",
+        "symfony/console": "^6.2",
+        "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
