@@ -12,6 +12,12 @@
         "issues": "http://projectg-portal:10080/g/skeleton/issues",
         "source": "http://projectg-portal:10080/g/skeleton"
     },
+    "repositories": {
+        "g/framework": {
+            "type": "vcs",
+            "url": "git@10.2.2.84:shosen.cho/framework.git"
+        }
+    },
     "minimum-stability": "stable",
     "require": {
         "php": "^8.1",
@@ -27,7 +33,8 @@
         "ext-zip": "*",
         "ext-zlib": "*",
         "symfony/console": "^6.2",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "g/framework": "dev-main"
     },
     "require-dev": {
         "nunomaduro/phpinsights": "^2.6",
@@ -38,7 +45,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Framework\\": "framework/"
         },
         "files": [
             "app/helpers.php"
