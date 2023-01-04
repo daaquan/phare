@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use App\Application;
+use Framework\Foundation\Application;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 
