@@ -27,7 +27,7 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$kernel = new \App\Http\Kernel($app);
+$kernel = new \Framework\Foundation\Http\Kernel($app);
 
 $kernel->handle(
     $_SERVER['REQUEST_URI']

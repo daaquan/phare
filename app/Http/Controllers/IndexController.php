@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-class IndexController extends \Phalcon\Mvc\Controller
+use Framework\Foundation\Http\Controller as BaseController;
+
+class IndexController extends BaseController
 {
     public function index()
     {
