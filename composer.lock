@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "git@10.2.2.84:shosen.cho/framework.git",
-                "reference": "ae8bbc29bfdf2eb500d36c0d00287f8042ee8575"
+                "reference": "a9d9f4e80e56bedd938d41fc945d10187e1b6cd6"
             },
             "require": {
                 "ext-mbstring": "*",
@@ -50,7 +50,7 @@
                 "issues": "http://projectg-portal:10080/g/framework/issues",
                 "source": "http://projectg-portal:10080/g/framework"
             },
-            "time": "2023-01-04T13:51:31+00:00"
+            "time": "2023-01-04T13:56:49+00:00"
         },
         {
             "name": "graham-campbell/result-type",
