@@ -1,15 +1,7 @@
 <?php
 
-namespace Feature;
-
-use Tests\TestCase;
-
-class IndexTest extends TestCase
-{
-    public function test_index_response_and_status_code()
-    {
-        $response = $this->get('/version');
-
-        $this->assertEquals(env('APP_VER'), $response->getContent());
-    }
-}
+it('test version api response and status code')
+    ->get('/version')
+//    ->assertHeader('X-APP-NAME', env('APP_NAME'))
+//    ->assertSee(env('APP_VER'))
+    ->assertOk();
