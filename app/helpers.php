@@ -6,9 +6,8 @@ if (!function_exists('env')) {
      *
      * @param  string  $key
      * @param  mixed  $default
-     * @return mixed
      */
-    function env($key, $default = null)
+    function env($key, $default = null): mixed
     {
         return \App\Env::get($key, $default);
     }
@@ -20,9 +19,8 @@ if (!function_exists('value')) {
      *
      * @param  mixed  $value
      * @param  mixed  $args
-     * @return mixed
      */
-    function value($value, ...$args)
+    function value($value, ...$args): mixed
     {
         return $value instanceof \Closure ? $value(...$args) : $value;
     }
@@ -33,9 +31,8 @@ if (!function_exists('dd')) {
      * Dump the passed variables and end the script.
      *
      * @param  mixed
-     * @return void
      */
-    function dd()
+    function dd(): void
     {
         call_user_func_array('dump', func_get_args());
 
@@ -48,14 +45,13 @@ if (!function_exists('dump')) {
      * Dump the passed variables without end the script.
      *
      * @param  mixed
-     * @return void
      */
-    function dump()
+    function dump(): void
     {
-        array_map(static function ($x) {
+        array_map(static function ($x): void {
             $string = (new \Phalcon\Support\Debug\Dump([], true))->variable($x);
 
-            echo PHP_SAPI == 'cli' ? strip_tags($string).PHP_EOL : $string;
+            echo PHP_SAPI === 'cli' ? strip_tags($string).PHP_EOL : $string;
         }, func_get_args());
     }
 }
