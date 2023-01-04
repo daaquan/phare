@@ -27,12 +27,10 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$router = require __DIR__.'/../routes/api.php';
+$kernel = new \App\Http\Kernel($app);
 
-$kernel = new \App\Kernel($app, $router);
+$kernel->handle(
+    $_SERVER['REQUEST_URI']
+)->send();
 
-$response = $kernel->handle(
-    $request = new \Phalcon\Http\Request()
-);
-
-$kernel->terminate($request, $response);
+$kernel->terminate();
