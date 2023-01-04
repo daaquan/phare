@@ -27,10 +27,13 @@ class Kernel
     {
         $this->app->mount($this->router);
 
-        return $this->app->handle($request->getUri());
+        $this->app->handle($request->getUri());
+
+        return $this->app->getDi()->getShared('response');
     }
 
     public function terminate(Request $request, Response $response)
     {
+        $this->app->terminate();
     }
 }
