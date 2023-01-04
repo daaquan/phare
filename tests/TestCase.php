@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use App\Application;
+use Framework\Foundation\Application;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
