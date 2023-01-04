@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-         printerClass="PHPUnit\Util\TestDox\CliTestDoxPrinter"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="tests/Pest.php"
          colors="true"
 >
     <testsuites>
