@@ -11,6 +11,9 @@ class IndexController extends \Phalcon\Mvc\Controller
 
     public function version()
     {
-        return $this->response->setContent(env('APP_VER'));
+        return $this->response
+            ->setHeader('X-APP-NAME', env('APP_NAME'))
+            ->setStatusCode(200)
+            ->setContent(env('APP_VER'));
     }
 }
