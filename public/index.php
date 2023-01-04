@@ -29,8 +29,14 @@ $app = require __DIR__.'/../bootstrap/app.php';
 
 $kernel = new \Framework\Foundation\Http\Kernel($app);
 
-$kernel->handle(
-    $_SERVER['REQUEST_URI']
+$response = $kernel->handle(
+    $request = new \Phalcon\Http\Request()
 )->send();
 
-$kernel->terminate();
+if (!$response->isSent()) {
+    $response
+        ->sendHeaders()
+        ->send();
+}
+
+$kernel->terminate($request, $response);
