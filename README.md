@@ -13,8 +13,18 @@ To run this application on your machine, you need at least:
 
 ### Installing Dependencies via Composer
 
-```bash
+```shell
 cd app-folder
 composer install
 cp .env.example .env
+```
+
+### Run tests
+
+```shell
+./vendor/bin/pest
+
+./vendor/bin/pest --parallel --processes=10
+
+./vendor/bin/pest --coverage --min=90
 ```
