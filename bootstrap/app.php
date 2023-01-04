@@ -2,8 +2,8 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use App\Application;
 use Framework\Bootstrap\LoadEnvironmentVariables;
+use Framework\Foundation\Application;
 
 $basePath = $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__);
 (new LoadEnvironmentVariables($basePath))->bootstrap();
