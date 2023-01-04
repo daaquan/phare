@@ -9,19 +9,21 @@ abstract class TestCase extends BaseTestCase
 {
     /**
      * Creates the application.
-     *
-     * @return Application
      */
-    public function createApplication()
+    public function createApplication(): Application
     {
         $app = require __DIR__.'/../bootstrap/app.php';
         $app->mount(require __DIR__.'/../routes/api.php');
         return $app;
     }
 
-    public function get(string $uri)
+    /**
+     * @param  string  $uri
+     */
+    public function get(string $uri): TestResponse
     {
-        return $this->createApplication()
+        $response = $this->createApplication()
             ->handle($uri);
+        return new TestResponse($response);
     }
 }
