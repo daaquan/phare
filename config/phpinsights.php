@@ -1,17 +1,24 @@
 <?php
 
+use NunoMaduro\PhpInsights\Domain\Insights\CyclomaticComplexityIsHigh;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineFunctions;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenFinalClasses;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenNormalClasses;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenPrivateMethods;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenTraits;
 use NunoMaduro\PhpInsights\Domain\Metrics\Architecture\Classes;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\TodoSniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterNotSniff;
 use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
 use PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
+use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
+use PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer;
 use SlevomatCodingStandard\Sniffs\Classes\ModernClassNameReferenceSniff;
 use SlevomatCodingStandard\Sniffs\Commenting\UselessFunctionDocCommentSniff;
+use SlevomatCodingStandard\Sniffs\Files\LineLengthSniff;
+use SlevomatCodingStandard\Sniffs\Functions\FunctionLengthSniff;
+use SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DeclareStrictTypesSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff;
@@ -91,13 +98,42 @@ return [
         ForbiddenTraits::class,
         ParameterTypeHintSniff::class,
         PropertyTypeHintSniff::class,
-        ReturnTypeHintSniff::class,
         UselessFunctionDocCommentSniff::class,
         ModernClassNameReferenceSniff::class,
         OrderedClassElementsFixer::class,
     ],
 
     'config' => [
+        BinaryOperatorSpacesFixer::class => [
+            'operators' => [
+                '=>' => 'align',
+                '===' => 'align_single_space_minimal',
+            ],
+        ],
+        LineLengthSniff::class => [
+            'lineLimit' => 120,
+            'absoluteLineLimit' => 120,
+            'ignoreComments' => false,
+        ],
+        FunctionLengthSniff::class => [
+            'maxLinesLength' => 30,
+            'exclude' => [],
+        ],
+        ReturnTypeHintSniff::class => [
+            'exclude' => [],
+        ],
+        VoidReturnFixer::class => [],
+        CyclomaticComplexityIsHigh::class => [
+            'maxComplexity' => 14,
+            'exclude' => [],
+        ],
+        UnusedParameterSniff::class => [
+            'exclude' => [],
+        ],
+        TodoSniff::class => [
+            'exclude' => [
+            ],
+        ],
         ForbiddenPrivateMethods::class => [
             'title' => 'The usage of private methods is not idiomatic in Laravel.',
         ],
