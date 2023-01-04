@@ -3,20 +3,11 @@
 namespace Tests;
 
 use Framework\Foundation\Application;
+use Framework\Testing\TestResponse;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    /**
-     * Creates the application.
-     */
-    public function createApplication(): Application
-    {
-        $app = require __DIR__.'/../bootstrap/app.php';
-        $app->mount(require __DIR__.'/../routes/api.php');
-        return $app;
-    }
-
     /**
      * @param  string  $uri
      */
@@ -25,5 +16,13 @@ abstract class TestCase extends BaseTestCase
         $response = $this->createApplication()
             ->handle($uri);
         return new TestResponse($response);
+    }
+
+    /**
+     * Creates the application.
+     */
+    public function createApplication(): Application
+    {
+        return require __DIR__.'/../bootstrap/app.php';
     }
 }
