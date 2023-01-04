@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Framework\Foundation\Http\Controller as BaseController;
-
-class IndexController extends BaseController
+class IndexController extends Controller
 {
     public function index()
     {
