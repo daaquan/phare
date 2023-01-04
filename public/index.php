@@ -15,14 +15,6 @@ define('APP_START', microtime(true));
 
 $app = require __DIR__.'/../bootstrap/app.php';
 
-$router = require __DIR__.'/../routes/api.php';
-
-$kernel = new \App\Kernel($app, $router);
-
-$response = $kernel->handle(
-    $request = new \Phalcon\Http\Request()
-)->send();
-
 /*
 |--------------------------------------------------------------------------
 | Run The Application
@@ -35,6 +27,12 @@ $response = $kernel->handle(
 |
 */
 
-$app->run();
+$router = require __DIR__.'/../routes/api.php';
+
+$kernel = new \App\Kernel($app, $router);
+
+$response = $kernel->handle(
+    $request = new \Phalcon\Http\Request()
+);
 
 $kernel->terminate($request, $response);

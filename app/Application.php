@@ -11,6 +11,8 @@ class Application
 {
     protected App $app;
 
+    protected Di\Di $di;
+
     protected string $basePath;
 
     /**
@@ -19,6 +21,9 @@ class Application
     public function __construct(string $basePath)
     {
         $this->basePath = $basePath;
+
+        $this->di = new Di\FactoryDefault();
+        $this->di->set('app', $this);
 
         $this->app = $this->createApplication();
     }
@@ -38,11 +43,17 @@ class Application
         $this->app->mount($router);
     }
 
+    public function terminate()
+    {
+    }
+
+    public function getDi()
+    {
+        return $this->di;
+    }
+
     protected function createApplication()
     {
-        $di = new Di\FactoryDefault();
-        $di->set('app', $this);
-
-        return new App($di);
+        return new App($this->di);
     }
 }
