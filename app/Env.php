@@ -24,10 +24,8 @@ class Env
 
     /**
      * Enable the putenv adapter.
-     *
-     * @return void
      */
-    public static function enablePutenv()
+    public static function enablePutenv(): void
     {
         static::$putenv = true;
         static::$repository = null;
@@ -35,10 +33,8 @@ class Env
 
     /**
      * Disable the putenv adapter.
-     *
-     * @return void
      */
-    public static function disablePutenv()
+    public static function disablePutenv(): void
     {
         static::$putenv = false;
         static::$repository = null;
@@ -46,10 +42,8 @@ class Env
 
     /**
      * Get the environment repository instance.
-     *
-     * @return \Dotenv\Repository\RepositoryInterface
      */
-    public static function getRepository()
+    public static function getRepository(): \Dotenv\Repository\RepositoryInterface
     {
         if (static::$repository === null) {
             $builder = RepositoryBuilder::createWithDefaultAdapters();
@@ -69,9 +63,8 @@ class Env
      *
      * @param  string  $key
      * @param  mixed  $default
-     * @return mixed
      */
-    public static function get($key, $default = null)
+    public static function get($key, $default = null): mixed
     {
         return Option::fromValue(static::getRepository()->get($key))
             ->map(function ($value) {
@@ -96,6 +89,6 @@ class Env
 
                 return $value;
             })
-            ->getOrCall(fn() => value($default));
+            ->getOrCall(fn () => value($default));
     }
 }
