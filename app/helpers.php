@@ -9,7 +9,7 @@ if (!function_exists('env')) {
      */
     function env($key, $default = null): mixed
     {
-        return \App\Env::get($key, $default);
+        return \Framework\Support\Env::get($key, $default);
     }
 }
 
