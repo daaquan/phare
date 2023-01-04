@@ -8,8 +8,8 @@ class IndexTest extends TestCase
 {
     public function test_index_response_and_status_code()
     {
-        $response = $this->get('/');
+        $response = $this->get('/version');
 
-        $this->assertEquals('ok', $response->getContent());
+        $this->assertEquals(env('APP_VER'), $response->getContent());
     }
 }

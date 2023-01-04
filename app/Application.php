@@ -23,16 +23,6 @@ class Application
         $this->app = $this->createApplication();
     }
 
-    /**
-     * Run Application
-     */
-    public function run()
-    {
-        return $this->handle(
-            $_SERVER['REQUEST_URI']
-        );
-    }
-
     public function handle($uri)
     {
         return $this->app->handle($uri);

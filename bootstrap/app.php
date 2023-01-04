@@ -34,8 +34,4 @@ $app = new Application($basePath);
 |
 */
 
-$router = require __DIR__.'/../routes/api.php';
-
-$app->mount($router);
-
 return $app;
