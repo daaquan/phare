@@ -43,7 +43,7 @@ class Application
         return $this->basePath;
     }
 
-    public function mount($router)
+    public function mount($router): void
     {
         $this->app->mount($router);
     }
