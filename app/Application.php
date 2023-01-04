@@ -30,7 +30,11 @@ class Application
 
     public function handle($uri)
     {
-        return $this->app->handle($uri);
+        return $this->app->setResponseHandler(function () {
+            // Prevent to send response
+            // @see https://github.com/phalcon/cphalcon/blob/v5.1.3/phalcon/Mvc/Micro.zep#L754
+            return $this->di->getShared('response');
+        })->handle($uri);
     }
 
     public function basePath(): string
