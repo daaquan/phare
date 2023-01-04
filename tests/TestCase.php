@@ -4,7 +4,7 @@ namespace Tests;
 
 use Framework\Foundation\Application;
 use Framework\Testing\TestResponse;
-use PHPUnit\Framework\TestCase as BaseTestCase;
+use Framework\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
