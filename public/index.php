@@ -15,6 +15,7 @@ use Framework\Contracts\Http\Kernel as HttpKernel;
 |
 */
 
+/* @var \Framework\Foundation\Application $app */
 $app = require __DIR__.'/../bootstrap/app.php';
 
 /*

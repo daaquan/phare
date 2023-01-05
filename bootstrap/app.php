@@ -36,8 +36,23 @@ $app = new Application($basePath);
 
 $app->singleton(
     \Framework\Contracts\Http\Kernel::class,
-    \App\Http\Kernel::class
+    function () use ($app) {
+        return new \App\Http\Kernel($app);
+    }
 );
+
+/*
+|--------------------------------------------------------------------------
+| Register Config Files
+|--------------------------------------------------------------------------
+|
+| Now we will register the "app" configuration file. If the file exists in
+| your configuration directory it will be loaded; otherwise, we'll load
+| the default version. You may register other files below as needed.
+|
+*/
+
+$app->configure('app');
 
 /*
 |--------------------------------------------------------------------------
