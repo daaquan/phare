@@ -15,7 +15,7 @@
     "repositories": {
         "g/framework": {
             "type": "vcs",
-            "url": "git@10.2.2.84:shosen.cho/framework.git"
+            "url": "http://10.2.2.84:10080/shosen.cho/framework.git"
         }
     },
     "minimum-stability": "stable",
@@ -61,6 +61,7 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
+        "secure-http": false,
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
