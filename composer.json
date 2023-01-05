@@ -32,15 +32,16 @@
         "ext-redis": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
+        "g/framework": "dev-main",
         "symfony/console": "^6.2",
-        "vlucas/phpdotenv": "^5.5",
-        "g/framework": "dev-main"
+        "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
         "nunomaduro/phpinsights": "^2.6",
         "pestphp/pest": "^1.22",
         "pestphp/pest-plugin-faker": "^1.0",
         "pestphp/pest-plugin-parallel": "^1.2",
+        "phalcon/ide-stubs": "^5.1",
         "spatie/pest-plugin-test-time": "^1.1"
     },
     "autoload": {
