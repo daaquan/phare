@@ -20,6 +20,7 @@ services:
         ports:
             - "9000:9000"
         volumes:
+            - ~/.ssh:/home/phalcon/.ssh:ro
             - .:/var/www/html
             - ./docker/php/config/extra.ini:/usr/local/etc/php/conf.d/extra.ini
 
