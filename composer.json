@@ -15,7 +15,7 @@
     "repositories": {
         "g/framework": {
             "type": "vcs",
-            "url": "http://10.2.2.84:10080/shosen.cho/framework.git"
+            "url": "git@10.2.2.84:shosen.cho/framework.git"
         }
     },
     "minimum-stability": "stable",
