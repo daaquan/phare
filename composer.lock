@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7b3880b08b1b6fe67a8118bc127f454",
+    "content-hash": "dd35c61a5947a1a349f6e59d03ebfebf",
     "packages": [
         {
             "name": "g/framework",
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "http://10.2.2.84:10080/shosen.cho/framework.git",
+                "url": "git@10.2.2.84:shosen.cho/framework.git",
                 "reference": "75a7df717bb0e63b6748889a51744961b703b18c"
             },
             "require": {
