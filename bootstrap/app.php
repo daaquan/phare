@@ -2,13 +2,7 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Framework\Bootstrap\LoadEnvironmentVariables;
 use Framework\Foundation\Application;
-
-$basePath = $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__);
-(new LoadEnvironmentVariables($basePath))->bootstrap();
-
-date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +15,9 @@ date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 |
 */
 
-$app = new Application($basePath);
+$app = new Application(
+    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +32,7 @@ $app = new Application($basePath);
 
 $app->singleton(
     \Framework\Contracts\Http\Kernel::class,
-    function () use ($app) {
-        return new \App\Http\Kernel($app);
-    }
+    \App\Http\Kernel::class
 );
 
 /*
@@ -64,8 +58,5 @@ $app->configure('app');
 | can respond to, as well as the controllers that may handle them.
 |
 */
-
-$router = require __DIR__.'/../routes/api.php';
-$app->mount($router);
 
 return $app;
