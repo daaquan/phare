@@ -120,6 +120,8 @@ return [
     */
 
     'providers' => [
+        \Framework\Log\LogServiceProvider::class,
+
         \App\Providers\AppServiceProvider::class,
         \App\Providers\DebugProvider::class,
     ]
