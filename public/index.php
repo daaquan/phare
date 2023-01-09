@@ -2,8 +2,6 @@
 
 define('APP_START', microtime(true));
 
-use Framework\Contracts\Http\Kernel as HttpKernel;
-
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -15,7 +13,6 @@ use Framework\Contracts\Http\Kernel as HttpKernel;
 |
 */
 
-/* @var \Framework\Foundation\Application $app */
 $app = require __DIR__.'/../bootstrap/app.php';
 
 /*
@@ -30,10 +27,12 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$kernel = $app->make(HttpKernel::class);
+$kernel = $app->make(\Framework\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(
-    $request = new \Phalcon\Http\Request()
-)->send();
+    $request = $app->make(\Phalcon\Http\Request::class)
+);
+
+$response->send();
 
 $kernel->terminate($request, $response);

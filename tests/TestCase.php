@@ -2,19 +2,23 @@
 
 namespace Tests;
 
+use Framework\Contracts\Http\Kernel;
 use Framework\Foundation\Application;
-use Framework\Testing\TestResponse;
 use Framework\Testing\TestCase as BaseTestCase;
+use Framework\Testing\TestResponse;
 
-abstract class TestCase extends BaseTestCase
+class TestCase extends BaseTestCase
 {
     /**
      * @param  string  $uri
+     * @return TestResponse
      */
     public function get(string $uri): TestResponse
     {
-        $response = $this->createApplication()
-            ->handle($uri);
+        $app = $this->createApplication();
+        $kernel = $app->make(Kernel::class);
+
+        $response = $app->handle($uri);
         return new TestResponse($response);
     }
 
