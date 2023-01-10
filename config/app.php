@@ -124,5 +124,10 @@ return [
 
         \App\Providers\AppServiceProvider::class,
         \App\Providers\DebugProvider::class,
+    ],
+
+    'aliases' => [
+        'App' => \Framework\Support\Facades\Application::class,
+        'Log' => \Framework\Support\Facades\Log::class,
     ]
 ];
