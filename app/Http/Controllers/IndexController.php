@@ -14,6 +14,6 @@ class IndexController extends Controller
         return $this->response
             ->setHeader('X-APP-NAME', env('APP_NAME'))
             ->setStatusCode(200)
-            ->setContent(env('APP_VER'));
+            ->setContent(\App::version());
     }
 }
