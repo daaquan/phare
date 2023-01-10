@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stack'),
+    'default' => env('LOG_CHANNEL', 'single'),
 
     /*
     |--------------------------------------------------------------------------
@@ -38,36 +38,29 @@ return [
     | you a variety of powerful log handlers / formatters to utilize.
     |
     | Available Drivers: "single", "daily", "syslog", "errorlog",
-    |                    "custom", "stack"
+    |                    "custom"
     |
     */
 
     'channels' => [
-        'stack' => [
-            'driver' => 'stack',
-            'channels' => ['single'],
-        ],
 
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/app.log'),
-            'handler' => \Phalcon\Logger\Adapter\Stream::class,
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/app.log'),
-            'handler' => \Phalcon\Logger\Adapter\Stream::class,
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
             'permission' => 0666,
         ],
 
         'stderr' => [
-            'driver' => 'syslog',
+            'driver' => 'stderr',
             'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => \Phalcon\Logger\Adapter\Syslog::class,
             'formatter' => env('LOG_STDERR_FORMATTER'),
             'with' => [
                 'stream' => 'php://stderr',
@@ -76,7 +69,6 @@ return [
 
         'syslog' => [
             'driver' => 'syslog',
-            'handler' => \Phalcon\Logger\Adapter\Syslog::class,
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
@@ -85,9 +77,8 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
-        'null' => [
+        'noop' => [
             'driver' => 'noop',
-            'handler' => \Phalcon\Logger\Adapter\Noop::class,
         ],
     ],
 
