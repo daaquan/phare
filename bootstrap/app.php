@@ -31,6 +31,7 @@ $app = new Application(
 */
 
 $app->configure('app');
+//$app->configure('whitelist');
 
 /*
 |--------------------------------------------------------------------------
