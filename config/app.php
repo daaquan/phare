@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -95,6 +95,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Faker Locale
+    |--------------------------------------------------------------------------
+    |
+    | This locale will be used by the Faker PHP library when generating fake
+    | data for your database seeds. For example, this will be used to get
+    | localized telephone numbers, street address information and more.
+    |
+    */
+
+    'faker_locale' => 'ja_JP',
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |
@@ -120,7 +133,17 @@ return [
     */
 
     'providers' => [
-        \Framework\Log\LogServiceProvider::class,
+        \Framework\Providers\ConfigProvider::class,
+        \Framework\Providers\LogServiceProvider::class,
+        \Framework\Providers\UrlProvider::class,
+        \Framework\Providers\DispatcherProvider::class,
+        \Framework\Providers\RouteProvider::class,
+        \Framework\Providers\RequestProvider::class,
+        \Framework\Providers\ResponseProvider::class,
+        \Framework\Providers\SessionProvider::class,
+        \Framework\Providers\AuthProvider::class,
+        \Framework\Providers\ModelProvider::class,
+        \Framework\Providers\DatabaseProvider::class,
 
         \App\Providers\AppServiceProvider::class,
         \App\Providers\DebugProvider::class,
@@ -128,6 +151,11 @@ return [
 
     'aliases' => [
         'App' => \Framework\Support\Facades\Application::class,
+        'DB' => \Framework\Support\Facades\DB::class,
         'Log' => \Framework\Support\Facades\Log::class,
+        'Auth' => \Framework\Support\Facades\Auth::class,
+        'Security' => \Framework\Support\Facades\Security::class,
+        'Request' => \Framework\Support\Facades\Request::class,
+        'Response' => \Framework\Support\Facades\Response::class,
     ]
 ];
