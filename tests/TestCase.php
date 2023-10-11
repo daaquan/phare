@@ -2,8 +2,8 @@
 
 namespace Tests;
 
+use Framework\Contracts\Foundation\Application;
 use Framework\Contracts\Http\Kernel;
-use Framework\Foundation\Application;
 use Framework\Testing\TestCase as BaseTestCase;
 use Framework\Testing\TestResponse;
 
