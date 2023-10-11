@@ -120,14 +120,22 @@ return [
     */
 
     'providers' => [
-        \Framework\Log\LogServiceProvider::class,
+        \Framework\Providers\ConfigProvider::class,
+        \Framework\Providers\LogServiceProvider::class,
+        \Framework\Providers\UrlProvider::class,
+        \Framework\Providers\DispatcherProvider::class,
+        \Framework\Providers\RouteProvider::class,
+        \Framework\Providers\ResponseProvider::class,
+        \Framework\Providers\RequestProvider::class,
 
         \App\Providers\AppServiceProvider::class,
-        \App\Providers\DebugProvider::class,
     ],
 
     'aliases' => [
         'App' => \Framework\Support\Facades\Application::class,
         'Log' => \Framework\Support\Facades\Log::class,
+        'Security' => \Framework\Support\Facades\Security::class,
+        'Request' => \Framework\Support\Facades\Request::class,
+        'Response' => \Framework\Support\Facades\Response::class,
     ]
 ];
