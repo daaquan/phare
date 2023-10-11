@@ -17,6 +17,7 @@ RUN apt update -y && \
         apt-utils \
         gettext \
         git \
+        libicu-dev \
         libzip-dev \
         libgmp-dev \
         vim \
@@ -30,6 +31,7 @@ RUN pecl install -o -s redis msgpack xdebug && \
 
 # Install PHP extensions
 RUN docker-php-ext-install \
+      intl \
       gettext \
       gmp \
       pdo_mysql \
@@ -37,6 +39,7 @@ RUN docker-php-ext-install \
 
 # Install PHP extensions
 RUN docker-php-ext-enable \
+      intl \
       opcache \
       msgpack \
       phalcon \
