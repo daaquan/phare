@@ -146,7 +146,6 @@ return [
         \Framework\Providers\DatabaseProvider::class,
 
         \App\Providers\AppServiceProvider::class,
-        \App\Providers\DebugProvider::class,
     ],
 
     'aliases' => [

@@ -1,8 +1,6 @@
 <?php
 
-use Phalcon\Mvc\Micro\Collection as MicroCollection;
-
-$router = new MicroCollection();
+$router = new \Framework\Routing\Micro\Route();
 
 $router->setHandler('App\Http\Controllers\IndexController')
     ->setLazy(true)
