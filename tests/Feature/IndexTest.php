@@ -1,7 +1,7 @@
 <?php
 
 it('test version api response and status code')
-    ->get('/version')
+    ->post('/version')
     ->assertHeader('X-APP-NAME', 'Skeleton')
     ->assertSee('dev')
     ->assertOk();
