@@ -11,7 +11,11 @@
 |
 */
 
-uses(Tests\TestCase::class)->in('Feature');
+uses(Tests\TestCase::class)
+    ->beforeEach(function () {
+        $this->setUpApplication();
+    })
+    ->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +28,9 @@ uses(Tests\TestCase::class)->in('Feature');
 |
 */
 
-//expect()->extend('toBeOne', function () {
-//    return $this->toBe(1);
-//});
+expect()->extend('toBeOne', function () {
+    return $this->toBe(1);
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +43,6 @@ uses(Tests\TestCase::class)->in('Feature');
 |
 */
 
-//function something() {
-//}
+function something()
+{
+}
