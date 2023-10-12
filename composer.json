@@ -33,8 +33,7 @@
         "ext-zip": "*",
         "ext-zlib": "*",
         "g/framework": "dev-main",
-        "symfony/console": "^6.2",
-        "vlucas/phpdotenv": "^5.5"
+        "symfony/console": "^6.2"
     },
     "require-dev": {
         "nunomaduro/phpinsights": "^2.6",
