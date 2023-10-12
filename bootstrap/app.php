@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Framework\Foundation\Application;
+use Framework\Foundation\Micro as Application;
 
 /*
 |--------------------------------------------------------------------------
