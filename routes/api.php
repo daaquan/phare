@@ -1,10 +1,10 @@
 <?php
 
-$router = new \Framework\Routing\Micro\Route();
+$router = new \Framework\Routing\Router();
 
-$router->setHandler('App\Http\Controllers\IndexController')
-    ->setLazy(true)
-    ->post('/', 'index')
-    ->post('/version', 'version');
+$router->group([], function ($router) {
+    $router->post('/', '\App\Http\Controllers\IndexController@index');
+    $router->post('/version', '\App\Http\Controllers\IndexController@version');
+});
 
 return $router;
