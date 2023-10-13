@@ -1,6 +1,6 @@
 {
     "name": "g/skeleton",
-    "description": "Game framework with Phalcon",
+    "description": "A skeleton project for a game API.",
     "type": "library",
     "keywords": [
         "phalcon",
