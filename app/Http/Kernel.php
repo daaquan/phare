@@ -14,6 +14,7 @@ class Kernel extends HttpKernel
 
     protected array $bootstrappers = [
         \Framework\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+        \Framework\Foundation\Bootstrap\LoadConfiguration::class,
         \Framework\Foundation\Bootstrap\RegisterFacades::class,
         \Framework\Foundation\Bootstrap\RegisterProviders::class,
     ];
