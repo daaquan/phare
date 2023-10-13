@@ -30,9 +30,11 @@ $app = require __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(\Framework\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(
-    $request = $app->make(\Phalcon\Http\Request::class)
+    $request = $app->make(\Phalcon\Http\RequestInterface::class)
 );
 
-$response->send();
+if (!$response->isSent()) {
+    $response->send();
+}
 
 $kernel->terminate($request, $response);
