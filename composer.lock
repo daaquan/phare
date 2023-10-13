@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "http://10.2.2.84/shosen.cho/framework.git",
-                "reference": "62f4ad14ed3f4215f3896e73ce673ae0883858ed"
+                "reference": "3b268f2e7a6073a0a618891fbed5eb72dbc24503"
             },
             "require": {
                 "ext-intl": "*",
@@ -31,6 +31,11 @@
                 "phpunit/phpunit": "^10.0.18",
                 "spatie/pest-plugin-test-time": "^2.0"
             },
+            "suggest": {
+                "aws/aws-sdk-php": "Required to use the AWS integration",
+                "ext-redis": "Required to use Redis cache",
+                "pda/pheanstalk": "Required to use Beanstalkd queue"
+            },
             "default-branch": true,
             "type": "library",
             "autoload": {
@@ -46,7 +51,7 @@
                     "Tests\\": "tests/"
                 }
             },
-            "description": "Game framework with Phalcon",
+            "description": "A game framework developed using Phalcon.",
             "homepage": "http://projectg-portal:10080/g/framework",
             "keywords": [
                 "framework",
@@ -56,7 +61,7 @@
                 "issues": "http://projectg-portal:10080/g/framework/issues",
                 "source": "http://projectg-portal:10080/g/framework"
             },
-            "time": "2023-10-12T13:20:43+00:00"
+            "time": "2023-10-13T12:36:23+00:00"
         },
         {
             "name": "psr/container",
