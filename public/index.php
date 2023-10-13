@@ -30,7 +30,7 @@ $app = require __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(\Framework\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(
-    $request = $app->make(\Phalcon\Http\RequestInterface::class)
+    $request = $app->make('request')
 );
 
 if (!$response->isSent()) {
