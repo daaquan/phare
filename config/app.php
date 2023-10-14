@@ -135,6 +135,8 @@ return [
     'providers' => [
         \Framework\Providers\ConfigProvider::class,
         \Framework\Providers\LogServiceProvider::class,
+        \Framework\Providers\EventsManagerProvider::class,
+        \Framework\Providers\ErrorHandlerProvider::class,
         \Framework\Providers\UrlProvider::class,
         \Framework\Providers\DispatcherProvider::class,
         \Framework\Providers\RouteProvider::class,
