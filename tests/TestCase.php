@@ -21,6 +21,31 @@ class TestCase extends BaseTestCase
         return $this->request($uri, RequestMethod::POST, $data);
     }
 
+    public function get(string $uri, $data = []): TestResponse
+    {
+        return $this->request($uri, RequestMethod::GET, $data);
+    }
+
+    public function put(string $uri, $data = []): TestResponse
+    {
+        return $this->request($uri, RequestMethod::PUT, $data);
+    }
+
+    public function delete(string $uri, $data = []): TestResponse
+    {
+        return $this->request($uri, RequestMethod::DELETE, $data);
+    }
+
+    public function patch(string $uri, $data = []): TestResponse
+    {
+        return $this->request($uri, RequestMethod::PATCH, $data);
+    }
+
+    public function options(string $uri, $data = []): TestResponse
+    {
+        return $this->request($uri, RequestMethod::OPTIONS, $data);
+    }
+
     public function request(string $uri, RequestMethod $method, $data = []): TestResponse
     {
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
