@@ -6,14 +6,12 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return $this->response->setContent('ok');
+        return response('ok');
     }
 
     public function version()
     {
-        return $this->response
-            ->setHeader('X-APP-NAME', env('APP_NAME'))
-            ->setStatusCode(200)
-            ->setContent(\App::version());
+        return response(\App::version())
+            ->setHeader('X-APP-NAME', config('app.name'));
     }
 }
