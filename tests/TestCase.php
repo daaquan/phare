@@ -72,6 +72,7 @@ class TestCase extends BaseTestCase
         $this->app = $this->createApplication();
         $this->app->bootstrapWith([
             \Framework\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+            \Framework\Foundation\Bootstrap\LoadConfiguration::class,
             \Framework\Foundation\Bootstrap\RegisterFacades::class,
             \Framework\Foundation\Bootstrap\RegisterProviders::class,
         ]);
