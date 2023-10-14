@@ -35,6 +35,10 @@ $app->singleton(
     \App\Http\Kernel::class
 );
 
+$app->singleton(
+    \Framework\Contracts\Debug\ExceptionHandler::class,
+    \App\Exceptions\Handler::class
+);
 
 
 /*
