@@ -28,4 +28,8 @@ namespace {
     class Response extends \Framework\Support\Facades\Response
     {
     }
+
+    class DebugLogger extends \Framework\Support\Facades\DebugLogger
+    {
+    }
 }
