@@ -137,6 +137,7 @@ return [
         \Framework\Providers\LogServiceProvider::class,
         \Framework\Providers\EventsManagerProvider::class,
         \Framework\Providers\ErrorHandlerProvider::class,
+        \Framework\Providers\DebugLoggerProvider::class,
         \Framework\Providers\UrlProvider::class,
         \Framework\Providers\DispatcherProvider::class,
         \Framework\Providers\RouteProvider::class,
@@ -158,5 +159,6 @@ return [
         'Security' => \Framework\Support\Facades\Security::class,
         'Request' => \Framework\Support\Facades\Request::class,
         'Response' => \Framework\Support\Facades\Response::class,
+        'DebugLogger' => \Framework\Support\Facades\DebugLogger::class,
     ]
 ];
