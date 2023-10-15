@@ -5,7 +5,6 @@ namespace Tests;
 use Framework\Contracts\Foundation\Application;
 use Framework\Contracts\Http\Kernel;
 use Framework\Foundation\Http\RequestMethod;
-use Framework\Support\Facades\Log;
 use Framework\Testing\TestCase as BaseTestCase;
 use Framework\Testing\TestResponse;
 use Phalcon\Di\Di;
@@ -48,9 +47,6 @@ class TestCase extends BaseTestCase
 
     public function request(string $uri, RequestMethod $method, $data = []): TestResponse
     {
-        $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
-        $memory = memory_get_usage();
-
         $kernel = $this->createApplication()
             ->make(Kernel::class);
 
@@ -61,14 +57,7 @@ class TestCase extends BaseTestCase
         $$var = $_REQUEST = $data;
 
         $response = $kernel->handle($request = new Request());
-        Log::debug($request->getRawBody());
-
-        $size = memory_get_usage() - $memory;
-        $size = round($size / (1024 ** ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
-        Log::debug("$uri => $size");
-        $peak = memory_get_peak_usage() - $memory;
-        $peak = round($peak / (1024 ** ($i = floor(log($peak, 1024)))), 2) . ' ' . $unit[$i];
-        Log::debug("$uri => $peak");
+        $kernel->terminate($request, $response);
 
         return new TestResponse($response);
     }
@@ -95,13 +84,6 @@ class TestCase extends BaseTestCase
         Di::reset();
 
         $this->app = $this->createApplication();
-        $this->app->bootstrapWith([
-            \Framework\Foundation\Bootstrap\LoadEnvironmentVariables::class,
-            \Framework\Foundation\Bootstrap\LoadConfiguration::class,
-            \Framework\Foundation\Bootstrap\HandleExceptions::class,
-            \Framework\Foundation\Bootstrap\RegisterFacades::class,
-            \Framework\Foundation\Bootstrap\RegisterProviders::class,
-        ]);
 
         Di::setDefault($this->app);
     }
