@@ -20,7 +20,7 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-curl": "*",
         "ext-gmp": "*",
         "ext-json": "*",
@@ -28,7 +28,7 @@
         "ext-msgpack": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",
-        "ext-phalcon": "~5.1",
+        "ext-phalcon": "~5.3",
         "ext-redis": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
