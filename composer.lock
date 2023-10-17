@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "731eae39e109aabd37dacb17d0a48c47",
+    "content-hash": "eda5693b118f86ac3a8936e54c3fe94b",
     "packages": [
         {
             "name": "g/framework",
@@ -12,14 +12,14 @@
             "source": {
                 "type": "git",
                 "url": "http://10.2.2.84/shosen.cho/framework.git",
-                "reference": "48782618588bdd4d471e4d7650a1d257a030538f"
+                "reference": "828e73a73db7306c379cc4aa9bfeb20f9ddd7aba"
             },
             "require": {
                 "ext-intl": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
-                "ext-phalcon": "~5.1",
-                "php": "^8.1",
+                "ext-phalcon": "~5.3",
+                "php": "^8.2",
                 "symfony/dotenv": "^6.3",
                 "symfony/error-handler": "^6.3"
             },
@@ -34,6 +34,7 @@
             },
             "suggest": {
                 "aws/aws-sdk-php": "Required to use the AWS integration",
+                "ext-msgpack:": "Required to use msgpack serializer",
                 "ext-redis": "Required to use Redis cache",
                 "pda/pheanstalk": "Required to use Beanstalkd queue"
             },
@@ -62,7 +63,7 @@
                 "issues": "http://projectg-portal:10080/g/framework/issues",
                 "source": "http://projectg-portal:10080/g/framework"
             },
-            "time": "2023-10-15T06:12:21+00:00"
+            "time": "2023-10-17T22:18:54+00:00"
         },
         {
             "name": "psr/container",
@@ -6649,7 +6650,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-curl": "*",
         "ext-gmp": "*",
         "ext-json": "*",
@@ -6657,7 +6658,7 @@
         "ext-msgpack": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",
-        "ext-phalcon": "~5.1",
+        "ext-phalcon": "~5.3",
         "ext-redis": "*",
         "ext-zip": "*",
         "ext-zlib": "*"
