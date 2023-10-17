@@ -3,13 +3,12 @@
 namespace Tests;
 
 use Framework\Contracts\Foundation\Application;
-use Framework\Contracts\Http\Kernel;
 use Framework\Foundation\Http\RequestMethod;
+use Framework\Foundation\Micro;
 use Framework\Testing\TestCase as BaseTestCase;
 use Framework\Testing\TestResponse;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Http\Request;
 
 class TestCase extends BaseTestCase
 {
@@ -47,23 +46,74 @@ class TestCase extends BaseTestCase
 
     public function request(string $uri, RequestMethod $method, $data = []): TestResponse
     {
-        $kernel = $this->createApplication()
-            ->make(Kernel::class);
+        $this->initializeServerVariables($uri, $method);
+        $this->initializeRequestData($method, $data);
 
-        $_SERVER['REQUEST_URI'] = config('app.url') . $uri;
-        $_SERVER['REQUEST_METHOD'] = $method->name;
+        /** @var \Framework\Contracts\Http\Kernel $kernel */
+        $kernel = $this->app->make(\Framework\Contracts\Http\Kernel::class);
 
-        $var = "_" . $method->name;
-        $$var = $_REQUEST = $data;
-
-        $response = $kernel->handle($request = new Request());
+        $response = $kernel->handle(
+            $request = $this->app->make('request')
+        );
         $kernel->terminate($request, $response);
 
         return new TestResponse($response);
     }
 
     /**
+     * サーバー変数を初期化する
+     *
+     * @param string $uri
+     * @param RequestMethod $method
+     */
+    private function initializeServerVariables(string $uri, RequestMethod $method): void
+    {
+        $_SERVER['SERVER_NAME'] = $_SERVER['HTTP_HOST'] = $_SERVER['HOST_NAME'] = $_SERVER['SERVER_ADDR']
+            = parse_url(config('app.url', 'localhost'), PHP_URL_HOST);
+        $_SERVER['REQUEST_URI'] = $uri;
+        $_SERVER['REQUEST_METHOD'] = $method->name;
+        $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
+        $_SERVER['REQUEST_TIME'] = (int)$_SERVER['REQUEST_TIME_FLOAT'];
+    }
+
+    /**
+     * リクエストデータを初期化する
+     *
+     * @param RequestMethod $method
+     * @param array $data
+     */
+    private function initializeRequestData(RequestMethod $method, array $data): void
+    {
+        global $_GET, $_POST, $_PUT, $_DELETE, $_PATCH, $_OPTIONS;
+
+        switch ($method->name) {
+            case 'GET':
+                $_GET = $data;
+                break;
+            case 'POST':
+                $_POST = $data;
+                break;
+            case 'PUT':
+                $_PUT = $data;
+                break;
+            case 'DELETE':
+                $_DELETE = $data;
+                break;
+            case 'PATCH':
+                $_PATCH = $data;
+                break;
+            case 'OPTIONS':
+                $_OPTIONS = $data;
+                break;
+        }
+
+        $_REQUEST = $data;
+    }
+
+    /**
      * Creates the application.
+     *
+     * @return Micro
      */
     public function createApplication(): Application
     {
@@ -81,11 +131,22 @@ class TestCase extends BaseTestCase
 
     public function setUpApplication(): void
     {
+        if ($this->app !== null) {
+            return;
+        }
+
         Di::reset();
 
-        $this->app = $this->createApplication();
+        $app = $this->createApplication();
+        $app->bootstrapWith([
+            \Framework\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+            \Framework\Foundation\Bootstrap\LoadConfiguration::class,
+            \Framework\Foundation\Bootstrap\HandleExceptions::class,
+            \Framework\Foundation\Bootstrap\RegisterProviders::class,
+            \Framework\Foundation\Bootstrap\RegisterFacades::class,
+        ]);
 
-        Di::setDefault($this->app);
+        Di::setDefault($this->app = $app);
     }
 
     /**
