@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel
      */
     protected array $commands = [
         \App\Console\Commands\AboutCommand::class,
-        \App\Console\Commands\QueueWorkCommand::class,
     ];
 
     /**
