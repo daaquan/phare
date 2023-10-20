@@ -2,21 +2,28 @@
 
 namespace App\Console;
 
-use Phalcon\Cli\Console;
+use Framework\Console\Kernel as ConsoleKernel;
 
-class Kernel
+class Kernel extends ConsoleKernel
 {
     /**
      * The Artisan commands provided by your application.
      *
      * @var array
      */
-    protected $commands = [
-        //
+    protected array $commands = [
+        \App\Console\Commands\AboutCommand::class,
+        \App\Console\Commands\QueueWorkCommand::class,
     ];
 
-    public function handle()
-    {
-        return 0;
-    }
+    /**
+     * The bootstrap classes for the application.
+     */
+    protected array $bootstrappers = [
+        \Framework\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+        \Framework\Foundation\Bootstrap\LoadConfiguration::class,
+        \Framework\Foundation\Bootstrap\HandleExceptions::class,
+        \Framework\Foundation\Bootstrap\RegisterProviders::class,
+        \Framework\Foundation\Bootstrap\RegisterFacades::class,
+    ];
 }
