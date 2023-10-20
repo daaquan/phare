@@ -4,9 +4,8 @@ namespace App\Console\Commands;
 
 use Framework\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputArgument;
 
-#[AsCommand(name: 'about', description: 'About the console app.')]
+#[AsCommand(name: 'about', description: 'Shows the console app version.')]
 class AboutCommand extends Command
 {
     /**
@@ -14,26 +13,24 @@ class AboutCommand extends Command
      * @see https://patorjk.com/software/taag
      */
     private static string $logo = <<<LOGO
-___ ___ ___ ____
-| | | |/ __/  __|
-| | | | |  | |_  
-| | | | |  |  _| 
-| |_| | |__| |__ 
- \___/ \___ \___/
-_________________
+
+   .-.-.
+  /|6 6\\
+ {/(_0_)\}
+ _/ ^ ^ \ _
+(/ /^\ \)-'
+ ""' '" "'
+
 LOGO;
 
     public function handle()
     {
-        $this->output->writeInfo(static::$logo);
-        $this->output->write('ver.'.app()->version());
+        $this->output->write('Framework Console (' . \App::version() . ')');
+        $this->output->writeComment(static::$logo);
     }
 
     protected function configure()
     {
-        $this
-            ->addArgument('password', InputArgument::REQUIRED, 'User password')
-            // the command help shown when running the command with the "--help" option
-            ->setHelp('This command allows you to create a user...');
+        $this->setHelp('Show the brief information about the console app.');
     }
 }

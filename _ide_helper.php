@@ -5,6 +5,10 @@ namespace {
     {
     }
 
+    class Artisan extends \Framework\Support\Facades\Artisan
+    {
+    }
+
     class Auth extends \Framework\Support\Facades\Auth
     {
     }
