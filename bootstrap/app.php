@@ -36,10 +36,14 @@ $app->singleton(
 );
 
 $app->singleton(
+    \Framework\Contracts\Console\Kernel::class,
+    \App\Console\Kernel::class
+);
+
+$app->singleton(
     \Framework\Contracts\Debug\ExceptionHandler::class,
     \App\Exceptions\Handler::class
 );
-
 
 /*
 |--------------------------------------------------------------------------
