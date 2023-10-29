@@ -28,10 +28,16 @@ $app = require __DIR__.'/bootstrap/app.php';
 /** @var \Framework\Contracts\Console\Kernel $kernel */
 $kernel = $app->make(\Framework\Contracts\Console\Kernel::class);
 
-$status = $kernel->handle(
-    $input = new \Symfony\Component\Console\Input\ArgvInput(),
-    new \Symfony\Component\Console\Output\ConsoleOutput()
-);
+$input = new \Symfony\Component\Console\Input\ArgvInput();
+$output = new \Symfony\Component\Console\Output\ConsoleOutput();
+
+try {
+    $status = $kernel->handle($input, $output);
+} catch (\Throwable $e) {
+    $output->writeln("<error>{$e->getMessage()}</error>");
+    $output->writeln($e->getTraceAsString());
+    exit(1);
+}
 
 /*
 |--------------------------------------------------------------------------

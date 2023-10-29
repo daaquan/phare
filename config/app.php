@@ -177,6 +177,7 @@ return [
         'Request' => \Framework\Support\Facades\Request::class,
         'Response' => \Framework\Support\Facades\Response::class,
         'DebugLogger' => \Framework\Support\Facades\DebugLogger::class,
+        'Artisan' => \Framework\Support\Facades\Artisan::class,
         'ID' => \Framework\Support\Facades\Sqids::class,
     ]
 ];
