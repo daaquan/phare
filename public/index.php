@@ -13,6 +13,7 @@ define('APP_START', microtime(true));
 |
 */
 
+/** @var \Framework\Foundation\Micro $app */
 $app = require __DIR__.'/../bootstrap/app.php';
 
 /*
@@ -27,6 +28,7 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
+/** @var \Framework\Contracts\Http\Kernel $kernel */
 $kernel = $app->make(\Framework\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(
