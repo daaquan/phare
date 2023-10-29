@@ -16,23 +16,26 @@
         "g/framework": {
             "type": "vcs",
             "url": "http://10.2.2.84/shosen.cho/framework.git"
+        },
+        "sqids/sqids-ext": {
+            "type": "vcs",
+            "url": "http://10.2.2.84/shosen.cho/sqids-ext.git"
         }
     },
     "minimum-stability": "stable",
     "require": {
         "php": "^8.2",
         "ext-curl": "*",
-        "ext-gmp": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "ext-msgpack": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",
-        "ext-phalcon": "~5.3",
+        "ext-phalcon": "~5.4",
         "ext-redis": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
         "g/framework": "dev-main",
+        "pda/pheanstalk": "^5.0",
         "symfony/console": "^6.2"
     },
     "require-dev": {
@@ -41,7 +44,8 @@
         "pestphp/pest": "^2.23",
         "pestphp/pest-plugin-faker": "^2.0",
         "phalcon/ide-stubs": "^5.1",
-        "spatie/pest-plugin-test-time": "^2.0"
+        "spatie/pest-plugin-test-time": "^2.0",
+        "sqids/sqids-ext": "dev-master"
     },
     "autoload": {
         "psr-4": {
