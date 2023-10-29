@@ -8,7 +8,7 @@ LABEL vendor="Phalcon" \
       maintainer="Phalcon Team <team@phalcon.io>" \
       description="The PHP image to test the REST API example concepts"
 
-ENV PHALCON_VERSION="5.3.1" \
+ENV PHALCON_VERSION="5.4.0" \
     PHP_VERSION="8.2"
 
 # Update
