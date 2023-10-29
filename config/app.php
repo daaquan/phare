@@ -139,6 +139,10 @@ return [
         \Framework\Providers\ErrorHandlerProvider::class,
         \Framework\Providers\DebugLoggerProvider::class,
         \Framework\Providers\UrlProvider::class,
+        \Framework\Providers\EncrypterProvider::class,
+        \Framework\Providers\SecurityProvider::class,
+        \Framework\Providers\RandomProvider::class,
+        \Framework\Providers\SqidsProvider::class,
         \Framework\Providers\DispatcherProvider::class,
         \Framework\Providers\RouteProvider::class,
         \Framework\Providers\RequestProvider::class,
@@ -160,5 +164,6 @@ return [
         'Request' => \Framework\Support\Facades\Request::class,
         'Response' => \Framework\Support\Facades\Response::class,
         'DebugLogger' => \Framework\Support\Facades\DebugLogger::class,
+        'ID' => \Framework\Support\Facades\Sqids::class,
     ]
 ];
