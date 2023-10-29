@@ -121,6 +121,19 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'phalcon' => [
+        // https://docs.phalcon.io/5.0/ja-jp/db-models
+        'orm.enable_implicit_joins' => false, // Enable implicit joins using model relationships
+        'orm.exception_on_failed_save' => true, // Throw an exception when saving a model fails
+        'orm.force_casting' => false, // Cast values retrieved from the database
+        'orm.ignore_unknown_columns' => true, // Ignore columns not defined in the model
+        'orm.not_null_validations' => true, // Validate NOT NULL model properties
+        'orm.resultset_prefetch_records' => "0", // Number of records to prefetch
+        'orm.update_snapshot_on_save' => true, // Update the model snapshot on save
+        'orm.virtual_foreign_keys' => false, // Enable virtual foreign keys
+        'warning.enable' => false, // Enable warnings
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
