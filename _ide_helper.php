@@ -36,4 +36,8 @@ namespace {
     class DebugLogger extends \Framework\Support\Facades\DebugLogger
     {
     }
+
+    class ID extends \Framework\Support\Facades\Sqids
+    {
+    }
 }
