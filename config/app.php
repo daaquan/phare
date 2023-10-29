@@ -121,6 +121,19 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'phalcon' => [
+        // https://docs.phalcon.io/5.0/ja-jp/db-models
+        'orm.enable_implicit_joins' => false, // モデル間の関連を使用して、暗黙の結合を有効にするかどうか
+        'orm.exception_on_failed_save' => true, // モデルの保存に失敗した場合に例外をスローするかどうか
+        'orm.force_casting' => false, // データベースから取得した値をキャストするかどうか
+        'orm.ignore_unknown_columns' => true, // モデルに定義されていないカラムを無視するかどうか
+        'orm.not_null_validations' => true, // モデルのプロパティがNOT NULLである場合に、NULLを許可するかどうか
+        'orm.resultset_prefetch_records' => "0", // プリフェッチするレコード数
+        'orm.update_snapshot_on_save' => true, // モデルのスナップショットを更新するかどうか
+        'orm.virtual_foreign_keys' => false, // 仮想外部キーを有効にするかどうか
+        'warning.enable' => false, // ワーニングを有効にする
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
