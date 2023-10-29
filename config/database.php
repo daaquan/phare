@@ -41,25 +41,88 @@ return [
             'prefix' => '',
         ],
 
-        'mysql' => [
-            'driver' => 'mysql',
-            'read' => [
-                'host' => env('DB_HOST_READ', '127.0.0.1'),
+        'global' => [
+            'driver' => env('GLOBAL_DB_CONNECTION', 'mysql'),
+            'host' => env('GLOBAL_DB_HOST', '127.0.0.1'),
+            'port' => env('GLOBAL_DB_PORT', '3306'),
+            'database' => env('GLOBAL_DB_DATABASE', 'forge'),
+            'username' => env('GLOBAL_DB_USERNAME', 'forge'),
+            'password' => env('GLOBAL_DB_PASSWORD', ''),
+            'sticky' => true, // 同じリクエスト内で同じコネクションを使い回すか(レプリケーションディレイの問題を回避するために必要)
+            'strict' => false, // 無効な値や欠けている値を含むデータをINSERT/UPDATEしようとするとエラーが発生する
+            'engine' => 'InnoDB', // テーブル作成時に使用するストレージエンジン
+            'charset' => 'utf8mb4', // テーブル作成時に使用する文字セット
+            'collation' => 'utf8mb4_bin', // テーブル作成時に使用する照合順序(バイナリー比較で大文字小文字を区別する)
+            //'collation' => 'utf8mb4_unicode_ci', // 大文字小文字を区別しない照合順序(パフォーマンスが比較的に悪い)
+        ],
+
+        'game' => [
+            'driver' => env('GAME_DB_CONNECTION', 'mysql'),
+            'shards' => [
+                [
+                    'read' => env('GAME_DB_SHARD1_HOST_READ', '127.0.0.1'),
+                    'write' => env('GAME_DB_SHARD1_HOST_WRITE', '127.0.0.1'),
+                    'port' => env('GAME_DB_SHARD1_PORT', '3306'),
+                    'database' => env('GAME_DB_SHARD1_DATABASE', 'forge'),
+                    'username' => env('GAME_DB_SHARD1_USERNAME', 'forge'),
+                    'password' => env('GAME_DB_SHARD1_PASSWORD', ''),
+                ],
+                [
+                    'read' => env('GAME_DB_SHARD2_HOST_READ', '127.0.0.1'),
+                    'write' => env('GAME_DB_SHARD2_HOST_WRITE', '127.0.0.1'),
+                    'port' => env('GAME_DB_SHARD2_PORT', '3306'),
+                    'database' => env('GAME_DB_SHARD2_DATABASE', 'forge'),
+                    'username' => env('GAME_DB_SHARD2_USERNAME', 'forge'),
+                    'password' => env('GAME_DB_SHARD2_PASSWORD', ''),
+                ]
             ],
-            'write' => [
-                'host' => env('DB_HOST_WRITE', '127.0.0.1'),
-            ],
-            'port' => env('DB_PORT', '3306'),
             'sticky' => true,
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => env('DB_CHARSE', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
-            'prefix' => '',
+            'strict' => false,
+            'engine' => 'InnoDB',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_bin',
+        ],
+
+        'ranking' => [
+            'driver' => env('RANKING_DB_CONNECTION', 'mysql'),
+            'host' => env('RANKING_DB_HOST', '127.0.0.1'),
+            'port' => env('RANKING_DB_PORT', '3306'),
+            'database' => env('RANKING_DB_DATABASE', 'forge'),
+            'username' => env('RANKING_DB_USERNAME', 'forge'),
+            'password' => env('RANKING_DB_PASSWORD', ''),
+            'sticky' => true,
             'strict' => false,
             'engine' => null,
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_bin',
+        ],
+
+        'gmtool' => [
+            'driver' => env('GMTOOL_DB_CONNECTION', 'mysql'),
+            'host' => env('GMTOOL_DB_HOST', '127.0.0.1'),
+            'port' => env('GMTOOL_DB_PORT', '3306'),
+            'database' => env('GMTOOL_DB_DATABASE', 'forge'),
+            'username' => env('GMTOOL_DB_USERNAME', 'forge'),
+            'password' => env('GMTOOL_DB_PASSWORD', ''),
+            'sticky' => true,
+            'strict' => false,
+            'engine' => null,
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_bin',
+        ],
+
+        'master' => [
+            'driver' => env('MASTER_DB_CONNECTION', 'mysql'),
+            'host' => env('MASTER_DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('MASTER_DB_DATABASE', 'forge'),
+            'username' => env('MASTER_DB_USERNAME', 'forge'),
+            'password' => env('MASTER_DB_PASSWORD', ''),
+            'sticky' => true,
+            'strict' => false,
+            'engine' => null,
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_bin',
         ],
 
         'mysql_test' => [
@@ -71,7 +134,7 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
+            'collation' => 'utf8mb4_bin',
             'prefix' => '',
             'strict' => false,
             'engine' => null,
