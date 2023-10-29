@@ -34,16 +34,23 @@ RUN docker-php-ext-install \
       intl \
       gettext \
       gmp \
+      bcmath \
       pdo_mysql \
       zip
+
+# Install sqids extension
+COPY ./ext/sqids.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/sqids.so
 
 # Install PHP extensions
 RUN docker-php-ext-enable \
       intl \
+      gmp \
+      bcmath \
       opcache \
       msgpack \
       phalcon \
       redis \
+      sqids \
       xdebug
 
 # Clear cache
