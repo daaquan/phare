@@ -11,6 +11,8 @@ services:
           MYSQL_PASSWORD: "secret"
         ports:
             - "3306:3306"
+        volumes:
+            - ./docker/mysql/data:/var/lib/mysql
 
     php-fpm:
         build: docker/php
@@ -38,3 +40,16 @@ services:
         container_name: skeleton-redis
         ports:
             - "6379:6379"
+
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: skeleton-phpmyadmin
+        depends_on:
+            - db
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOSTS=skeleton-db
+            - PMA_USER=skeleton
+            - PMA_PASSWORD=secret
+        ports:
+            - "3001:80"
