@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Framework\Foundation\Exceptions\Handler as ExceptionHandler;
+use Framework\Foundation\Http\ResponseStatusCode;
+use Phalcon\Mvc\Router\Exception as RouteException;
 
 class Handler extends ExceptionHandler
 {
@@ -23,4 +25,13 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         //
     ];
+
+    public function render($request, \Throwable $e)
+    {
+        if ($e instanceof RouteException) {
+            return response(['error' => 'Resource not found'], ResponseStatusCode::NOT_FOUND);
+        }
+
+        return parent::render($request, $e);
+    }
 }
