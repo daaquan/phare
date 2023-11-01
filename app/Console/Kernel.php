@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     protected array $commands = [
         \App\Console\Commands\AboutCommand::class,
         \App\Console\Commands\KeyGenerateCommand::class,
+        \App\Console\Commands\Migrate\MigrateCommand::class,
     ];
 
     /**
