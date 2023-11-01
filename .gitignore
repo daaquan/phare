@@ -3,6 +3,9 @@
 
 bootstrap/cache/*
 storage/*.key
+storage/framework/*
+storage/logs/*
+storage/app/public/*
 config/credentials.ini
 
 .phpunit.result.cache
