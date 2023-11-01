@@ -3,7 +3,11 @@
 
 bootstrap/cache/*
 storage/*.key
-storage/framework/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/metaData/*
+storage/framework/views/*
+
 storage/logs/*
 storage/app/public/*
 config/credentials.ini
