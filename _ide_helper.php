@@ -17,6 +17,10 @@ namespace {
     {
     }
 
+    class Cache extends \Framework\Support\Facades\Cache
+    {
+    }
+
     class Security extends \Framework\Support\Facades\Security
     {
     }
