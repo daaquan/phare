@@ -53,3 +53,15 @@ services:
             - PMA_PASSWORD=secret
         ports:
             - "3001:80"
+
+    redis-commander:
+        image: rediscommander/redis-commander:latest
+        container_name: skeleton-rediscommander
+        depends_on:
+            - redis
+        restart: always
+        environment:
+            - REDIS_HOST=skeleton-redis
+            - REDIS_PORT=6379
+        ports:
+            - "3002:8081"
