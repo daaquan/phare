@@ -1,5 +1,5 @@
 -- Mapping table for global user IDs and shard IDs
-CREATE TABLE mapping
+CREATE TABLE IF NOT EXISTS mapping
 (
     id         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     shard_id   MEDIUMINT UNSIGNED NOT NULL,
