@@ -173,6 +173,7 @@ return [
         'DB' => \Framework\Support\Facades\DB::class,
         'Log' => \Framework\Support\Facades\Log::class,
         'Auth' => \Framework\Support\Facades\Auth::class,
+        'Cache' => \Framework\Support\Facades\Cache::class,
         'Security' => \Framework\Support\Facades\Security::class,
         'Request' => \Framework\Support\Facades\Request::class,
         'Response' => \Framework\Support\Facades\Response::class,
