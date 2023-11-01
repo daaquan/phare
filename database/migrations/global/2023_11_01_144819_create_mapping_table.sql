@@ -1,5 +1,5 @@
 -- グローバルユーザーIDとシャードIDのマッピングテーブル
-CREATE TABLE mapping
+CREATE TABLE IF NOT EXISTS mapping
 (
     id         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     shard_id   MEDIUMINT UNSIGNED NOT NULL,

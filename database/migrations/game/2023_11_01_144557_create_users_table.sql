@@ -1,5 +1,5 @@
 -- ユーザー情報テーブル
-CREATE TABLE `users`
+CREATE TABLE IF NOT EXISTS `users`
 (
     `id`                bigint unsigned NOT NULL,
     `device_id`         varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
