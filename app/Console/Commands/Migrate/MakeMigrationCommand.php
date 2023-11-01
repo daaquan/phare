@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Migrate;
 
-use Framework\Console\Command;
+use Phox\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 

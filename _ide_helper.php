@@ -1,47 +1,47 @@
 <?php
 
 namespace {
-    class App extends \Framework\Support\Facades\Application
+    class App extends \Phox\Support\Facades\Application
     {
     }
 
-    class Artisan extends \Framework\Support\Facades\Artisan
+    class Artisan extends \Phox\Support\Facades\Artisan
     {
     }
 
-    class Auth extends \Framework\Support\Facades\Auth
+    class Auth extends \Phox\Support\Facades\Auth
     {
     }
 
-    class Log extends \Framework\Support\Facades\Log
+    class Log extends \Phox\Support\Facades\Log
     {
     }
 
-    class Cache extends \Framework\Support\Facades\Cache
+    class Cache extends \Phox\Support\Facades\Cache
     {
     }
 
-    class Security extends \Framework\Support\Facades\Security
+    class Security extends \Phox\Support\Facades\Security
     {
     }
 
-    class DB extends \Framework\Support\Facades\DB
+    class DB extends \Phox\Support\Facades\DB
     {
     }
 
-    class Request extends \Framework\Support\Facades\Request
+    class Request extends \Phox\Support\Facades\Request
     {
     }
 
-    class Response extends \Framework\Support\Facades\Response
+    class Response extends \Phox\Support\Facades\Response
     {
     }
 
-    class DebugLogger extends \Framework\Support\Facades\DebugLogger
+    class DebugLogger extends \Phox\Support\Facades\DebugLogger
     {
     }
 
-    class ID extends \Framework\Support\Facades\Sqids
+    class ID extends \Phox\Support\Facades\Sqids
     {
     }
 }

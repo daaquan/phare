@@ -25,8 +25,8 @@ $app = require __DIR__.'/bootstrap/app.php';
 |
 */
 
-/** @var \Framework\Contracts\Console\Kernel $kernel */
-$kernel = $app->make(\Framework\Contracts\Console\Kernel::class);
+/** @var \Phox\Contracts\Console\Kernel $kernel */
+$kernel = $app->make(\Phox\Contracts\Console\Kernel::class);
 
 $input = new \Symfony\Component\Console\Input\ArgvInput();
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();

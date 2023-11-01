@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands\Migrate;
 
-use Framework\Database\MySql\DatabaseManager;
+use Phox\Database\MySql\DatabaseManager;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'migrate', description: 'Run the database migrations')]
-class MigrateCommand extends \Framework\Console\Command
+class MigrateCommand extends \Phox\Console\Command
 {
     private array $migrations = [];
 

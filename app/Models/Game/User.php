@@ -2,11 +2,11 @@
 
 namespace App\Models\Game;
 
-use Framework\Auth\Authenticable;
-use Framework\Contracts\Auth\Authenticable as AuthenticableInterface;
-use Framework\Eloquent\Concerns\HasTimestamps;
-use Framework\Eloquent\Concerns\SoftDeletes;
-use Framework\Eloquent\Model;
+use Phox\Auth\Authenticable;
+use Phox\Contracts\Auth\Authenticable as AuthenticableInterface;
+use Phox\Eloquent\Concerns\HasTimestamps;
+use Phox\Eloquent\Concerns\SoftDeletes;
+use Phox\Eloquent\Model;
 
 /**
  * @property int $id

@@ -6,7 +6,7 @@ use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NonceRequest;
 use App\Http\Requests\RegisterRequest;
-use Framework\Foundation\Http\ResponseStatusCode;
+use Phox\Foundation\Http\ResponseStatusCode;
 
 class RegisterController extends Controller
 {
