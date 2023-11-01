@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Framework\Foundation\Micro as Application;
+use Phox\Foundation\Micro as Application;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 

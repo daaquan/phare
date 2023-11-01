@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Framework\Foundation\Http\ResponseStatusCode;
+use Phox\Foundation\Http\ResponseStatusCode;
 
 class ExampleController extends Controller
 {

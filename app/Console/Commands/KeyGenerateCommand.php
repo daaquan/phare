@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Framework\Console\Command;
+use Phox\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'key:generate', description: 'Generate the application key.')]
 class KeyGenerateCommand extends Command
 {
-    public function handle(): void
+    public function handle()
     {
         $envPath = base_path('.env');
         $envContent = file_get_contents($envPath);

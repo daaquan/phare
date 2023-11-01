@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Framework\Log\LogManager;
+use Phox\Support\Facades\Log;
 use Phalcon\Mvc\Controller as BaseController;
 
 /**
- * @property LogManager $log
+ * @property Log $log
  */
 class Controller extends BaseController
 {

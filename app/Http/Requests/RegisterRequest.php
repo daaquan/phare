@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Framework\Http\Request;
+use Phox\Http\Request;
 
 class RegisterRequest extends Request
 {

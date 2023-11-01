@@ -2,7 +2,7 @@
 
 namespace App\Models\Global;
 
-use Framework\Eloquent\Model;
+use Phox\Eloquent\Model;
 
 /**
  * @property int $id

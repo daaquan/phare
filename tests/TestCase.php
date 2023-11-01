@@ -2,11 +2,11 @@
 
 namespace Tests;
 
-use Framework\Contracts\Foundation\Application;
-use Framework\Foundation\Http\RequestMethod;
-use Framework\Foundation\Micro;
-use Framework\Testing\TestCase as BaseTestCase;
-use Framework\Testing\TestResponse;
+use Phox\Contracts\Foundation\Application;
+use Phox\Foundation\Http\RequestMethod;
+use Phox\Foundation\Micro;
+use Phox\Testing\TestCase as BaseTestCase;
+use Phox\Testing\TestResponse;
 use Phalcon\Di\Di;
 use Phalcon\Di\DiInterface;
 
@@ -49,8 +49,8 @@ class TestCase extends BaseTestCase
         $this->initializeServerVariables($uri, $method);
         $this->initializeRequestData($method, $data);
 
-        /** @var \Framework\Contracts\Http\Kernel $kernel */
-        $kernel = $this->app->make(\Framework\Contracts\Http\Kernel::class);
+        /** @var \Phox\Contracts\Http\Kernel $kernel */
+        $kernel = $this->app->make(\Phox\Contracts\Http\Kernel::class);
 
         $response = $kernel->handle(
             $request = $this->app->make('request')
@@ -139,11 +139,11 @@ class TestCase extends BaseTestCase
 
         $app = $this->createApplication();
         $app->bootstrapWith([
-            \Framework\Foundation\Bootstrap\LoadEnvironmentVariables::class,
-            \Framework\Foundation\Bootstrap\LoadConfiguration::class,
-            \Framework\Foundation\Bootstrap\HandleExceptions::class,
-            \Framework\Foundation\Bootstrap\RegisterProviders::class,
-            \Framework\Foundation\Bootstrap\RegisterFacades::class,
+            \Phox\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+            \Phox\Foundation\Bootstrap\LoadConfiguration::class,
+            \Phox\Foundation\Bootstrap\HandleExceptions::class,
+            \Phox\Foundation\Bootstrap\RegisterProviders::class,
+            \Phox\Foundation\Bootstrap\RegisterFacades::class,
         ]);
 
         Di::setDefault($this->app = $app);

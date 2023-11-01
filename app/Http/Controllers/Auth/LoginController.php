@@ -6,7 +6,7 @@ use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\NonceRequest;
-use Framework\Foundation\Http\ResponseStatusCode;
+use Phox\Foundation\Http\ResponseStatusCode;
 
 class LoginController extends Controller
 {
