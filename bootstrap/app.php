@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Framework\Foundation\Micro as Application;
+use Phox\Foundation\Micro as Application;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,17 +31,17 @@ $app = new Application(
 */
 
 $app->singleton(
-    \Framework\Contracts\Http\Kernel::class,
+    \Phox\Contracts\Http\Kernel::class,
     \App\Http\Kernel::class
 );
 
 $app->singleton(
-    \Framework\Contracts\Console\Kernel::class,
+    \Phox\Contracts\Console\Kernel::class,
     \App\Console\Kernel::class
 );
 
 $app->singleton(
-    \Framework\Contracts\Debug\ExceptionHandler::class,
+    \Phox\Contracts\Debug\ExceptionHandler::class,
     \App\Exceptions\Handler::class
 );
 

@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use Framework\Foundation\Http\Kernel as HttpKernel;
+use Phox\Foundation\Http\Kernel as HttpKernel;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
 
@@ -13,11 +13,11 @@ class Kernel extends HttpKernel
     ];
 
     protected array $bootstrappers = [
-        \Framework\Foundation\Bootstrap\LoadEnvironmentVariables::class,
-        \Framework\Foundation\Bootstrap\LoadConfiguration::class,
-        \Framework\Foundation\Bootstrap\HandleExceptions::class,
-        \Framework\Foundation\Bootstrap\RegisterProviders::class,
-        \Framework\Foundation\Bootstrap\RegisterFacades::class,
+        \Phox\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+        \Phox\Foundation\Bootstrap\LoadConfiguration::class,
+        \Phox\Foundation\Bootstrap\HandleExceptions::class,
+        \Phox\Foundation\Bootstrap\RegisterProviders::class,
+        \Phox\Foundation\Bootstrap\RegisterFacades::class,
     ];
 
     public function handle(RequestInterface $request): ResponseInterface

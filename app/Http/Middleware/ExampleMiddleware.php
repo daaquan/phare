@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Framework\Contracts\Http\MiddlewareContract;
+use Phox\Contracts\Http\MiddlewareContract;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
 

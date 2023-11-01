@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Contracts\Repository\UserContract;
 use App\Models\Game\User;
 use App\Models\Global\Mapping;
-use Framework\Collections\Str;
+use Phox\Collections\Str;
 use Phalcon\Encryption\Security\Exception as SecurityException;
 use Phalcon\Encryption\Security\Random as Hash;
 use Phalcon\Mvc\Model\Exception as ModelException;
