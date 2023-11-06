@@ -28,7 +28,7 @@ uses(Tests\TestCase::class)
 |
 */
 
-expect()->extend('toBeOne', function () {
+expect()->extend('toBeExactlyOne', function () {
     return $this->toBe(1);
 });
 

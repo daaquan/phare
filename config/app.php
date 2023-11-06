@@ -177,6 +177,7 @@ return [
         'Security' => \Phox\Support\Facades\Security::class,
         'Request' => \Phox\Support\Facades\Request::class,
         'Response' => \Phox\Support\Facades\Response::class,
+        'Session' => \Phox\Support\Facades\Session::class,
         'DebugLogger' => \Phox\Support\Facades\DebugLogger::class,
         'Artisan' => \Phox\Support\Facades\Artisan::class,
         'ID' => \Phox\Support\Facades\Sqids::class,

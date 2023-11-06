@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Attributes\Route;
 use Phox\Foundation\Http\ResponseStatusCode;
 
 class ExampleController extends Controller
 {
+    #[Route('index')]
     public function index()
     {
         return response('ok');
     }
 
+    #[Route('version')]
     public function version()
     {
         return response(\App::version())
@@ -22,12 +25,12 @@ class ExampleController extends Controller
         return response('created', ResponseStatusCode::CREATED);
     }
 
-    public function update($id)
+    public function update(int $id)
     {
         return response('updated', ResponseStatusCode::OK);
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         return response('deleted', ResponseStatusCode::NO_CONTENT);
     }
