@@ -2,19 +2,27 @@
 
 namespace App\Http;
 
-use Phox\Foundation\Http\Kernel as HttpKernel;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
+use Phox\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
-    protected array $middleware = [
-        \App\Http\Middleware\ExampleMiddleware::class,
+    /**
+     * The application's global HTTP middleware stack.
+     *
+     * These middleware are run during every request to your application.
+     */
+    protected array $middlewares = [
+    ];
 
     protected array $middlewareAliases = [
         'auth' => \Phox\Foundation\Http\Middlewares\Authenticate::class,
     ];
 
+    /**
+     * The bootstrap classes for the application.
+     */
     protected array $bootstrappers = [
         \Phox\Foundation\Bootstrap\LoadEnvironmentVariables::class,
         \Phox\Foundation\Bootstrap\LoadConfiguration::class,
