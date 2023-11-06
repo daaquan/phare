@@ -10,6 +10,9 @@ class Kernel extends HttpKernel
 {
     protected array $middleware = [
         \App\Http\Middleware\ExampleMiddleware::class,
+
+    protected array $middlewareAliases = [
+        'auth' => \Phox\Foundation\Http\Middlewares\Authenticate::class,
     ];
 
     protected array $bootstrappers = [

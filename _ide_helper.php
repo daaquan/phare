@@ -37,6 +37,10 @@ namespace {
     {
     }
 
+    class Session extends \Phox\Support\Facades\Session
+    {
+    }
+
     class DebugLogger extends \Phox\Support\Facades\DebugLogger
     {
     }
