@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "http://10.2.2.84/shosen.cho/framework.git",
-                "reference": "486684a3691fefb3c4abe278f39ced7049538d04"
+                "reference": "c9def4e2be423c09abf54e26719dce174002c87b"
             },
             "require": {
                 "ext-bcmath": "*",
@@ -27,6 +27,7 @@
                 "symfony/error-handler": "^6.3"
             },
             "require-dev": {
+                "laravel/pint": "^1.13",
                 "nunomaduro/phpinsights": "^2.9",
                 "pestphp/pest": "^2.24",
                 "pestphp/pest-plugin-faker": "^2.0",
@@ -67,7 +68,7 @@
                 "issues": "http://projectg-portal:10080/g/framework/issues",
                 "source": "http://projectg-portal:10080/g/framework"
             },
-            "time": "2023-11-01T10:47:51+00:00"
+            "time": "2023-11-06T11:07:38+00:00"
         },
         {
             "name": "pda/pheanstalk",

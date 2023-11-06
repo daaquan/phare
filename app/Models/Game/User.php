@@ -2,8 +2,8 @@
 
 namespace App\Models\Game;
 
-use Phox\Auth\Authenticable;
-use Phox\Contracts\Auth\Authenticable as AuthenticableInterface;
+use Phox\Auth\Authenticatable;
+use Phox\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Phox\Eloquent\Concerns\HasTimestamps;
 use Phox\Eloquent\Concerns\SoftDeletes;
 use Phox\Eloquent\Model;
@@ -20,11 +20,13 @@ use Phox\Eloquent\Model;
  * @property \DateTime $updated_at
  * @property \DateTime $deleted_at
  */
-class User extends Model implements AuthenticableInterface
+class User extends Model implements AuthenticatableContract
 {
-    use Authenticable;
+    use Authenticatable;
     use HasTimestamps;
     use SoftDeletes;
+
+    protected ?string $table = 'users';
 
     protected array $fillable = [
         'id',
