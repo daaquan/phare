@@ -24,8 +24,10 @@ class RegisterController extends Controller
             return abort($request->getMessages());
         }
 
-        $device_id = $request->input('device_id');
-        $nonce = $this->user->newNonce($device_id);
+        $deviceId = $request->input('device_id');
+        $nonce = $this->user->newNonce();
+
+        \Session::put("nonce.{$deviceId}", $nonce);
         return response(compact('nonce'));
     }
 
