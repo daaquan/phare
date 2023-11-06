@@ -5,11 +5,8 @@ namespace App\Repository;
 use App\Contracts\Repository\UserContract;
 use App\Models\Game\User;
 use App\Models\Global\Mapping;
-use Phox\Collections\Str;
-use Phalcon\Encryption\Security\Exception as SecurityException;
-use Phalcon\Encryption\Security\Random as Hash;
 use Phalcon\Mvc\Model\Exception as ModelException;
-use Phalcon\Support\Helper\Str\Random;
+use Random\RandomException;
 
 class UserRepository implements UserContract
 {
@@ -18,26 +15,23 @@ class UserRepository implements UserContract
         return User::find($id);
     }
 
-    public function getUserByPublicId(string $id): User|null
+    public function getUserByPublicId(string $publicId): User|null
     {
-        //$id = public_id($id);
+        $id = \ID::decode($publicId);
         return User::findFirstById($id);
     }
 
     /**
-     * @return string
-     *
-     * @todo duplicates are possible. ttl is not implemented.
+     * @see https://developer.android.com/google/play/integrity/verdict#nonce
      */
     public function newNonce(): string
     {
         try {
-            return (new Hash())->hex(16);
-        } catch (SecurityException $e) {
-            \Log::error($e->getMessage());
-
-            return Str::random(Random::RANDOM_ALNUM, 16);
+            $binary = random_bytes(16);
+        } catch (\Exception $e) {
+            throw new RandomException($e->getMessage());
         }
+        return base64_encode(bin2hex($binary));
     }
 
     public function createUser(array $data): User

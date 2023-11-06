@@ -26,8 +26,10 @@ class LoginController extends Controller
             return response($request->getMessages(), ResponseStatusCode::BAD_REQUEST);
         }
 
-        $device_id = $requestData['device_id'];
-        $nonce = $this->user->newNonce($device_id);
+        $deviceId = $requestData['device_id'];
+        $nonce = $this->user->newNonce();
+
+        \Session::put("nonce.{$deviceId}", $nonce);
         return response(compact('nonce'));
     }
 
@@ -44,6 +46,6 @@ class LoginController extends Controller
             return response(['message' => 'Unauthorized'], ResponseStatusCode::BAD_UNAUTHORIZED);
         }
 
-        return response(\Auth::user()?->toArray());
+        return response(['user_id' => \ID::encode(str_split(\Auth::user()->id))]);
     }
 }

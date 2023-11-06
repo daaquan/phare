@@ -52,7 +52,7 @@ test('test login api success response user login', function ($user) {
         'id' => $created['id'],
         'password' => $user['password'],
     ]);
-    $response->assertOk()->assertSee($created['email']);
+    $response->assertOk()->assertSee(ID::encode(str_split($created['id'])));
 })->with('user');
 
 test('test login api response with string id input')
