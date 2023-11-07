@@ -16,6 +16,7 @@ config/credentials.ini
 .php_cs.cache
 
 .env
+*.pem
 auth.json
 npm-debug.log
 yarn-error.log
