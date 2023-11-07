@@ -23,7 +23,15 @@ services:
             - "9000:9000"
         volumes:
             - .:/var/www/html
-            - ./docker/php/config/extra.ini:/usr/local/etc/php/conf.d/extra.ini
+            - ./docker/php/config/extra.ini:/usr/local/etc/php/sites-enabled/extra.ini
+
+    mkcert:
+        container_name: mkcert
+        image: vishnunair/docker-mkcert
+        environment:
+            domain: api.test gmtool.test
+        volumes:
+            - ./docker/nginx/certs-enabled/:/root/.local/share/mkcert
 
     nginx:
         image: nginx
@@ -32,8 +40,10 @@ services:
             - "80:80"
             - "443:443"
         volumes:
+            - ./docker/nginx/certs-enabled/:/etc/nginx/certs
+            - ./storage/logs:/var/log/nginx
+            - ./docker/nginx/sites-enabled:/etc/nginx/conf.d
             - .:/var/www/html
-            - ./docker/nginx/conf.d:/etc/nginx/conf.d
 
     redis:
         image: redis:6
