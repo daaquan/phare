@@ -13,7 +13,7 @@ define('APP_START', microtime(true));
 |
 */
 
-/** @var \Phox\Foundation\Micro $app */
+/** @var \Phox\Foundation\AbstractApplication $app */
 $app = require __DIR__.'/../bootstrap/app.php';
 
 /*
