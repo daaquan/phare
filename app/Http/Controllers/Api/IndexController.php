@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Attributes\Route;
+use Phox\Attributes\Route;
+use App\Http\Controllers\Controller;
 use Phox\Foundation\Http\ResponseStatusCode;
 
-class ExampleController extends Controller
+class IndexController extends Controller
 {
     #[Route('index')]
     public function index()

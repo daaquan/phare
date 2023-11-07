@@ -2,8 +2,6 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Phox\Foundation\Micro as Application;
-
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -15,9 +13,7 @@ use Phox\Foundation\Micro as Application;
 |
 */
 
-$app = new Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-);
+$app = \App\ApplicationFactory::createApplication();
 
 /*
 |--------------------------------------------------------------------------
