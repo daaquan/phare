@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "http://10.2.2.84/shosen.cho/framework.git",
-                "reference": "9bc78412099935821a2335212100f81d0b5efa96"
+                "reference": "b9cc2fc8fd97bf887e2bc821247fff739894d7c2"
             },
             "require": {
                 "ext-bcmath": "*",
@@ -68,7 +68,7 @@
                 "issues": "http://projectg-portal:10080/g/framework/issues",
                 "source": "http://projectg-portal:10080/g/framework"
             },
-            "time": "2023-11-06T12:18:36+00:00"
+            "time": "2023-11-07T15:33:44+00:00"
         },
         {
             "name": "pda/pheanstalk",
