@@ -15,20 +15,16 @@ class AssetsProvider implements ServiceProviderInterface
     /**
      * @var string
      */
-    public const VERSION = "1.0.0";
+    public const VERSION = '1.0.0';
 
-    /**
-     * @param  DiInterface  $di
-     * @return void
-     */
     public function register(DiInterface $di): void
     {
         $di->setShared('assets', function () {
             $js = [
-                '/bundle.js'
+                '/bundle.js',
             ];
             $css = [
-                '/bundle.css'
+                '/bundle.css',
             ];
             $assetManager = new Manager(new TagFactory(new Escaper()));
             foreach ($css as $asset) {

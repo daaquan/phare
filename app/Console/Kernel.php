@@ -8,8 +8,6 @@ class Kernel extends ConsoleKernel
 {
     /**
      * The Artisan commands provided by your application.
-     *
-     * @var array
      */
     protected array $commands = [
         \App\Console\Commands\AboutCommand::class,

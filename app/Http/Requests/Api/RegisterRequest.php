@@ -10,7 +10,7 @@ class RegisterRequest extends Request
     {
         return [
             'name' => 'required',
-            'nonce' => 'required'
+            'nonce' => 'required',
         ];
     }
 }

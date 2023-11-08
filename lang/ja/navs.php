@@ -14,23 +14,23 @@ return [
     */
 
     'general' => [
-        'home'   => 'ホーム',
+        'home' => 'ホーム',
         'logout' => 'ログアウト',
     ],
 
     'frontend' => [
-        'contact'   => 'コンタクト',
+        'contact' => 'コンタクト',
         'dashboard' => 'ダッシュボード',
-        'login'     => 'ログイン',
-        'macros'    => 'マクロ',
-        'register'  => '登録',
+        'login' => 'ログイン',
+        'macros' => 'マクロ',
+        'register' => '登録',
 
         'user' => [
-            'account'         => 'マイアカウント',
-            'administration'  => '管理',
+            'account' => 'マイアカウント',
+            'administration' => '管理',
             'change_password' => 'パスワード変更',
-            'my_information'  => 'マイ情報',
-            'profile'         => 'プロフィール',
+            'my_information' => 'マイ情報',
+            'profile' => 'プロフィール',
         ],
     ],
 ];

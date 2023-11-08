@@ -30,6 +30,7 @@ class LoginController extends Controller
         $nonce = $this->user->newNonce();
 
         \Session::put("nonce.{$deviceId}", $nonce);
+
         return response(compact('nonce'));
     }
 

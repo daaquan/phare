@@ -2,5 +2,5 @@
 
 return [
     'model' => \App\Models\Game\User::class,
-    'session_id' => 'auth'
+    'session_id' => 'auth',
 ];

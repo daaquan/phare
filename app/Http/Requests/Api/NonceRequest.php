@@ -9,7 +9,7 @@ class NonceRequest extends Request
     public function rules(): array
     {
         return [
-            'device_id' => 'required'
+            'device_id' => 'required',
         ];
     }
 }

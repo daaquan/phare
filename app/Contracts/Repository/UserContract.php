@@ -6,9 +6,9 @@ use App\Models\Game\User;
 
 interface UserContract
 {
-    public function getUserById(int $id): User|null;
+    public function getUserById(int $id): ?User;
 
-    public function getUserByPublicId(string $publicId): User|null;
+    public function getUserByPublicId(string $publicId): ?User;
 
     public function createUser(array $data): User;
 

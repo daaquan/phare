@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Phox\Foundation\Micro as Application;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
+use Phox\Foundation\Micro as Application;
 
 class DebugProvider implements ServiceProviderInterface
 {

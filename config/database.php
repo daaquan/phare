@@ -74,7 +74,7 @@ return [
                     'database' => env('GAME_DB_SHARD2_DATABASE', 'forge'),
                     'username' => env('GAME_DB_SHARD2_USERNAME', 'forge'),
                     'password' => env('GAME_DB_SHARD2_PASSWORD', ''),
-                ]
+                ],
             ],
             'sticky' => true,
             'strict' => false,
@@ -179,8 +179,8 @@ return [
                     ],
                 ],
                 'options' => [
-                    'cluster' => 'redis'
-                ]
+                    'cluster' => 'redis',
+                ],
             ],
             'options' => [
                 'parameters' => [
@@ -188,14 +188,14 @@ return [
                     'parameters' => ['password' => env('REDIS_PASSWORD', null)],
                 ],
                 //'ssl' => ['verify_peer' => false]
-            ]
+            ],
         ] : [
             'client' => 'predis',
             'default' => [
                 'host' => env('REDIS_HOST', '127.0.0.1'),
                 'password' => env('REDIS_PASSWORD', null),
                 'port' => env('REDIS_PORT', 6379),
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ];

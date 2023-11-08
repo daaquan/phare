@@ -9,7 +9,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 class AboutCommand extends Command
 {
     /**
-     * @var string
      * @see https://patorjk.com/software/taag
      */
     private static string $logo = <<<LOGO

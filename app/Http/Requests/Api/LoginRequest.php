@@ -10,7 +10,7 @@ class LoginRequest extends Request
     {
         return [
             'id' => 'required|numeric',
-            'password' => 'required'
+            'password' => 'required',
         ];
     }
 }

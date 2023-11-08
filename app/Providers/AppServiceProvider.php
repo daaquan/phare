@@ -18,7 +18,6 @@ class AppServiceProvider implements ServiceProviderInterface
             //\Phalcon\Mvc\Url::forceScheme('https');
         }
 
-
         $app->singleton('escaper',
             function () {
                 return new Escaper();
@@ -27,11 +26,11 @@ class AppServiceProvider implements ServiceProviderInterface
 
         $app->singleton('session', function () use ($app) {
             $files = new Stream([
-                'savePath' =>
-                    $app->storagePath('framework/sessions/')
+                'savePath' => $app->storagePath('framework/sessions/'),
             ]);
             $session = (new Manager())->setAdapter($files);
             $session->start();
+
             return $session;
         });
 
@@ -67,6 +66,7 @@ class AppServiceProvider implements ServiceProviderInterface
             \Phalcon\Encryption\Crypt\CryptInterface::class,
             function () use ($app) {
                 $config = $app['config']->path('app');
+
                 return (new \Phalcon\Encryption\Crypt($config->cipher))
                     ->setKey($config->key);
             }

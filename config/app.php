@@ -128,7 +128,7 @@ return [
         'orm.force_casting' => false, // Cast values retrieved from the database
         'orm.ignore_unknown_columns' => true, // Ignore columns not defined in the model
         'orm.not_null_validations' => true, // Validate NOT NULL model properties
-        'orm.resultset_prefetch_records' => "0", // Number of records to prefetch
+        'orm.resultset_prefetch_records' => '0', // Number of records to prefetch
         'orm.update_snapshot_on_save' => true, // Update the model snapshot on save
         'orm.virtual_foreign_keys' => false, // Enable virtual foreign keys
         'warning.enable' => false, // Enable warnings
@@ -184,5 +184,5 @@ return [
         'Artisan' => \Phox\Support\Facades\Artisan::class,
         'ID' => \Phox\Support\Facades\Sqids::class,
         //'Route' => \Phox\Support\Facades\Route::class,
-    ]
+    ],
 ];

@@ -27,7 +27,7 @@ dataset('user', [
         'name' => \Pest\Faker\fake()->name(),
         'password' => 'secret',
         'email_verified_at' => \Pest\Faker\fake()->dateTime()->format('Y-m-d H:i:s'),
-    ]]
+    ]],
 ]);
 
 test('test register api success response create user', function ($user) {
@@ -52,6 +52,7 @@ test('test login api success response user login', function ($user) {
         'id' => $created['id'],
         'password' => $user['password'],
     ]);
+
     $response->assertOk()->assertSee(ID::encode(str_split($created['id'])));
 })->with('user');
 
