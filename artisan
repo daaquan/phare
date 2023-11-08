@@ -12,6 +12,8 @@
 |
 */
 
+putenv('APP_MODULE=api');
+
 $app = require __DIR__.'/bootstrap/app.php';
 
 /*
