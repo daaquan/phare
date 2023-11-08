@@ -18,8 +18,6 @@ class MakeMigrationCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -27,12 +25,14 @@ class MakeMigrationCommand extends Command
 
         if (!$this->isDatabaseConfigured($database)) {
             $this->output->writeError('Database connection is not configured.');
+
             return self::FAILURE;
         }
 
         $migrationsDirectory = $this->getMigrationsDirectory($database);
         if (!$this->createDirectory($migrationsDirectory)) {
             $this->output->writeError(sprintf('Directory "%s" was not created', $migrationsDirectory));
+
             return self::FAILURE;
         }
 
@@ -61,6 +61,7 @@ class MakeMigrationCommand extends Command
     {
         $filename = date('Y_m_d_His') . '_' . $name;
         file_put_contents($this->getMigrationsDirectory($database) . "/{$filename}.sql", '');
+
         return $filename;
     }
 }

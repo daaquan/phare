@@ -33,6 +33,7 @@ class Kernel extends HttpKernel
     public function handle(RequestInterface $request): ResponseInterface
     {
         $response = $this->app->handle($request->getURI());
+
         return $response ?: $this->app['response'];
     }
 }
