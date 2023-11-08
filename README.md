@@ -1,30 +1,18 @@
-# API Skeleton
+# Phox
 
-## Get Started
+Phox is a framework based on the Phalcon PHP framework for fast, intuitive web application development.
 
-### Requirements
+## Main Features
 
-To run this application on your machine, you need at least:
+- Fast execution
+- Simple routing
+- Flexible ORM
+- Modular architecture
 
-* PHP >= 8.1
-* Phalcon >= 5.0
-* MySQL >= 8.0
-* Nginx Web Server
+## Documentation
 
-### Installing Dependencies via Composer
+For detailed usage and API information, see the [Phox documentation](http://10.2.2.84/shosen.cho/docs).
 
-```shell
-cd app-folder
-composer install
-cp .env.example .env
-```
+## Contributing
 
-### Run tests
-
-```shell
-./vendor/bin/pest
-
-./vendor/bin/pest --parallel --processes=10
-
-./vendor/bin/pest --coverage --min=90
-```
+Contributors can find the [contribution guide here](http://10.2.2.84/shosen.cho/docs/blob/main/versioned_docs/version-dev/intro.md).
