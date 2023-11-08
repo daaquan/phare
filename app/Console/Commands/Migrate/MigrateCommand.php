@@ -22,10 +22,7 @@ class MigrateCommand extends \Phox\Console\Command
 
             if ($config->path('shards')) {
                 foreach ($config->path('shards') as $shardId => $shard) {
-                    $shardConfig = $shard->toArray();
-                    $shardConfig['driver'] = $config['driver'];
-                    $shardConfig['host'] = $shard['write'];
-                    $conn = $dbManager->getConnection($shardConfig, $shardId, 'write');
+                    $conn = $dbManager->getConnection($shard->toArray(), $shardId, 'write');
                     $this->migrateDatabase($conn, "migrations/$database");
                 }
             } else {
