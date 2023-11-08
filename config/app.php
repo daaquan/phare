@@ -128,7 +128,7 @@ return [
         'orm.force_casting' => false, // データベースから取得した値をキャストするかどうか
         'orm.ignore_unknown_columns' => true, // モデルに定義されていないカラムを無視するかどうか
         'orm.not_null_validations' => true, // モデルのプロパティがNOT NULLである場合に、NULLを許可するかどうか
-        'orm.resultset_prefetch_records' => "0", // プリフェッチするレコード数
+        'orm.resultset_prefetch_records' => '0', // プリフェッチするレコード数
         'orm.update_snapshot_on_save' => true, // モデルのスナップショットを更新するかどうか
         'orm.virtual_foreign_keys' => false, // 仮想外部キーを有効にするかどうか
         'warning.enable' => false, // ワーニングを有効にする
@@ -184,5 +184,5 @@ return [
         'Artisan' => \Phox\Support\Facades\Artisan::class,
         'ID' => \Phox\Support\Facades\Sqids::class,
         //'Route' => \Phox\Support\Facades\Route::class,
-    ]
+    ],
 ];

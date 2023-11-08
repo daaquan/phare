@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Migrate;
 
-use Phox\Database\MySql\DatabaseManager;
 use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phox\Database\MySql\DatabaseManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'migrate', description: 'Run the database migrations')]
@@ -74,12 +74,12 @@ class MigrateCommand extends \Phox\Console\Command
 
     private function createMigrationsTable(Mysql $conn)
     {
-        $sql = "CREATE TABLE IF NOT EXISTS `migrations` (
+        $sql = 'CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `migration` varchar(191) NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;";
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;';
 
         return $conn->execute($sql);
     }

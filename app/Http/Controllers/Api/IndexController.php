@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use Phox\Attributes\Route;
 use App\Http\Controllers\Controller;
+use Phox\Attributes\Route;
 use Phox\Foundation\Http\ResponseStatusCode;
 
 class IndexController extends Controller

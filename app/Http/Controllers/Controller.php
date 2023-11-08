@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Phox\Support\Facades\Log;
 use Phalcon\Mvc\Controller as BaseController;
+use Phox\Support\Facades\Log;
 
 /**
  * @property Log $log

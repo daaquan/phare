@@ -24,6 +24,7 @@ class ExampleMiddleware extends MiddlewareContract implements BeforeMiddleware
         if ($request->getHeader('X-DEBUG-MODE')) {
             $response->setHeader('REQUEST-START-TIME', APP_START);
         }
+
         return true;
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Tests;
 
+use Phalcon\Di\Di;
+use Phalcon\Di\DiInterface;
 use Phox\Contracts\Foundation\Application;
 use Phox\Foundation\Http\RequestMethod;
 use Phox\Foundation\Micro;
 use Phox\Testing\TestCase as BaseTestCase;
 use Phox\Testing\TestResponse;
-use Phalcon\Di\Di;
-use Phalcon\Di\DiInterface;
 
 class TestCase extends BaseTestCase
 {
@@ -62,9 +62,6 @@ class TestCase extends BaseTestCase
 
     /**
      * サーバー変数を初期化する
-     *
-     * @param string $uri
-     * @param RequestMethod $method
      */
     private function initializeServerVariables(string $uri, RequestMethod $method): void
     {
@@ -78,9 +75,6 @@ class TestCase extends BaseTestCase
 
     /**
      * リクエストデータを初期化する
-     *
-     * @param RequestMethod $method
-     * @param array $data
      */
     private function initializeRequestData(RequestMethod $method, array $data): void
     {
@@ -152,8 +146,8 @@ class TestCase extends BaseTestCase
     /**
      * Sets the Dependency Injector.
      *
-     * @param DiInterface $di
      * @return $this
+     *
      * @see    Injectable::setDI
      */
     public function setDI(DiInterface $di)
@@ -167,6 +161,7 @@ class TestCase extends BaseTestCase
      * Returns the internal Dependency Injector.
      *
      * @return DiInterface
+     *
      * @see    Injectable::getDI
      */
     public function getDI()

@@ -10,14 +10,15 @@ use Random\RandomException;
 
 class UserRepository implements UserContract
 {
-    public function getUserById(int $id): User|null
+    public function getUserById(int $id): ?User
     {
         return User::find($id);
     }
 
-    public function getUserByPublicId(string $publicId): User|null
+    public function getUserByPublicId(string $publicId): ?User
     {
         $id = \ID::decode($publicId);
+
         return User::findFirstById($id);
     }
 
@@ -31,6 +32,7 @@ class UserRepository implements UserContract
         } catch (\Exception $e) {
             throw new RandomException($e->getMessage());
         }
+
         return base64_encode(bin2hex($binary));
     }
 
