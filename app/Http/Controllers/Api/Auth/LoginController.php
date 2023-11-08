@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\NonceRequest;
+use App\Http\Requests\Api\LoginRequest;
+use App\Http\Requests\Api\NonceRequest;
 use Phox\Foundation\Http\ResponseStatusCode;
 
 class LoginController extends Controller

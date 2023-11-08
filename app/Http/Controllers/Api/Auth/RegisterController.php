@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NonceRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Api\NonceRequest;
+use App\Http\Requests\Api\RegisterRequest;
 use Phox\Foundation\Http\ResponseStatusCode;
 
 class RegisterController extends Controller
