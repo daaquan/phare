@@ -1,5 +1,5 @@
 {
-    "name": "g/skeleton",
+    "name": "phox/skeleton",
     "description": "A skeleton project for a game API.",
     "type": "library",
     "keywords": [
@@ -7,22 +7,26 @@
         "framework",
         "skeleton"
     ],
-    "homepage": "http://projectg-portal:10080/g/skeleton",
+    "homepage": "http://10.2.2.84/share/phox/skeleton",
     "support": {
-        "issues": "http://projectg-portal:10080/g/skeleton/issues",
-        "source": "http://projectg-portal:10080/g/skeleton"
+        "issues": "http://10.2.2.84/share/phox/skeleton/issues",
+        "source": "http://10.2.2.84/share/phox/skeleton"
     },
     "repositories": {
-        "g/framework": {
+        "phox/framework": {
             "type": "vcs",
-            "url": "http://10.2.2.84/shosen.cho/framework.git"
+            "url": "http://10.2.2.84/share/phox/framework.git"
         },
         "sqids/sqids-ext": {
             "type": "vcs",
-            "url": "http://10.2.2.84/shosen.cho/sqids-ext.git"
+            "url": "http://10.2.2.84/share/php-ext/sqids-ext.git"
+        },
+        "chronos/chronos-ext": {
+            "type": "vcs",
+            "url": "http://10.2.2.84/share/php-ext/chronos-ext.git"
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "php": "^8.2",
         "ext-curl": "*",
@@ -34,8 +38,10 @@
         "ext-redis": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
-        "g/framework": "dev-main",
+        "chronos/chronos-ext": "dev-main",
         "pda/pheanstalk": "^5.0",
+        "phox/framework": "dev-main",
+        "sqids/sqids-ext": "dev-main",
         "symfony/console": "^6.2"
     },
     "require-dev": {
@@ -45,8 +51,7 @@
         "pestphp/pest": "^2.23",
         "pestphp/pest-plugin-faker": "^2.0",
         "phalcon/ide-stubs": "^5.1",
-        "spatie/pest-plugin-test-time": "^2.0",
-        "sqids/sqids-ext": "dev-master"
+        "spatie/pest-plugin-test-time": "^2.0"
     },
     "autoload": {
         "psr-4": {
