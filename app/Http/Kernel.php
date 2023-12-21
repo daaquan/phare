@@ -15,7 +15,7 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [];
 
-    protected array $middlewareAliases = [
+    protected array $routeMiddleware = [
         'auth' => \Phox\Foundation\Http\Middlewares\Authenticate::class,
     ];
 
