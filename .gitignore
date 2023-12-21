@@ -16,6 +16,9 @@ config/credentials.ini
 .php_cs.cache
 
 .env
+.env.*
+!.env.example
+
 *.pem
 auth.json
 npm-debug.log
