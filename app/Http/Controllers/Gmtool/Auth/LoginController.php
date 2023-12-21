@@ -3,21 +3,22 @@
 namespace App\Http\Controllers\Gmtool\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Gmtool\LoginRequest;
 use Phox\Attributes\Route;
 use Phox\Attributes\RoutePrefix;
 
-#[RoutePrefix(prefix: '/auth')]
+#[RoutePrefix('auth')]
 class LoginController extends Controller
 {
-    #[Route(pattern: 'login')]
+    #[Route('login')]
     public function index()
     {
         return view('auth.login');
     }
 
-    #[Route(pattern: 'login', methods: ['POST'], name: 'store')]
-    public function store()
+    #[Route('login', methods: ['POST'], name: 'store')]
+    public function store(LoginRequest $request)
     {
-        return response(['message' => 'Logged in successfully']);
+        return redirect('/');
     }
 }
