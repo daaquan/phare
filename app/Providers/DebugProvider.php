@@ -8,9 +8,9 @@ use Phox\Foundation\Micro as Application;
 
 class DebugProvider implements ServiceProviderInterface
 {
-    public function register(Application|DiInterface $di): void
+    public function register(Application|DiInterface $app): void
     {
-        if (!config('app.debug') || !class_exists(\Whoops\Run::class)) {
+        if (!class_exists(\Whoops\Run::class) || !config('app.debug')) {
             return;
         }
 
