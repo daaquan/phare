@@ -40,6 +40,7 @@ RUN docker-php-ext-install \
 
 # Install sqids extension
 COPY ./ext/sqids.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/sqids.so
+COPY ./ext/chronos.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/chronos.so
 
 # Install PHP extensions
 RUN docker-php-ext-enable \
@@ -51,6 +52,7 @@ RUN docker-php-ext-enable \
       phalcon \
       redis \
       sqids \
+      chronos \
       xdebug
 
 # Clear cache
