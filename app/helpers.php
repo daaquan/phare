@@ -5,9 +5,11 @@ function abort($message, Phox\Foundation\Http\ResponseStatusCode $code = \Phox\F
     return response(['message' => $message], $code);
 }
 
-function view($path, array $params = []): Phox\View\BladeView
+function view($path, array $params = [])
 {
     app()['dispatcher']->setParam('bladeView', $path);
 
-    return app()['view']?->setVars($params);
+    app()['view']?->setVars($params);
+
+    return app()['blade'];
 }
