@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Gmtool;
 
 use App\Http\Controllers\Controller;
 use Phox\Attributes\Route;
+use Phox\Http\Request;
 
-//#[\Phox\Attributes\RoutePrefix(middlewares: ['auth.gmtool'])]
 class IndexController extends Controller
 {
     #[Route('/', name: 'index')]
-    public function index()
+    public function index(Request $request)
     {
         return view('admin.index');
     }
