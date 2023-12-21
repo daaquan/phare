@@ -13,7 +13,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 |
 */
 
-$app = \App\ApplicationFactory::createApplication();
+$basePath = $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__);
+$module = $_ENV['APP_MODULE'] ?? getenv('APP_MODULE');
+$app = $module === 'api' ?
+    new \Phox\Foundation\Micro($basePath, $module) :
+    new \Phox\Foundation\Web($basePath, $module);
 
 /*
 |--------------------------------------------------------------------------
