@@ -102,19 +102,17 @@
             "source": {
                 "type": "git",
                 "url": "http://10.2.2.84/share/phox/framework.git",
-                "reference": "811e9bb83629b7398cfa5f43fa04792daab11fc7"
+                "reference": "f4b20b8e9ce2fd5bd896055189fdd8a4322d7c27"
             },
             "require": {
                 "chronos/chronos-ext": "dev-main",
                 "ext-bcmath": "*",
-                "ext-chronos": "*",
                 "ext-gmp": "*",
                 "ext-intl": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "ext-pdo": "*",
                 "ext-phalcon": "~5.4",
-                "ext-sqids": "*",
                 "pda/pheanstalk": "^5.0",
                 "php": "^8.2",
                 "sqids/sqids-ext": "dev-main",
@@ -164,7 +162,7 @@
                 "issues": "http://10.2.2.84/share/phox/framework/issues",
                 "source": "http://10.2.2.84/share/phox/framework"
             },
-            "time": "2023-11-27T11:45:30+00:00"
+            "time": "2023-12-21T06:59:22+00:00"
         },
         {
             "name": "psr/container",
