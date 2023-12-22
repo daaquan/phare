@@ -1,0 +1,84 @@
+{
+    "name": "phox/skeleton",
+    "description": "A skeleton project for a game API.",
+    "type": "library",
+    "keywords": [
+        "phalcon",
+        "framework",
+        "skeleton"
+    ],
+    "homepage": "http://10.2.2.84/share/phox/skeleton",
+    "support": {
+        "issues": "http://10.2.2.84/share/phox/skeleton/issues",
+        "source": "http://10.2.2.84/share/phox/skeleton"
+    },
+    "repositories": {
+        "phox/framework": {
+            "type": "path",
+            "url": "../framework/",
+            "options": {
+                "symlink": true
+            }
+        },
+        "sqids/sqids-ext": {
+            "type": "vcs",
+            "url": "http://10.2.2.84/share/php-ext/sqids-ext.git"
+        },
+        "chronos/chronos-ext": {
+            "type": "vcs",
+            "url": "http://10.2.2.84/share/php-ext/chronos-ext.git"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "ext-phalcon": "~5.4",
+        "ext-redis": "*",
+        "ext-zip": "*",
+        "ext-zlib": "*",
+        "chronos/chronos-ext": "dev-main",
+        "pda/pheanstalk": "^5.0",
+        "phox/framework": "dev-main",
+        "sqids/sqids-ext": "dev-main",
+        "symfony/console": "^6.2"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.13",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/phpinsights": "^2.8",
+        "pestphp/pest": "^2.23",
+        "pestphp/pest-plugin-faker": "^2.0",
+        "phalcon/ide-stubs": "^5.1",
+        "spatie/pest-plugin-test-time": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "secure-http": false,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "pestphp/pest-plugin": true
+        }
+    },
+    "prefer-stable": true
+}
