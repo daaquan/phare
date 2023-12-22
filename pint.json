@@ -22,6 +22,8 @@
     "bootstrap/cache",
     "storage",
     "node_modules",
+    "docker",
+    "resources",
     "vendor"
   ]
 }
