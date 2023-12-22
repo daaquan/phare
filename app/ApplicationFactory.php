@@ -4,7 +4,7 @@ namespace App;
 
 class ApplicationFactory
 {
-    public static function createApplication()
+    public static function createApplication(): \Phox\Foundation\AbstractApplication
     {
         $module = getenv('APP_MODULE');
 
