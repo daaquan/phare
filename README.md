@@ -6,13 +6,13 @@ Phox is a framework based on the Phalcon PHP framework for fast, intuitive web a
 
 - Fast execution
 - Simple routing
+- Service container and dependency injection
 - Flexible ORM
-- Modular architecture
 
 ## Documentation
 
-For detailed usage and API information, see the [Phox documentation](http://10.2.2.84/shosen.cho/docs).
+For detailed usage and API information, see the [Phox documentation](http://10.3.117.23:3000).
 
 ## Contributing
 
-Contributors can find the [contribution guide here](http://10.2.2.84/shosen.cho/docs/blob/main/versioned_docs/version-dev/intro.md).
+Contributors can find the [contribution guide here](http://10.3.117.23:3000/intro#%E8%B2%A2%E7%8C%AE%E3%82%AC%E3%82%A4%E3%83%89).
