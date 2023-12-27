@@ -4,12 +4,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Name
+    | Application name
     |--------------------------------------------------------------------------
     |
-    | This value is the name of your application. This value is used when the
-    | framework needs to place the application's name in a notification or
-    | any other location as required by the application or its packages.
+    | The name identifying this application. Used wherever it needs to be
+    | placed, such as notifications.
     |
     */
 
@@ -17,12 +16,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Environment
+    | Environment
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services the application utilizes. Set this in your ".env" file.
+    | Set through an environment variable. It may decide how the various
+    | services are configured.
     |
     */
 
@@ -30,12 +28,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Debug Mode
+    | Startup Module Name
     |--------------------------------------------------------------------------
     |
-    | When your application is in debug mode, detailed error messages with
-    | stack traces will be shown on every error that occurs within your
-    | application. If disabled, a simple generic error page is shown.
+    | Specify the module name through an environment variable. Multiple modules can run in the same environment.
+    | For example, to run API and GmTool (Web) modules on the same nginx instance, prepare .env.api and
+    | .env.gmtool files. Configuration and route caches are generated separately for each module.
+    |
+    */
+
+    'module' => env('APP_MODULE', 'api'),
+
+    'coexistence' => env('APP_COEXISTENCE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Debug mode
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, error details are displayed.
+    | Keeping this off in production is recommended.
     |
     */
 
@@ -46,9 +58,7 @@ return [
     | Application URL
     |--------------------------------------------------------------------------
     |
-    | This URL is used by the console to properly generate URLs when using
-    | the Artisan command line tool. You should set this to the root of
-    | your application so that it is used when running Artisan tasks.
+    | Used to generate URLs when running Artisan commands from the console.
     |
     */
 
@@ -56,12 +66,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Timezone
+    | Timezone
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the default timezone for your application, which
-    | will be used by the PHP date and date-time functions. We have gone
-    | ahead and set this to a sensible default for you out of the box.
+    | Used by the PHP date and time functions.
     |
     */
 
@@ -69,12 +77,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Locale Configuration
+    | Locale
     |--------------------------------------------------------------------------
     |
-    | The application locale determines the default locale that will be used
-    | by the translation service provider. You are free to set this value
-    | to any of the locales which will be supported by the application.
+    | The default locale used by the translation service provider.
     |
     */
 
@@ -82,12 +88,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Fallback Locale
+    | Fallback locale
     |--------------------------------------------------------------------------
     |
-    | The fallback locale determines the locale to use when the current one
-    | is not available. You may change the value to correspond to any of
-    | the language folders that are provided through your application.
+    | The locale used when the current one is unavailable.
     |
     */
 
@@ -95,12 +99,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Faker Locale
+    | Faker locale
     |--------------------------------------------------------------------------
     |
-    | This locale will be used by the Faker PHP library when generating fake
-    | data for your database seeds. For example, this will be used to get
-    | localized telephone numbers, street address information and more.
+    | The locale the Faker PHP library uses when generating database seeds.
+    | It produces localised data such as phone numbers and addresses.
     |
     */
 
@@ -108,18 +111,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Encryption Key
+    | Encryption key
     |--------------------------------------------------------------------------
     |
-    | This key is used by the Illuminate encrypter service and should be set
-    | to a random, 32 character string, otherwise these encrypted strings
-    | will not be safe. Please do this before deploying an application!
+    | Used by the encryption service; set it to a random binary string.
+    | Without it the encrypted strings are not secure.
+    | Always set this before deploying the application.
     |
     */
 
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Phalcon settings
+    |--------------------------------------------------------------------------
+    |
+    | Overrides for the Phalcon framework defaults.
+    |
+    */
 
     'phalcon' => [
         // https://docs.phalcon.io/5.0/ja-jp/db-models
@@ -136,12 +148,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Autoloaded Service Providers
+    | Service providers
     |--------------------------------------------------------------------------
     |
-    | The service providers listed here will be automatically loaded on the
-    | request to your application. Feel free to add your own services to
-    | this array to grant expanded functionality to your applications.
+    | Service providers loaded automatically when the application boots.
+    | Add your own services to this array to extend the application.
     |
     */
 
@@ -168,6 +179,17 @@ return [
 
         \App\Providers\AppServiceProvider::class,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Aliases
+    |--------------------------------------------------------------------------
+    |
+    | Facade aliases loaded automatically when the application boots.
+    | A facade is a shorthand for calling a container-registered service statically:
+    | \Auth::check() instead of $app['auth']->check().
+    |
+    */
 
     'aliases' => [
         'App' => \Phox\Support\Facades\Application::class,
