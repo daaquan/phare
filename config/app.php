@@ -4,12 +4,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Name
+    | アプリケーション名
     |--------------------------------------------------------------------------
     |
-    | This value is the name of your application. This value is used when the
-    | framework needs to place the application's name in a notification or
-    | any other location as required by the application or its packages.
+    | アプリケーションを識別する名前を指定します。
+    | 通知やその他の場所に配置する必要がある場合に使用されます。
     |
     */
 
@@ -17,12 +16,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Environment
+    | 稼働環境
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services the application utilizes. Set this in your ".env" file.
+    | 環境変数に設定することで、アプリケーションの環境を指定できます。
+    | さまざまなサービスをどのように設定するかを決定する場合があります。
     |
     */
 
@@ -30,12 +28,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Debug Mode
+    | 起動モジュール名
     |--------------------------------------------------------------------------
     |
-    | When your application is in debug mode, detailed error messages with
-    | stack traces will be shown on every error that occurs within your
-    | application. If disabled, a simple generic error page is shown.
+    | 環境変数でモジュール名を指定します。複数のモジュールを併用し、同じ環境で動作させることができます。
+    | 例えば、APIとGmTool(Web)の2つのモジュールを同じnginxで動作させる場合、.envは .env.api と
+    | .env.gmtool の2つを用意する必要があり、configやrouteのキャッシュも別々に生成されます。
+    |
+    */
+
+    'module' => env('APP_MODULE', 'api'),
+
+    'coexistence' => env('APP_COEXISTENCE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | デバッグモード
+    |--------------------------------------------------------------------------
+    |
+    | 有効にすると、エラーの詳細が表示されます。
+    | 本番環境では無効にすることをお勧めします。
     |
     */
 
@@ -43,12 +55,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application URL
+    | アプリケーションURL
     |--------------------------------------------------------------------------
     |
-    | This URL is used by the console to properly generate URLs when using
-    | the Artisan command line tool. You should set this to the root of
-    | your application so that it is used when running Artisan tasks.
+    | コンソールでArtisanコマンドを実行するときに、URLを生成するために使用されます。
     |
     */
 
@@ -56,12 +66,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Timezone
+    | タイムゾーン
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the default timezone for your application, which
-    | will be used by the PHP date and date-time functions. We have gone
-    | ahead and set this to a sensible default for you out of the box.
+    | PHPの日付と日時関数に使用されます。
     |
     */
 
@@ -69,12 +77,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Locale Configuration
+    | ロケール
     |--------------------------------------------------------------------------
     |
-    | The application locale determines the default locale that will be used
-    | by the translation service provider. You are free to set this value
-    | to any of the locales which will be supported by the application.
+    | 翻訳サービスプロバイダで使用されるデフォルトのロケールを決定します。
     |
     */
 
@@ -82,12 +88,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Fallback Locale
+    | フォールバックロケール
     |--------------------------------------------------------------------------
     |
-    | The fallback locale determines the locale to use when the current one
-    | is not available. You may change the value to correspond to any of
-    | the language folders that are provided through your application.
+    | 現在のロケールが利用できない場合に使用するロケールを決定します。
     |
     */
 
@@ -95,12 +99,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Faker Locale
+    | フェイカーロケール
     |--------------------------------------------------------------------------
     |
-    | This locale will be used by the Faker PHP library when generating fake
-    | data for your database seeds. For example, this will be used to get
-    | localized telephone numbers, street address information and more.
+    | Faker PHPライブラリが、データベースシードの生成時に使用するロケールを決定します。
+    | 例えば、電話番号や住所情報などのローカライズされたデータを取得するために使用されます。
     |
     */
 
@@ -108,18 +111,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Encryption Key
+    | 暗号化キー
     |--------------------------------------------------------------------------
     |
-    | This key is used by the Illuminate encrypter service and should be set
-    | to a random, 32 character string, otherwise these encrypted strings
-    | will not be safe. Please do this before deploying an application!
+    | このキーは暗号化サービスによって使用され、バイナリーまたはランダムな文字列に設定します。
+    | そうしないと、これらの暗号化された文字列は安全ではなくなります。
+    | アプリケーションをデプロイする前に、必ず設定してください！
     |
     */
 
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Phalcon設定
+    |--------------------------------------------------------------------------
+    |
+    | Phalconフレームワークのデフォルト設定を変更することができます。
+    |
+    */
 
     'phalcon' => [
         // https://docs.phalcon.io/5.0/ja-jp/db-models
@@ -136,12 +148,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Autoloaded Service Providers
+    | サービスプロバイダー
     |--------------------------------------------------------------------------
     |
-    | The service providers listed here will be automatically loaded on the
-    | request to your application. Feel free to add your own services to
-    | this array to grant expanded functionality to your applications.
+    | アプリケーション起動時に自動的にロードされるサービスプロバイダーをここに記載します。
+    | アプリケーションの機能を拡張するために、独自のサービスをこの配列に追加してください。
     |
     */
 
@@ -168,6 +179,17 @@ return [
 
         \App\Providers\AppServiceProvider::class,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | エイリアス
+    |--------------------------------------------------------------------------
+    |
+    | アプリケーション起動時に自動的にロードされるファサードのエイリアスをここに記載します。
+    | ファサードは、コンテナーに登録されたサービスをstaticメソッドで呼び出すための簡単な方法です。
+    | 例えば、$app['auth']->check() と書く代わりに、\Auth::check() と書くことができます。
+    |
+    */
 
     'aliases' => [
         'App' => \Phox\Support\Facades\Application::class,
