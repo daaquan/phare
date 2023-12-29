@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Chronos\Chronos;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Flash\Session as FlashSession;
@@ -15,10 +14,6 @@ class AppServiceProvider implements ServiceProviderInterface
 {
     public function register(Application|DiInterface $app): void
     {
-        if ($app->environment('production', 'develop', 'local')) {
-            //\Phalcon\Mvc\Url::forceScheme('https');
-        }
-
         $app->singleton('session', function () use ($app) {
             $files = new Stream([
                 'savePath' => $app->storagePath('framework/sessions/'),
@@ -28,8 +23,6 @@ class AppServiceProvider implements ServiceProviderInterface
 
             return $session;
         });
-
-        $app->singleton('now', fn () => Chronos::now());
 
         $app->singleton('flashSession', function () use ($app) {
             $session = $app->get('session');

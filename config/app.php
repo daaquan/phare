@@ -157,7 +157,6 @@ return [
     */
 
     'providers' => [
-        \Phox\Providers\ConfigProvider::class,
         \Phox\Providers\LogServiceProvider::class,
         \Phox\Providers\EventsManagerProvider::class,
         \Phox\Providers\ErrorHandlerProvider::class,
@@ -168,6 +167,7 @@ return [
         \Phox\Providers\EncrypterProvider::class,
         \Phox\Providers\SecurityProvider::class,
         \Phox\Providers\RandomProvider::class,
+        \Phox\Providers\ChronosProvider::class,
         \Phox\Providers\SqidsProvider::class,
         \Phox\Providers\RouteServiceProvider::class,
         \Phox\Providers\RequestProvider::class,
