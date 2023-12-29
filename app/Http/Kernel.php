@@ -23,7 +23,6 @@ class Kernel extends HttpKernel
      * The bootstrap classes for the application.
      */
     protected array $bootstrappers = [
-        \Phox\Foundation\Bootstrap\LoadEnvironmentVariables::class,
         \Phox\Foundation\Bootstrap\LoadConfiguration::class,
         \Phox\Foundation\Bootstrap\HandleExceptions::class,
         \Phox\Foundation\Bootstrap\RegisterProviders::class,
