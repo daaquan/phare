@@ -1,9 +1,9 @@
 <?php
 
-namespace storage\framework\Gmtools\Auth;
+namespace storage\framework\GmTool\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Gmtools\LoginRequest;
+use App\Http\Requests\GmTool\LoginRequest;
 use Phox\Attributes\Route;
 use Phox\Attributes\RoutePrefix;
 
