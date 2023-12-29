@@ -133,15 +133,33 @@ return [
 
     'phalcon' => [
         // https://docs.phalcon.io/5.0/ja-jp/db-models
-        'orm.enable_implicit_joins' => false, // モデル間の関連を使用して、暗黙の結合を有効にするかどうか
-        'orm.exception_on_failed_save' => true, // モデルの保存に失敗した場合に例外をスローするかどうか
-        'orm.force_casting' => false, // データベースから取得した値をキャストするかどうか
-        'orm.ignore_unknown_columns' => true, // モデルに定義されていないカラムを無視するかどうか
-        'orm.not_null_validations' => true, // モデルのプロパティがNOT NULLである場合に、NULLを許可するかどうか
-        'orm.resultset_prefetch_records' => '0', // プリフェッチするレコード数
-        'orm.update_snapshot_on_save' => true, // モデルのスナップショットを更新するかどうか
-        'orm.virtual_foreign_keys' => false, // 仮想外部キーを有効にするかどうか
-        'warning.enable' => false, // ワーニングを有効にする
+        'orm' => [
+            'enable_implicit_joins' => false, // モデル間の関連を使用して、暗黙の結合を有効にするかどうか
+            'exception_on_failed_save' => true, // モデルの保存に失敗した場合に例外をスローするかどうか
+            'force_casting' => false, // データベースから取得した値をキャストするかどうか
+            'ignore_unknown_columns' => true, // モデルに定義されていないカラムを無視するかどうか
+            'not_null_validations' => true, // モデルのプロパティがNOT NULLである場合に、NULLを許可するかどうか
+            'resultset_prefetch_records' => '0', // プリフェッチするレコード数
+            'update_snapshot_on_save' => true, // モデルのスナップショットを更新するかどうか
+            'virtual_foreign_keys' => false, // 仮想外部キーを有効にするかどうか
+            // optional
+            'cache_level' => 3, // 0: キャッシュしない, 1: メタデータのみキャッシュ, 2: メタデータと結果セットをキャッシュ, 3: メタデータと結果セットをキャッシュし、キャッシュを使用してクエリを作成
+            'case_insensitive_column_map' => false, // カラム名をキーとする配列を作成する際に、キーを小文字にするかどうか
+            'cast_last_insert_id_to_int' => false, // 最後に挿入されたIDを整数にキャストするかどうか
+            'cast_on_hydrate' => false, // ハイドレーション時に値をキャストするかどうか
+            'column_renaming' => true, // カラム名を変更するかどうか
+            'disable_assign_setters' => false, // プロパティに値を設定する際に、セッターを使用するかどうか
+            'enable_literals' => true, // リテラルオブジェクトを有効にするかどうか
+            'events' => true, // イベントを有効にするかどうか
+            'exception_on_failed_metadata_save' => true, // メタデータの保存に失敗した場合に例外をスローするかどうか
+            'late_state_binding' => false, // Late state binding of the Phalcon\Mvc\Model::cloneResultMap() method
+            'unique_cache_id' => 3, // キャッシュIDのユニーク性を保証するための値
+        ],
+        'db' => [
+            'escape_identifiers' => 'On', // クエリの識別子をエスケープする
+            'force_casting' => 'Off', // データベースから取得した値をキャストする
+        ],
+        'warning.enable' => true, // ワーニングを有効にする
     ],
 
     /*
