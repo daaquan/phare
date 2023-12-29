@@ -1,6 +1,6 @@
 <?php
 
-namespace storage\framework\GmTool\Auth;
+namespace App\Http\Controllers\GmTool\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GmTool\LoginRequest;
