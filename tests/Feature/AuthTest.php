@@ -1,11 +1,11 @@
 <?php
 
 beforeEach(function () {
-    //DB::beginTransaction();
+    //DB::startTransactions(['global']);
 });
 
 afterEach(function () {
-    //DB::rollBack();
+    //DB::undoTransactions();
 });
 
 test('test nonce api response create nonce')
@@ -13,11 +13,11 @@ test('test nonce api response create nonce')
         'device_id' => $device_id = \Pest\Faker\fake()->uuid(),
         'password' => $password = 'secret',
     ])
-    ->post('/auth/login/nonce', compact('device_id'))
+    ->post('/api/auth/login/nonce', compact('device_id'))
     ->assertStatus(200);
 
 test('test nonce api response validation error')
-    ->post('/auth/login/nonce')
+    ->post('/api/auth/login/nonce')
     ->assertStatus(400)
     ->assertSee('Field device_id is required');
 
@@ -33,13 +33,13 @@ dataset('user', [
 test('test register api success response create user', function ($user) {
     $user['email'] = \Pest\Faker\fake()->email();
 
-    $this->post('/auth/register', $user)
+    $this->post('/api/auth/register', $user)
         ->assertOk()
         ->assertSee($user['email']);
 })->with('user');
 
 test('test register api response validation error')
-    ->post('/auth/register')
+    ->post('/api/auth/register')
     ->assertStatus(400)
     ->assertSee('Field nonce is required');
 
@@ -48,7 +48,7 @@ test('test login api success response user login', function ($user) {
     $created = (new \App\Repository\UserRepository())
         ->createUser($user);
 
-    $response = $this->post('/auth/login', [
+    $response = $this->post('/api/auth/login', [
         'id' => $created['id'],
         'password' => $user['password'],
     ]);
@@ -57,11 +57,11 @@ test('test login api success response user login', function ($user) {
 })->with('user');
 
 test('test login api response with string id input')
-    ->post('/auth/login', ['id' => 1, 'password' => 'incorrect password'])
+    ->post('/api/auth/login', ['id' => 1, 'password' => 'incorrect password'])
     ->assertStatus(401)
     ->assertSee('Unauthorized');
 
 test('test login api response without password input')
-    ->post('/auth/login')
+    ->post('/api/auth/login')
     ->assertStatus(400)
     ->assertSee('Field password is required');
