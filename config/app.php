@@ -177,7 +177,6 @@ return [
         \Phox\Providers\EventsManagerProvider::class,
         \Phox\Providers\ErrorHandlerProvider::class,
         \Phox\Providers\DebugLoggerProvider::class,
-        \Phox\Providers\UrlProvider::class,
         \Phox\Providers\DispatcherProvider::class,
         \Phox\Providers\ViewProvider::class,
         \Phox\Providers\EncrypterProvider::class,
