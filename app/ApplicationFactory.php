@@ -15,9 +15,9 @@ class ApplicationFactory
         $basePath = $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__);
 
         if ($module === 'api') {
-            return new \Phox\Foundation\Micro($basePath, $module);
+            return new \Phox\Foundation\Micro($basePath);
         }
 
-        return new \Phox\Foundation\Web($basePath, $module);
+        return new \Phox\Foundation\Web($basePath);
     }
 }
