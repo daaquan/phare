@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -12,7 +14,17 @@
 |
 */
 
-$app = require __DIR__.'/bootstrap/app.php';
+$app = new \Phox\Foundation\Micro($_ENV['APP_BASE_PATH'] ?? __DIR__);
+
+$app->singleton(
+    \Phox\Contracts\Console\Kernel::class,
+    \App\Console\Kernel::class
+);
+
+$app->singleton(
+    \Phox\Contracts\Debug\ExceptionHandler::class,
+    \App\Exceptions\Handler::class
+);
 
 /*
 |--------------------------------------------------------------------------
