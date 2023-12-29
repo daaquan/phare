@@ -1,6 +1,6 @@
 <?php
 
-namespace storage\framework\GmTool;
+namespace App\Http\Controllers\GmTool;
 
 use App\Http\Controllers\Controller;
 use Phox\Attributes\Route;
