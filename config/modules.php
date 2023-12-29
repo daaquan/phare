@@ -31,6 +31,7 @@ return [
         'route' => base_path('app/Http/Controllers/GmTool'),
 
         'providers' => [
+            \Phox\Providers\DebugWhoopsProvider::class,
             \Phox\Providers\BladeViewProvider::class,
             \Phox\Providers\TranslateProvider::class,
         ],
@@ -46,6 +47,7 @@ return [
         'route' => base_path('app/Http/Controllers/Webview'),
 
         'providers' => [
+            \Phox\Providers\DebugWhoopsProvider::class,
             \Phox\Providers\BladeViewProvider::class,
             \Phox\Providers\TranslateProvider::class,
         ],
