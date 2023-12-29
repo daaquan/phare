@@ -66,7 +66,7 @@ class TestCase extends BaseTestCase
     private function initializeServerVariables(string $uri, RequestMethod $method): void
     {
         $_SERVER['SERVER_NAME'] = $_SERVER['HTTP_HOST'] = $_SERVER['HOST_NAME'] = $_SERVER['SERVER_ADDR']
-            = parse_url(config('app.url', 'localhost'), PHP_URL_HOST);
+            = parse_url(config('modules.api.url', 'localhost'), PHP_URL_HOST);
         $_SERVER['REQUEST_URI'] = $uri;
         $_SERVER['REQUEST_METHOD'] = $method->name;
         $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
