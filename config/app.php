@@ -133,15 +133,33 @@ return [
 
     'phalcon' => [
         // https://docs.phalcon.io/5.0/ja-jp/db-models
-        'orm.enable_implicit_joins' => false, // Enable implicit joins using model relationships
-        'orm.exception_on_failed_save' => true, // Throw an exception when saving a model fails
-        'orm.force_casting' => false, // Cast values retrieved from the database
-        'orm.ignore_unknown_columns' => true, // Ignore columns not defined in the model
-        'orm.not_null_validations' => true, // Validate NOT NULL model properties
-        'orm.resultset_prefetch_records' => '0', // Number of records to prefetch
-        'orm.update_snapshot_on_save' => true, // Update the model snapshot on save
-        'orm.virtual_foreign_keys' => false, // Enable virtual foreign keys
-        'warning.enable' => false, // Enable warnings
+        'orm' => [
+            'enable_implicit_joins' => false, // Whether relations between models enable implicit joins
+            'exception_on_failed_save' => true, // Whether a failed model save throws
+            'force_casting' => false, // Whether values read from the database are cast
+            'ignore_unknown_columns' => true, // Whether columns not defined on the model are ignored
+            'not_null_validations' => true, // Whether NULL is allowed for properties whose column is NOT NULL
+            'resultset_prefetch_records' => '0', // Number of records to prefetch
+            'update_snapshot_on_save' => true, // Whether the model snapshot is refreshed on save
+            'virtual_foreign_keys' => false, // Whether virtual foreign keys are enabled
+            // optional
+            'cache_level' => 3, // 0: no cache, 1: metadata only, 2: metadata + resultsets, 3: metadata + resultsets, and queries built from the cache
+            'case_insensitive_column_map' => false, // Whether keys are lowercased when building column-name-keyed arrays
+            'cast_last_insert_id_to_int' => false, // Whether the last insert id is cast to int
+            'cast_on_hydrate' => false, // Whether values are cast during hydration
+            'column_renaming' => true, // Whether column renaming is enabled
+            'disable_assign_setters' => false, // Whether setters are used when assigning to properties
+            'enable_literals' => true, // Whether literal objects are enabled
+            'events' => true, // Whether events are enabled
+            'exception_on_failed_metadata_save' => true, // Whether a failed metadata save throws
+            'late_state_binding' => false, // Late state binding of the Phalcon\Mvc\Model::cloneResultMap() method
+            'unique_cache_id' => 3, // Value guaranteeing cache id uniqueness
+        ],
+        'db' => [
+            'escape_identifiers' => 'On', // Escape identifiers in queries
+            'force_casting' => 'Off', // Cast values read from the database
+        ],
+        'warning.enable' => true, // Enable warnings
     ],
 
     /*
