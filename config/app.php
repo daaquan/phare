@@ -39,8 +39,6 @@ return [
 
     'module' => env('APP_MODULE', 'api'),
 
-    'coexistence' => env('APP_COEXISTENCE', false),
-
     /*
     |--------------------------------------------------------------------------
     | デバッグモード
