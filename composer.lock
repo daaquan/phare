@@ -101,14 +101,8 @@
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "git@10.2.2.84:share/phox/framework.git",
-                "reference": "46f438dc1eacf9cc9536389a78a7c6a43c17f27d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "http://10.2.2.84/api/v4/projects/share%2Fphox%2Fframework/repository/archive.zip?sha=46f438dc1eacf9cc9536389a78a7c6a43c17f27d",
-                "reference": "46f438dc1eacf9cc9536389a78a7c6a43c17f27d",
-                "shasum": ""
+                "url": "http://10.2.2.84/share/phox/framework.git",
+                "reference": "fcd6248119133666fe075dcd073d7f3bee42825c"
             },
             "require": {
                 "chronos/chronos-ext": "dev-main",
@@ -168,7 +162,7 @@
                 "issues": "http://10.2.2.84/share/phox/framework/issues",
                 "source": "http://10.2.2.84/share/phox/framework"
             },
-            "time": "2023-12-30T01:38:25+09:00"
+            "time": "2023-12-29T16:58:22+00:00"
         },
         {
             "name": "psr/container",
@@ -6865,5 +6859,5 @@
         "ext-zlib": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
