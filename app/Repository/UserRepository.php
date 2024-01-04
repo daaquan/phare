@@ -12,7 +12,7 @@ class UserRepository implements UserContract
 {
     public function getUserById(int $id): ?User
     {
-        return User::find($id);
+        return User::findFirstById($id);
     }
 
     public function getUserByPublicId(string $publicId): ?User
