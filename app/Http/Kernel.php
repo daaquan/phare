@@ -15,6 +15,16 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [];
 
+    protected array $middlewareGroups = [
+        'web' => [
+            \Phox\Foundation\Http\Middlewares\CorsMiddleware::class,
+        ],
+
+        'api' => [
+            \App\Http\Middleware\RequestFormatMiddleware::class,
+        ],
+    ];
+
     protected array $routeMiddleware = [
         'auth' => \Phox\Foundation\Http\Middlewares\Authenticate::class,
     ];
