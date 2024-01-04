@@ -21,7 +21,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            \App\Http\Middleware\RequestFormatMiddleware::class,
+            //\App\Http\Middleware\RequestFormatMiddleware::class,
         ],
     ];
 
