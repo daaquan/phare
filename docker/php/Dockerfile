@@ -8,8 +8,10 @@ LABEL vendor="Phalcon" \
       maintainer="Phalcon Team <team@phalcon.io>" \
       description="The PHP image to test the REST API example concepts"
 
-ENV PHALCON_VERSION="5.4.0" \
-    PHP_VERSION="8.2"
+ENV PHALCON_VERSION="5.5.0" \
+    PHP_VERSION="8.2" \
+    PHP_BUILD="20220829"
+    #PHP_BUILD="20230831"
 
 # Update
 RUN apt update -y && \
@@ -26,7 +28,7 @@ RUN apt update -y && \
         zip
 
 # PECL Packages
-RUN pecl install -o -s redis msgpack xdebug && \
+RUN pecl install -o -s redis-5.3.7 msgpack xdebug && \
     pecl install phalcon-${PHALCON_VERSION}
 
 # Install PHP extensions
@@ -39,8 +41,9 @@ RUN docker-php-ext-install \
       zip
 
 # Install sqids extension
-COPY ./ext/sqids.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/sqids.so
-COPY ./ext/chronos.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/chronos.so
+COPY ./ext/${PHP_VERSION}/phalcon.so /usr/local/lib/php/extensions/no-debug-non-zts-${PHP_BUILD}/phalcon.so
+COPY ./ext/${PHP_VERSION}/sqids.so /usr/local/lib/php/extensions/no-debug-non-zts-${PHP_BUILD}/sqids.so
+COPY ./ext/${PHP_VERSION}/chronos.so /usr/local/lib/php/extensions/no-debug-non-zts-${PHP_BUILD}/chronos.so
 
 # Install PHP extensions
 RUN docker-php-ext-enable \
