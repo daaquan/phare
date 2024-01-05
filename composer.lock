@@ -102,7 +102,7 @@
             "source": {
                 "type": "git",
                 "url": "http://10.2.2.84/share/phox/framework.git",
-                "reference": "020e007b5b9c155242a017da9e9d45df00d689a6"
+                "reference": "945bb5fc15948ee8fec02a990b77e7f00c75a521"
             },
             "require": {
                 "chronos/chronos-ext": "dev-main",
@@ -162,7 +162,7 @@
                 "issues": "http://10.2.2.84/share/phox/framework/issues",
                 "source": "http://10.2.2.84/share/phox/framework"
             },
-            "time": "2024-01-05T08:53:19+00:00"
+            "time": "2024-01-05T09:29:10+00:00"
         },
         {
             "name": "psr/container",

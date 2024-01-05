@@ -15,7 +15,7 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [
         //\App\Http\Middleware\CheckForMaintenanceMode::class,
-        \Phox\Foundation\Http\Middlewares\CorsMiddleware::class,
+        \Phox\Routing\Middleware\CorsMiddleware::class,
     ];
 
     protected array $middlewareGroups = [
@@ -29,7 +29,7 @@ class Kernel extends HttpKernel
     ];
 
     protected array $routeMiddleware = [
-        'auth' => \Phox\Foundation\Http\Middlewares\Authenticate::class,
+        'auth' => \Phox\Auth\Middleware\Authenticate::class,
     ];
 
     /**
