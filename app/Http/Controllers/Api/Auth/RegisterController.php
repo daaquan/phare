@@ -10,9 +10,9 @@ use Phox\Foundation\Http\ResponseStatusCode;
 
 class RegisterController extends Controller
 {
-    private UserContract $user;
+    protected UserContract $user;
 
-    public function onConstruct()
+    public function __construct()
     {
         $this->user = app(UserContract::class);
     }

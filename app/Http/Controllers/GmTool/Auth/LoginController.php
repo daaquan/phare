@@ -12,6 +12,10 @@ use Phox\Http\Request;
 #[RoutePrefix('auth')]
 class LoginController extends Controller
 {
+    public function __construct(private UserContract $user)
+    {
+    }
+
     #[Route('login', name: 'login')]
     public function index(Request $request)
     {
