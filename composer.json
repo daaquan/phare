@@ -24,6 +24,10 @@
         "chronos/chronos-ext": {
             "type": "vcs",
             "url": "http://10.2.2.84/share/php-ext/chronos-ext.git"
+        },
+        "phalcon/ide-stubs": {
+            "type": "vcs",
+            "url": "http://10.2.2.84/share/php-ext/phalcon/ide-stubs.git"
         }
     },
     "minimum-stability": "dev",
@@ -50,7 +54,7 @@
         "nunomaduro/phpinsights": "^2.8",
         "pestphp/pest": "^2.23",
         "pestphp/pest-plugin-faker": "^2.0",
-        "phalcon/ide-stubs": "^5.1",
+        "phalcon/ide-stubs": "dev-master",
         "spatie/pest-plugin-test-time": "^2.0"
     },
     "autoload": {
