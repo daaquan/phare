@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "530cbd21b3b8c728befab2418f89e0f4",
+    "content-hash": "422ea9b69f2d06b6e1c7a8902b2442cc",
     "packages": [
         {
             "name": "chronos/chronos-ext",
@@ -102,7 +102,7 @@
             "source": {
                 "type": "git",
                 "url": "http://10.2.2.84/share/phox/framework.git",
-                "reference": "ea18fe012792842d2abdfcef54863bf6ec1401bc"
+                "reference": "58f6fd2f1c01b88f03ec2beedb6594eb9e577c5a"
             },
             "require": {
                 "chronos/chronos-ext": "dev-main",
@@ -162,7 +162,7 @@
                 "issues": "http://10.2.2.84/share/phox/framework/issues",
                 "source": "http://10.2.2.84/share/phox/framework"
             },
-            "time": "2024-01-04T07:17:42+00:00"
+            "time": "2024-01-05T04:39:54+00:00"
         },
         {
             "name": "psr/container",
@@ -3280,17 +3280,11 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.5.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "6e3c59e3176af68ab2be7eb51a2c0d0c63718962"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/6e3c59e3176af68ab2be7eb51a2c0d0c63718962",
-                "reference": "6e3c59e3176af68ab2be7eb51a2c0d0c63718962",
-                "shasum": ""
+                "url": "http://10.2.2.84/share/php-ext/phalcon/ide-stubs.git",
+                "reference": "c2c0bd480348edaef9727a6262b2d3a9b5466116"
             },
             "require": {
                 "php": ">=7.4"
@@ -3299,8 +3293,13 @@
                 "squizlabs/php_codesniffer": "3.*",
                 "vimeo/psalm": "^3.4"
             },
+            "default-branch": true,
             "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Phalcon\\": "src/"
+                }
+            },
             "license": [
                 "BSD-3-Clause"
             ],
@@ -3318,32 +3317,22 @@
             "description": "The most complete Phalcon Framework IDE stubs library which enables autocompletion in modern IDEs.",
             "homepage": "https://phalcon.io",
             "keywords": [
-                "Devtools",
+                "DevTools",
                 "Eclipse",
-                "autocomplete",
-                "ide",
-                "netbeans",
-                "phalcon",
-                "phpstorm",
-                "stub",
-                "stubs"
+                "IDE",
+                "Netbeans",
+                "Phalcon",
+                "PhpStorm",
+                "Stub",
+                "Stubs",
+                "autocomplete"
             ],
             "support": {
-                "forum": "https://forum.phalcon.io/",
                 "issues": "https://github.com/phalcon/ide-stubs/issues",
-                "source": "https://github.com/phalcon/ide-stubs"
+                "source": "https://github.com/phalcon/ide-stubs",
+                "forum": "https://forum.phalcon.io/"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/phalcon",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/phalcon",
-                    "type": "open_collective"
-                }
-            ],
-            "time": "2023-12-25T18:47:44+00:00"
+            "time": "2024-01-05T00:02:04+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3683,16 +3672,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.24.5",
+            "version": "1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "fedf211ff14ec8381c9bf5714e33a7a552dd1acc"
+                "reference": "bd84b629c8de41aa2ae82c067c955e06f1b00240"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/fedf211ff14ec8381c9bf5714e33a7a552dd1acc",
-                "reference": "fedf211ff14ec8381c9bf5714e33a7a552dd1acc",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/bd84b629c8de41aa2ae82c067c955e06f1b00240",
+                "reference": "bd84b629c8de41aa2ae82c067c955e06f1b00240",
                 "shasum": ""
             },
             "require": {
@@ -3724,9 +3713,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.24.5"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.25.0"
             },
-            "time": "2023-12-16T09:33:33+00:00"
+            "time": "2024-01-04T17:06:16+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6937,7 +6926,8 @@
     "stability-flags": {
         "chronos/chronos-ext": 20,
         "phox/framework": 20,
-        "sqids/sqids-ext": 20
+        "sqids/sqids-ext": 20,
+        "phalcon/ide-stubs": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
