@@ -14,6 +14,7 @@
 
       <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 bg-opacity-80 backdrop-blur">
         <div class="card-body">
+          {{ $flash->output() }}
 
           @form(action=login method=post)
           @csrf

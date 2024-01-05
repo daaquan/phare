@@ -15,6 +15,11 @@ class UserRepository implements UserContract
         return User::findFirstById($id);
     }
 
+    public function getUserByEmail(string $email): ?User
+    {
+        return User::findFirstByEmail($email);
+    }
+
     public function getUserByPublicId(string $publicId): ?User
     {
         $id = \ID::decode($publicId);
