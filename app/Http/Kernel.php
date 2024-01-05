@@ -13,15 +13,18 @@ class Kernel extends HttpKernel
      *
      * These middleware are run during every request to your application.
      */
-    protected array $middlewares = [];
+    protected array $middlewares = [
+        //\App\Http\Middleware\CheckForMaintenanceMode::class,
+        \Phox\Foundation\Http\Middlewares\CorsMiddleware::class,
+    ];
 
     protected array $middlewareGroups = [
         'web' => [
-            \Phox\Foundation\Http\Middlewares\CorsMiddleware::class,
+            //\App\Http\Middleware\EncryptCookies::class,
         ],
 
         'api' => [
-            \App\Http\Middleware\RequestFormatMiddleware::class,
+            //\App\Http\Middleware\RequestFormatMiddleware::class,
         ],
     ];
 
