@@ -8,7 +8,7 @@
 
   <p>@lang('pages.users.description')</p>
 
-  <div class="stats shadow">
+  <div class="stats stats-vertical lg:stats-horizontal shadow">
 
     <div class="stat">
       <div class="stat-figure text-primary">
@@ -53,7 +53,7 @@
 
   <div class="my-10"></div>
 
-  <div role="tablist" class="tabs tabs-lifted">
+  <div role="tablist" class="tabs tabs-lifted text-nowrap">
     <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="ユーザID"/>
     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6"></div>
 
