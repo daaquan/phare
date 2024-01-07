@@ -1,69 +1,60 @@
-<html lang="en" data-theme="winter">
+<html lang="{{ config('app.locale') }}" data-theme="winter">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,shrink-to-fit=no"/>
   <meta http-equiv="content-security-policy" content=""/>
   <title>{{ $title }}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
-  <link rel="icon" type="image/vnd.microsoft.icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAA==">
+  <link media="screen and (min-width: 520px)" rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link media="screen and (min-width: 520px)" rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link media="screen and (min-width: 520px)"
+        href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;900&amp;family=Noto+Sans+JP:wght@300;900&amp;family=Noto+Sans:wght@300;900&amp;family=Vazirmatn:wght@300;900&amp;display=swap"
+        rel="stylesheet">
 
   @cssbox
 
 </head>
-<body tabindex="-1">
-<div class="bg-base-100 drawer drawer-mobile"><input id="drawer" type="checkbox" class="drawer-toggle">
-  <div class="drawer-content" style="scroll-behavior: smooth; scroll-padding-top: 5rem;">
-    <div class="sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur
-        transition-all duration-100 bg-base-100 text-base-content">
+<body>
+<div>
 
-      <nav class="navbar w-full">
-        <div class="flex flex-1 md:gap-1 lg:gap-2">
-          @include('partials.sidebar-top')
-        </div>
-        <div class="flex-0">
+  <div class="bg-base-100 drawer lg:drawer-open">
+    <input id="drawer" type="checkbox" class="drawer-toggle">
+
+    <div class="drawer-content">
+      <div
+          class="bg-base-100 text-base-content sticky top-0 z-30 flex h-16
+          w-full justify-center bg-opacity-90 backdrop-blur
+          transition-shadow duration-100 [transform:translate3d(0,0,0)]">
+        <nav class="navbar w-full">
+
           @include('partials.header')
-        </div>
-      </nav>
-    </div>
 
-    <div class="px-6 xl:pr-2 pb-16">
-      <div class="flex flex-col-reverse justify-between gap-6 xl:flex-row">
-        <div class="prose w-full max-w-8xl flex-grow">
+        </nav>
+      </div>
+      <div class="max-w-[100vw] px-6 pb-16 xl:pr-2">
+        <div class="flex flex-col-reverse justify-between gap-6 xl:flex-row">
+          <div class="prose prose-sm md:prose-base w-full max-w-6xl flex-grow pt-10">
 
-          @yield('content')
+            @yield('content')
 
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="drawer-side" style="scroll-behavior: smooth; scroll-padding-top: 5rem;">
-    <label for="drawer" class="drawer-overlay"></label>
-    <aside class="bg-base-200 w-80">
-      <div
-          class="z-20 bg-base-200 bg-opacity-90 backdrop-blur sticky top-0 items-center gap-2 px-4 py-2 hidden lg:flex shadow-sm">
-        <a href="/" aria-current="page" aria-label="Homepage" class="flex-0 btn btn-ghost px-2">
-          <div class="font-title text-primary text-lg transition-all duration-200 md:text-3xl">
-            <div class="uppercase">@config('app.name')</div>
-            <div class="text-base-content uppercase text-sm">@config('app.title')</div>
-          </div>
-        </a> <a href="/docs/changelog" class="link link-hover font-mono text-xs text-opacity-50">
-          <div data-tip="Changelog" class="tooltip tooltip-bottom">{{ \App::version() }}</div>
-        </a></div>
-      <div class="h-4"></div>
 
-      @include('partials.sidebar')
+    <div class="drawer-side z-40" style="scroll-behavior: smooth; scroll-padding-top: 5rem;">
+      <label for="drawer" class="drawer-overlay" aria-label="Close menu"></label>
+      <aside class="bg-base-200 w-80">
 
-      <ul class="menu menu-compact flex flex-col p-0 px-4"></ul>
-      <div
-          class="from-base-200 pointer-events-none sticky bottom-0 flex h-20 bg-gradient-to-t to-transparent"></div>
-    </aside>
+        @include('partials.sidebar')
+
+      </aside>
+    </div>
+
   </div>
 </div>
 
-@include('partials.debugbar')
+@include('partials.flash-messages')
 
 @jsbox
 

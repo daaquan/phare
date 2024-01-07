@@ -103,7 +103,7 @@ return [
     'frontend' => [
 
         'auth' => [
-            'login_box_title' => 'Login',
+            'login_box_title' => 'Admin Login',
             'login_button' => 'Login',
             'login_with' => 'Login with :social_media',
             'register_box_title' => 'Register',

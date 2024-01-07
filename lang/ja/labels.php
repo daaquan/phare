@@ -103,7 +103,7 @@ return [
     'frontend' => [
 
         'auth' => [
-            'login_box_title' => 'ログイン',
+            'login_box_title' => '管理画面ログイン',
             'login_button' => 'ログイン',
             'login_with' => ' :social_mediaでログイン',
             'register_box_title' => '登録',
