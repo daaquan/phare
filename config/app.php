@@ -173,7 +173,7 @@ return [
         \Phox\Providers\RequestProvider::class,
         \Phox\Providers\ResponseProvider::class,
         \Phox\Providers\SessionProvider::class,
-        \Phox\Providers\AuthProvider::class,
+        \Phox\Providers\AuthServiceProvider::class,
         \Phox\Providers\ModelProvider::class,
         \Phox\Providers\DatabaseProvider::class,
 
