@@ -16,11 +16,11 @@
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
       </svg>
       <div role="combobox" aria-haspopup="listbox">
-        <form>
-          <input name="search" type="search" placeholder="@lang('strings.backend.search.empty')" autocomplete="off"
-                 spellcheck="false" aria-autocomplete="list"
-                 class="input input-sm input-bordered w-full pl-10 mt-5 max-w-xs"/>
-        </form>
+        @form(action=search method=post)
+        @csrf
+        @input(type="search" name="search" autocomplete="off" required placeholder=""
+        class="input input-sm input-bordered rounded-md w-full pl-10 mt-5 max-w-xs")
+        @endform
       </div>
     </label>
   </div>
