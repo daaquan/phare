@@ -32,7 +32,7 @@
       </div>
       <div class="max-w-[100vw] px-6 pb-16 xl:pr-2">
         <div class="flex flex-col-reverse justify-between gap-6 xl:flex-row">
-          <div class="prose prose-sm md:prose-base w-full max-w-6xl flex-grow pt-10">
+          <div class="prose prose-sm md:prose-base w-full max-w-6xl flex-grow pt-5">
 
             @yield('content')
 
@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    <div class="drawer-side z-40" style="scroll-behavior: smooth; scroll-padding-top: 5rem;">
+    <div class="drawer-side z-40">
       <label for="drawer" class="drawer-overlay" aria-label="Close menu"></label>
       <aside class="bg-base-200 w-80">
 
