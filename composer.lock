@@ -102,7 +102,7 @@
             "source": {
                 "type": "git",
                 "url": "http://10.2.2.84/share/phox/framework.git",
-                "reference": "79e194f1baf69851bd4b61f8c7494d325c1d29fe"
+                "reference": "ddd98bf6d764bb226ac20d338d11318990b83d04"
             },
             "require": {
                 "chronos/chronos-ext": "dev-main",
@@ -125,7 +125,7 @@
                 "pestphp/pest": "^2.24",
                 "pestphp/pest-plugin-faker": "^2.0",
                 "pestphp/pest-plugin-mock": "^2.0",
-                "phalcon/ide-stubs": "^5.4",
+                "phalcon/ide-stubs": "dev-master",
                 "phpunit/phpunit": "^10.4.2",
                 "spatie/pest-plugin-test-time": "^2.0"
             },
@@ -162,7 +162,7 @@
                 "issues": "http://10.2.2.84/share/phox/framework/issues",
                 "source": "http://10.2.2.84/share/phox/framework"
             },
-            "time": "2024-01-08T17:10:41+00:00"
+            "time": "2024-01-08T17:28:29+00:00"
         },
         {
             "name": "psr/container",
