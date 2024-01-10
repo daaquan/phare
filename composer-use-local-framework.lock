@@ -102,7 +102,7 @@
             "dist": {
                 "type": "path",
                 "url": "../framework",
-                "reference": "ddd98bf6d764bb226ac20d338d11318990b83d04"
+                "reference": "a631c8a05b008d4c38bfb5bfeba29a2ebede1a4d"
             },
             "require": {
                 "chronos/chronos-ext": "dev-main",
