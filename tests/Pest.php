@@ -14,6 +14,8 @@
 uses(Tests\TestCase::class)
     ->beforeEach(function () {
         $this->setUpApplication();
+
+        $this->post('/api/auth/logout');
     })
     ->in('Feature', 'Unit');
 
