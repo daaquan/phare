@@ -1,17 +1,5 @@
 <?php
 
-it('test index api response and status code will be 401 when not authenticated')
-    ->post('/api')
-    ->assertUnauthorized()
-    ->assertSee('');
-
-test('test version api response and status code and environment variable in header', function () {
-    $response = $this->post('/api/version');
-    $response->assertOk()
-        ->assertHeader('X-APP-NAME', env('APP_NAME'))
-        ->assertSee('dev');
-});
-
 dataset('user', [
     [[
         'nonce' => \Pest\Faker\fake()->uuid(),
@@ -32,3 +20,15 @@ test('test index api response and status code will be ok when authenticated', fu
     $response = $this->post('/api', $response->getJsonContent());
     $response->assertOk()->assertSee('ok');
 })->with('user');
+
+it('test index api response and status code will be 401 when not authenticated')
+    ->post('/api')
+    ->assertUnauthorized()
+    ->assertSee('');
+
+test('test version api response and status code and environment variable in header', function () {
+    $response = $this->post('/api/version');
+    $response->assertOk()
+        ->assertHeader('X-APP-NAME', env('APP_NAME'))
+        ->assertSee('dev');
+});
