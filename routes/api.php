@@ -11,7 +11,8 @@ $router->group(['middleware' => ['auth']], function (Phox\Routing\Router $router
 $router->group(['prefix' => 'auth'], function (Phox\Routing\Router $router) {
     // Login
     $router->post('/login/nonce', '\App\Http\Controllers\Api\Auth\LoginController@nonce')->name('auth.login.nonce');
-    $router->post('/login', '\App\Http\Controllers\Api\Auth\LoginController@store')->name('auth.login.store');
+    $router->post('/login', '\App\Http\Controllers\Api\Auth\LoginController@store')->name('auth.login');
+    $router->post('/logout', '\App\Http\Controllers\Api\Auth\LoginController@logout')->name('auth.logout');
 
     // Register
     $router->post('/register/nonce', '\App\Http\Controllers\Api\Auth\RegisterController@nonce')->name('auth.register.nonce');

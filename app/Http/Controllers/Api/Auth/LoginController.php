@@ -49,4 +49,11 @@ class LoginController extends Controller
 
         return response(['user_id' => \ID::encode(str_split(\Auth::user()->id))]);
     }
+
+    public function logout()
+    {
+        \Auth::logout();
+
+        return response(['message' => 'Logged out']);
+    }
 }
