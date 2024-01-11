@@ -43,6 +43,7 @@
         "ext-zip": "*",
         "ext-zlib": "*",
         "chronos/chronos-ext": "dev-main",
+        "google/protobuf": "^3.25",
         "pda/pheanstalk": "^5.0",
         "phox/framework": "dev-main",
         "sqids/sqids-ext": "dev-main",
