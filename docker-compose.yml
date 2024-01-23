@@ -1,4 +1,8 @@
 version: "3"
+volumes:
+  mysql:
+    driver: local
+
 services:
     db:
         image: mysql:8.0
@@ -12,7 +16,7 @@ services:
         ports:
             - "3306:3306"
         volumes:
-            - ./docker/mysql/data:/var/lib/mysql
+            - mysql:/var/lib/mysql
 
     php-fpm:
         build: docker/php
