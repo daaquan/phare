@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Migrate;
+namespace App\Console\Commands\Creator;
 
 use Phox\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
