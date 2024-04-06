@@ -165,6 +165,7 @@ return [
         \Phox\Providers\LogServiceProvider::class,
         \Phox\Providers\EventsManagerProvider::class,
         \Phox\Providers\ErrorHandlerProvider::class,
+        \Phox\Providers\DispatcherProvider::class,
         \Phox\Providers\DebugLoggerProvider::class,
         \Phox\Providers\EncrypterProvider::class,
         \Phox\Providers\ChronosProvider::class,
