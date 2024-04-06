@@ -176,6 +176,7 @@ return [
         \Phox\Providers\AuthServiceProvider::class,
         \Phox\Providers\ModelProvider::class,
         \Phox\Providers\DatabaseProvider::class,
+        \Phox\Providers\QueueServiceProvider::class,
 
         \App\Providers\AppServiceProvider::class,
     ],
