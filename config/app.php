@@ -165,6 +165,7 @@ return [
         \Phox\Providers\LogServiceProvider::class,
         \Phox\Providers\EventsManagerProvider::class,
         \Phox\Providers\ErrorHandlerProvider::class,
+        \Phox\Providers\DispatcherProvider::class,
         \Phox\Providers\DebugLoggerProvider::class,
         \Phox\Providers\EncrypterProvider::class,
         \Phox\Providers\ChronosProvider::class,
@@ -176,6 +177,7 @@ return [
         \Phox\Providers\AuthServiceProvider::class,
         \Phox\Providers\ModelProvider::class,
         \Phox\Providers\DatabaseProvider::class,
+        \Phox\Providers\QueueServiceProvider::class,
 
         \App\Providers\AppServiceProvider::class,
     ],
