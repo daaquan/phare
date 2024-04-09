@@ -1,5 +1,5 @@
 {
-    "name": "phox/phox",
+    "name": "phox/micro",
     "description": "A Phox starter project.",
     "type": "library",
     "keywords": [
@@ -7,10 +7,10 @@
         "framework",
         "skeleton"
     ],
-    "homepage": "https://github.com/daaquan/phox",
+    "homepage": "https://github.com/daaquan/phox-micro",
     "support": {
-        "issues": "https://github.com/daaquan/phox/issues",
-        "source": "https://github.com/daaquan/phox"
+        "issues": "https://github.com/daaquan/phox-micro/issues",
+        "source": "https://github.com/daaquan/phox-micro"
     },
     "repositories": {
         "phox/framework": {
