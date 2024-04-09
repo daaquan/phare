@@ -1,33 +1,33 @@
 {
-    "name": "phox/skeleton",
-    "description": "A skeleton project for a game API.",
+    "name": "phox/phox",
+    "description": "A Phox starter project.",
     "type": "library",
     "keywords": [
         "phalcon",
         "framework",
         "skeleton"
     ],
-    "homepage": "http://10.2.2.84/share/phox/skeleton",
+    "homepage": "https://github.com/daaquan/phox",
     "support": {
-        "issues": "http://10.2.2.84/share/phox/skeleton/issues",
-        "source": "http://10.2.2.84/share/phox/skeleton"
+        "issues": "https://github.com/daaquan/phox/issues",
+        "source": "https://github.com/daaquan/phox"
     },
     "repositories": {
         "phox/framework": {
             "type": "vcs",
-            "url": "http://10.2.2.84/share/phox/framework.git"
+            "url": "https://github.com/daaquan/framework.git"
         },
         "sqids/sqids-ext": {
             "type": "vcs",
-            "url": "http://10.2.2.84/share/php-ext/sqids-ext.git"
+            "url": "https://github.com/daaquan/sqids.git"
         },
         "chronos/chronos-ext": {
             "type": "vcs",
-            "url": "http://10.2.2.84/share/php-ext/chronos-ext.git"
+            "url": "https://github.com/daaquan/chronos.git"
         },
         "phalcon/ide-stubs": {
             "type": "vcs",
-            "url": "http://10.2.2.84/share/php-ext/phalcon/ide-stubs.git"
+            "url": "https://github.com/daaquan/cphalcon-ide-stubs.git"
         }
     },
     "minimum-stability": "dev",
