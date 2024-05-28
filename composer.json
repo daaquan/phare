@@ -34,21 +34,8 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^8.3",
-        "ext-curl": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
-        "ext-openssl": "*",
-        "ext-pdo": "*",
-        "ext-phalcon": "~5.7.0",
-        "ext-redis": "*",
-        "ext-zip": "*",
-        "ext-zlib": "*",
-        "chronos/chronos-ext": "dev-main",
-        "google/protobuf": "^3.25",
-        "pda/pheanstalk": "^5.0",
         "phox/framework": "dev-main",
-        "sqids/sqids-ext": "dev-main",
-        "symfony/console": "^6.4"
+        "symfony/console": "^6.4.7"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
