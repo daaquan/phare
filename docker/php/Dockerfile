@@ -8,7 +8,7 @@ LABEL vendor="Phalcon" \
       maintainer="Phalcon Team <team@phalcon.io>" \
       description="The PHP image to test the REST API example concepts"
 
-ENV PHALCON_VERSION="5.5.0" \
+ENV PHALCON_VERSION="5.7.0" \
     PHP_VERSION="8.3" \
     #PHP_BUILD="20220829"
     PHP_BUILD="20230831"
@@ -28,7 +28,7 @@ RUN apt update -y && \
         zip
 
 # PECL Packages
-RUN pecl install -o -s redis-5.3.7 msgpack xdebug && \
+RUN pecl install -o -s redis msgpack && \
     pecl install phalcon-${PHALCON_VERSION}
 
 # Install PHP extensions
@@ -55,8 +55,7 @@ RUN docker-php-ext-enable \
       phalcon \
       redis \
       sqids \
-      chronos \
-      xdebug
+      chronos
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
