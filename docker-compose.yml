@@ -1,4 +1,3 @@
-version: "3"
 volumes:
   mysql:
     driver: local
@@ -6,12 +5,12 @@ volumes:
 services:
     db:
         image: mysql:8.0
-        container_name: skeleton-db
+        container_name: db
         environment:
           TZ: "Asia/Tokyo"
           MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-          MYSQL_DATABASE: "skeleton"
-          MYSQL_USER: "skeleton"
+          MYSQL_DATABASE: "api"
+          MYSQL_USER: "api"
           MYSQL_PASSWORD: "secret"
         ports:
             - "3306:3306"
@@ -20,7 +19,7 @@ services:
 
     php-fpm:
         build: docker/php
-        container_name: skeleton-php
+        container_name: php
         environment:
             TZ: Asia/Tokyo
         ports:
@@ -32,7 +31,7 @@ services:
 
     nginx:
         image: nginx
-        container_name: skeleton-nginx
+        container_name: nginx
         ports:
             - "80:80"
             - "443:443"
@@ -43,31 +42,6 @@ services:
 
     redis:
         image: redis:6
-        container_name: skeleton-redis
+        container_name: redis
         ports:
             - "6379:6379"
-
-    phpmyadmin:
-        image: phpmyadmin
-        container_name: skeleton-phpmyadmin
-        depends_on:
-            - db
-        environment:
-            - PMA_ARBITRARY=1
-            - PMA_HOSTS=skeleton-db
-            - PMA_USER=skeleton
-            - PMA_PASSWORD=secret
-        ports:
-            - "3001:80"
-
-    redis-commander:
-        image: rediscommander/redis-commander:latest
-        container_name: skeleton-rediscommander
-        depends_on:
-            - redis
-        restart: always
-        environment:
-            - REDIS_HOST=skeleton-redis
-            - REDIS_PORT=6379
-        ports:
-            - "3002:8081"
