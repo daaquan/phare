@@ -1,16 +1,17 @@
 {
-    "name": "phox/micro",
+    "name": "phox/phox",
     "description": "A Phox starter project.",
-    "type": "library",
+    "type": "project",
     "keywords": [
         "phalcon",
+        "laravel",
         "framework",
-        "skeleton"
+        "api"
     ],
-    "homepage": "https://github.com/daaquan/phox-micro",
+    "homepage": "https://github.com/daaquan/phox",
     "support": {
-        "issues": "https://github.com/daaquan/phox-micro/issues",
-        "source": "https://github.com/daaquan/phox-micro"
+        "issues": "https://github.com/daaquan/phox/issues",
+        "source": "https://github.com/daaquan/phox"
     },
     "repositories": {
         "phox/framework": {
@@ -32,13 +33,13 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",
-        "ext-phalcon": "~5.4",
+        "ext-phalcon": "~5.7.0",
         "ext-redis": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
@@ -47,9 +48,10 @@
         "pda/pheanstalk": "^5.0",
         "phox/framework": "dev-main",
         "sqids/sqids-ext": "dev-main",
-        "symfony/console": "^6.2"
+        "symfony/console": "^6.4"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "laravel/pint": "^1.13",
         "mockery/mockery": "^1.6",
         "nunomaduro/phpinsights": "^2.8",
