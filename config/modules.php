@@ -18,7 +18,6 @@ return [
 
         'route' => [
             base_path('routes/api.php'),
-            base_path('routes/raid.php'),
         ],
 
         'url' => env('APP_API_URL', 'http://localhost'),

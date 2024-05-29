@@ -2,7 +2,6 @@
 
 dataset('user', [
     [[
-        'nonce' => \Pest\Faker\fake()->uuid(),
         'name' => \Pest\Faker\fake()->name(),
         'password' => 'secret',
         'email_verified_at' => \Pest\Faker\fake()->dateTime()->format('Y-m-d H:i:s'),

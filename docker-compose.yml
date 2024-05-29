@@ -27,7 +27,6 @@ services:
         volumes:
             - .:/var/www/html
             - ../framework:/var/www/framework
-            - ./docker/php/config/extra.ini:/usr/local/etc/php/sites-enabled/extra.ini
 
     nginx:
         image: nginx
