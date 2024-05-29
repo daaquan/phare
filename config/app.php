@@ -32,8 +32,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | Specify the module name through an environment variable. Multiple modules can run in the same environment.
-    | For example, to run API and GmTool (Web) modules on the same nginx instance, prepare .env.api and
-    | .env.gmtool files. Configuration and route caches are generated separately for each module.
+    | For example, to run API and Web modules on the same nginx instance, prepare .env.api and
+    | .env.web files. Configuration and route caches are generated separately for each module.
     |
     */
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\GmTool;
+namespace App\Http\Requests\Web;
 
 use Phox\Http\Request;
 

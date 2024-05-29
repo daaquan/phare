@@ -6,8 +6,8 @@
 |--------------------------------------------------------------------------
 |
 | Specify the module name through an environment variable. Multiple modules can run in the same environment.
-| For example, to run API and GmTool (Web) modules on the same nginx instance, prepare .env.api and
-| .env.gmtool files. Configuration and route caches are generated separately for each module.
+| For example, to run API and Web modules on the same nginx instance, prepare .env.api and
+| .env.web files. Configuration and route caches are generated separately for each module.
 |
 */
 
@@ -27,8 +27,8 @@ return [
         'aliases' => [],
     ],
 
-    'gmtool' => [
-        'route' => base_path('app/Http/Controllers/GmTool'),
+    'web' => [
+        'route' => base_path('app/Http/Controllers/Web'),
 
         'providers' => [
             \Phox\Providers\DebugWhoopsProvider::class,
@@ -37,23 +37,7 @@ return [
             \App\Providers\AssetsProvider::class,
         ],
 
-        'url' => env('APP_GMTOOL_URL', 'http://localhost'),
-
-        'aliases' => [],
-    ],
-
-    'webview' => [
-        'prefix' => 'webview',
-
-        'route' => base_path('app/Http/Controllers/Webview'),
-
-        'providers' => [
-            \Phox\Providers\DebugWhoopsProvider::class,
-            \Phox\Providers\BladeViewProvider::class,
-            \Phox\Providers\TranslateProvider::class,
-        ],
-
-        'url' => env('APP_WEBVIEW_URL', 'http://localhost'),
+        'url' => env('APP_WEB_URL', 'http://localhost'),
 
         'aliases' => [],
     ],
