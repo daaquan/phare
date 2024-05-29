@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\GmTool\Auth;
+namespace App\Http\Controllers\Web\Auth;
 
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\GmTool\LoginRequest;
+use App\Http\Requests\Web\LoginRequest;
 use Phox\Attributes\Route;
 use Phox\Attributes\RoutePrefix;
 use Phox\Http\Request;

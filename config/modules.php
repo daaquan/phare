@@ -6,8 +6,8 @@
 |--------------------------------------------------------------------------
 |
 | 環境変数でモジュール名を指定します。複数のモジュールを併用し、同じ環境で動作させることができます。
-| 例えば、APIとGmTool(Web)の2つのモジュールを同じnginxで動作させる場合、.envは .env.api と
-| .env.gmtool の2つを用意する必要があり、configやrouteのキャッシュも別々に生成されます。
+| 例えば、APIとWebの2つのモジュールを同じnginxで動作させる場合、.envは .env.api と
+| .env.web の2つを用意する必要があり、configやrouteのキャッシュも別々に生成されます。
 |
 */
 
@@ -27,8 +27,8 @@ return [
         'aliases' => [],
     ],
 
-    'gmtool' => [
-        'route' => base_path('app/Http/Controllers/GmTool'),
+    'web' => [
+        'route' => base_path('app/Http/Controllers/Web'),
 
         'providers' => [
             \Phox\Providers\DebugWhoopsProvider::class,
@@ -37,23 +37,7 @@ return [
             \App\Providers\AssetsProvider::class,
         ],
 
-        'url' => env('APP_GMTOOL_URL', 'http://localhost'),
-
-        'aliases' => [],
-    ],
-
-    'webview' => [
-        'prefix' => 'webview',
-
-        'route' => base_path('app/Http/Controllers/Webview'),
-
-        'providers' => [
-            \Phox\Providers\DebugWhoopsProvider::class,
-            \Phox\Providers\BladeViewProvider::class,
-            \Phox\Providers\TranslateProvider::class,
-        ],
-
-        'url' => env('APP_WEBVIEW_URL', 'http://localhost'),
+        'url' => env('APP_WEB_URL', 'http://localhost'),
 
         'aliases' => [],
     ],
