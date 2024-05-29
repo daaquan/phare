@@ -11,6 +11,4 @@ interface UserContract
     public function getUserByPublicId(string $publicId): ?User;
 
     public function createUser(array $data): User;
-
-    public function newNonce(): string;
 }

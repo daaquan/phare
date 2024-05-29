@@ -27,20 +27,6 @@ class UserRepository implements UserContract
         return User::findFirstById($id);
     }
 
-    /**
-     * @see https://developer.android.com/google/play/integrity/verdict#nonce
-     */
-    public function newNonce(): string
-    {
-        try {
-            $binary = random_bytes(16);
-        } catch (\Exception $e) {
-            throw new RandomException($e->getMessage());
-        }
-
-        return base64_encode(bin2hex($binary));
-    }
-
     public function createUser(array $data): User
     {
         $mapping = new Mapping([

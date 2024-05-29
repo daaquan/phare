@@ -11,6 +11,6 @@ class IndexController extends Controller
     #[Route('/', name: 'index')]
     public function index(Request $request)
     {
-        return view('admin.index');
+        return view('dashboard');
     }
 }
