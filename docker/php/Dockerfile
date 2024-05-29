@@ -1,5 +1,5 @@
 FROM composer:latest as composer
-FROM php:8.3-fpm
+FROM php:8.2-fpm
 
 # Set working directory
 WORKDIR /var/www/html
@@ -9,9 +9,9 @@ LABEL vendor="Phalcon" \
       description="The PHP image to test the REST API example concepts"
 
 ENV PHALCON_VERSION="5.7.0" \
-    PHP_VERSION="8.3" \
-    #PHP_BUILD="20220829"
-    PHP_BUILD="20230831"
+    PHP_VERSION="8.2" \
+    PHP_BUILD="20220829"
+    #PHP_BUILD="20230831"
 
 # Update
 RUN apt update -y && \
@@ -40,11 +40,6 @@ RUN docker-php-ext-install \
       pdo_mysql \
       zip
 
-# Install sqids extension
-COPY ./ext/${PHP_VERSION}/phalcon.so /usr/local/lib/php/extensions/no-debug-non-zts-${PHP_BUILD}/phalcon.so
-COPY ./ext/${PHP_VERSION}/sqids.so /usr/local/lib/php/extensions/no-debug-non-zts-${PHP_BUILD}/sqids.so
-COPY ./ext/${PHP_VERSION}/chronos.so /usr/local/lib/php/extensions/no-debug-non-zts-${PHP_BUILD}/chronos.so
-
 # Install PHP extensions
 RUN docker-php-ext-enable \
       intl \
@@ -53,9 +48,7 @@ RUN docker-php-ext-enable \
       opcache \
       msgpack \
       phalcon \
-      redis \
-      sqids \
-      chronos
+      redis
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
