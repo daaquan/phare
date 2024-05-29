@@ -12,8 +12,9 @@ use Phox\Http\Request;
 #[RoutePrefix('auth')]
 class LoginController extends Controller
 {
-    public function __construct(private UserContract $user)
+    public function onConstruct(UserContract $user)
     {
+        $this->user = $user;
     }
 
     #[Route('login', name: 'login')]
