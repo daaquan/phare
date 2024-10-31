@@ -1,13 +1,5 @@
 <?php
 
-beforeEach(function () {
-    //DB::startTransactions(['global']);
-});
-
-afterEach(function () {
-    //DB::undoTransactions();
-});
-
 dataset('user', [
     [[
         'name' => \Pest\Faker\fake()->name(),
