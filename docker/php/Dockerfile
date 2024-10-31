@@ -1,5 +1,5 @@
 FROM composer:latest as composer
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Set working directory
 WORKDIR /var/www/html
@@ -8,10 +8,8 @@ LABEL vendor="Phalcon" \
       maintainer="Phalcon Team <team@phalcon.io>" \
       description="The PHP image to test the REST API example concepts"
 
-ENV PHALCON_VERSION="5.7.0" \
-    PHP_VERSION="8.2" \
-    PHP_BUILD="20220829"
-    #PHP_BUILD="20230831"
+ENV PHALCON_VERSION="5.8.0" \
+    PHP_VERSION="8.3"
 
 # Update
 RUN apt update -y && \
