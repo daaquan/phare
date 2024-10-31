@@ -17,35 +17,23 @@
         "phox/framework": {
             "type": "vcs",
             "url": "https://github.com/daaquan/framework.git"
-        },
-        "sqids/sqids-ext": {
-            "type": "vcs",
-            "url": "https://github.com/daaquan/sqids.git"
-        },
-        "chronos/chronos-ext": {
-            "type": "vcs",
-            "url": "https://github.com/daaquan/chronos.git"
-        },
-        "phalcon/ide-stubs": {
-            "type": "vcs",
-            "url": "https://github.com/daaquan/cphalcon-ide-stubs.git"
         }
     },
     "minimum-stability": "dev",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "phox/framework": "dev-main",
-        "symfony/console": "^6.4.7"
+        "symfony/console": "^6.4"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
-        "laravel/pint": "^1.13",
+        "laravel/pint": "^1.18",
         "mockery/mockery": "^1.6",
-        "nunomaduro/phpinsights": "^2.8",
-        "pestphp/pest": "^2.23",
+        "nunomaduro/phpinsights": "^2.11",
+        "pestphp/pest": "^2.36",
         "pestphp/pest-plugin-faker": "^2.0",
-        "phalcon/ide-stubs": "dev-master",
-        "spatie/pest-plugin-test-time": "^2.0"
+        "phalcon/ide-stubs": "^5.8",
+        "roave/security-advisories": "dev-latest",
+        "spatie/pest-plugin-test-time": "^2.2"
     },
     "autoload": {
         "psr-4": {
