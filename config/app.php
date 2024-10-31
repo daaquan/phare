@@ -28,19 +28,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | 起動モジュール名
-    |--------------------------------------------------------------------------
-    |
-    | 環境変数でモジュール名を指定します。複数のモジュールを併用し、同じ環境で動作させることができます。
-    | 例えば、APIとWebの2つのモジュールを同じnginxで動作させる場合、.envは .env.api と
-    | .env.web の2つを用意する必要があり、configやrouteのキャッシュも別々に生成されます。
-    |
-    */
-
-    'module' => env('APP_MODULE', 'api'),
-
-    /*
-    |--------------------------------------------------------------------------
     | デバッグモード
     |--------------------------------------------------------------------------
     |
@@ -178,6 +165,11 @@ return [
         \Phox\Providers\ModelProvider::class,
         \Phox\Providers\DatabaseProvider::class,
         \Phox\Providers\QueueServiceProvider::class,
+
+        \Phox\Providers\DebugWhoopsProvider::class,
+        \Phox\Providers\BladeViewProvider::class,
+        \Phox\Providers\TranslateProvider::class,
+        \App\Providers\AssetsProvider::class,
 
         \App\Providers\AppServiceProvider::class,
     ],

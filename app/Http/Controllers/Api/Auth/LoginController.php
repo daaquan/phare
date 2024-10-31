@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
+use Phox\Attributes\Route;
 use Phox\Foundation\Http\ResponseStatusCode;
 
 class LoginController extends Controller
@@ -16,6 +17,7 @@ class LoginController extends Controller
         $this->user = app(UserContract::class);
     }
 
+    #[Route('login', methods: ['POST'], name: 'store')]
     public function store()
     {
         $request = new LoginRequest();
@@ -32,6 +34,7 @@ class LoginController extends Controller
         return response(['user_id' => \ID::encode(str_split(\Auth::user()->id))]);
     }
 
+    #[Route('logout', methods: ['POST'], name: 'logout')]
     public function logout()
     {
         \Auth::logout();
