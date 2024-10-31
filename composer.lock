@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:daaquan/framework.git",
-                "reference": "148ae193767c4247cfbacd3da2ee83b15632ac0c"
+                "reference": "dcf475099454f0215a1a93bd8d10dfaba6b169ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daaquan/framework/zipball/148ae193767c4247cfbacd3da2ee83b15632ac0c",
-                "reference": "148ae193767c4247cfbacd3da2ee83b15632ac0c",
+                "url": "https://api.github.com/repos/daaquan/framework/zipball/dcf475099454f0215a1a93bd8d10dfaba6b169ac",
+                "reference": "dcf475099454f0215a1a93bd8d10dfaba6b169ac",
                 "shasum": ""
             },
             "require": {
@@ -79,7 +79,7 @@
                 "issues": "https://github.com/daaquan/framework/issues",
                 "source": "https://github.com/daaquan/framework"
             },
-            "time": "2024-10-31T13:44:26+00:00"
+            "time": "2024-10-31T14:04:32+00:00"
         },
         {
             "name": "psr/container",
