@@ -2,12 +2,12 @@
 
 namespace Tests;
 
-use Phox\Foundation\Micro as Application;
+use Phox\Foundation\AbstractApplication;
 use Phox\Testing\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
-    public function createApplication(): Application
+    public function createApplication(): AbstractApplication
     {
         return require __DIR__ . '/../bootstrap/app.php';
     }

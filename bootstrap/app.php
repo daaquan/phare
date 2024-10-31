@@ -13,7 +13,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 |
 */
 
-$app = \App\ApplicationFactory::createApplication();
+$basePath = $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__);
+$app = new \Phox\Foundation\Web($basePath);
 
 /*
 |--------------------------------------------------------------------------

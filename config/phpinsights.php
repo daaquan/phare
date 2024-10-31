@@ -77,9 +77,6 @@ return [
     */
 
     'exclude' => [
-        'modules/api/Http/Protobuf',
-        'models/Entities',
-        'models/Enum',
     ],
 
     'add' => [

@@ -28,19 +28,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Startup Module Name
-    |--------------------------------------------------------------------------
-    |
-    | Specify the module name through an environment variable. Multiple modules can run in the same environment.
-    | For example, to run API and Web modules on the same nginx instance, prepare .env.api and
-    | .env.web files. Configuration and route caches are generated separately for each module.
-    |
-    */
-
-    'module' => env('APP_MODULE', 'api'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Debug mode
     |--------------------------------------------------------------------------
     |
@@ -178,6 +165,11 @@ return [
         \Phox\Providers\ModelProvider::class,
         \Phox\Providers\DatabaseProvider::class,
         \Phox\Providers\QueueServiceProvider::class,
+
+        \Phox\Providers\DebugWhoopsProvider::class,
+        \Phox\Providers\BladeViewProvider::class,
+        \Phox\Providers\TranslateProvider::class,
+        \App\Providers\AssetsProvider::class,
 
         \App\Providers\AppServiceProvider::class,
     ],

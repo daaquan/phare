@@ -11,7 +11,6 @@
     </testsuites>
     <php>
         <env name="APP_ENV" value="testing" force="true"/>
-        <env name="APP_MODULE" value="api" force="true"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
     </php>
