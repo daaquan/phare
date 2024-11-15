@@ -12,7 +12,7 @@
   <link rel="manifest" href="/site.webmanifest">
 
   <script src="//cdn.tailwindcss.com?plugins=typography"></script>
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css">
 
   @cssbox
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
