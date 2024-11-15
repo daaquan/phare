@@ -2,7 +2,7 @@
 
 namespace App\Contracts\Repository;
 
-use App\Models\Game\User;
+use App\Models\User;
 
 interface UserContract
 {

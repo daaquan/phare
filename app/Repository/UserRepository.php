@@ -3,10 +3,9 @@
 namespace App\Repository;
 
 use App\Contracts\Repository\UserContract;
-use App\Models\Game\User;
-use App\Models\Global\Mapping;
+use App\Models\Mapping;
+use App\Models\User;
 use Phalcon\Mvc\Model\Exception as ModelException;
-use Random\RandomException;
 
 class UserRepository implements UserContract
 {
@@ -30,7 +29,6 @@ class UserRepository implements UserContract
     public function createUser(array $data): User
     {
         $mapping = new Mapping([
-            // @todo シャードIDをクライアントから取得またはmappingから取得する
             'shard_id' => random_int(0, config('database.connections.game.shards')->count() - 1),
         ]);
         if ($mapping->validationHasFailed() || !$mapping->create()) {

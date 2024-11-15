@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Game;
+namespace App\Models;
 
 use Phox\Auth\Authenticatable;
 use Phox\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -10,7 +10,6 @@ use Phox\Eloquent\Model;
 
 /**
  * @property int $id
- * @property string $device_id
  * @property string $name
  * @property string $email
  * @property \DateTime $email_verified_at
@@ -30,7 +29,6 @@ class User extends Model implements AuthenticatableContract
 
     protected array $fillable = [
         'id',
-        'device_id',
         'name',
         'email',
         'email_verified_at',

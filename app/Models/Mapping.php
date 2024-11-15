@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Global;
+namespace App\Models;
 
 use Phox\Eloquent\Model;
 
