@@ -49,7 +49,7 @@ return [
             'system' => 'System',
             'tools' => 'Operation Tools',
             'information' => 'Information Management',
-            'master-data' => 'Master Data',
+            'data' => 'Data',
             'kpi' => 'KPI Aggregation',
             'debug' => 'Debug Functions',
             'maintenance' => 'Maintenance',

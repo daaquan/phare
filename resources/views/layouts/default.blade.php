@@ -13,6 +13,7 @@
 
   <script src="//cdn.tailwindcss.com?plugins=typography"></script>
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
 
   @cssbox
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
