@@ -49,7 +49,7 @@ return [
             'system' => 'システム',
             'tools' => '運営ツール',
             'information' => 'お知らせ管理',
-            'master-data' => 'マスタデータ',
+            'data' => 'データ',
             'kpi' => 'KPI集計',
             'debug' => 'デバッグ機能',
             'maintenance' => 'メンテナンス',
@@ -58,7 +58,6 @@ return [
             'events' => 'イベント',
             'help' => 'ヘルプ',
             'user' => 'ユーザー',
-            'clan' => 'クラン',
         ],
     ],
 
