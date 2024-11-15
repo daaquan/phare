@@ -7,9 +7,10 @@ use Phox\Http\Request;
 
 class IndexController extends Controller
 {
-    #[Route('/', name: 'index')]
+    #[Route('/', middlewares: ['auth'], name: 'index')]
     public function index(Request $request)
     {
-        return view('dashboard');
+        return view('dashboard')
+            ->with('title', 'Dashboard');
     }
 }

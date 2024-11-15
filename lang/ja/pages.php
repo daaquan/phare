@@ -9,4 +9,5 @@ return [
         'title' => 'ユーザー検索',
         'description' => 'ここに検索にマッチしたユーザが表示されます。',
     ],
+    'greetings' => 'こんにちは、%name% さん',
 ];

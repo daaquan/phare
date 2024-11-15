@@ -27,6 +27,10 @@
 </div>
 
 <div class="flex-0">
+  @lang('pages.greetings', ['name' => Auth::user()->name])
+</div>
+
+<div class="flex-0">
   <div title="Change Language" class="dropdown dropdown-end">
     <div tabindex="0" role="button" class="btn btn-ghost" aria-label="Language">
       <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
