@@ -29,7 +29,8 @@ class Handler extends ExceptionHandler
     public function render($request, \Throwable $e)
     {
         if ($e instanceof RouteException) {
-            return response(['error' => 'Resource not found'], ResponseStatusCode::NOT_FOUND);
+            $error = $request->isAjax() ? ['error' => 'Resource not found'] : '404 page not found.';
+            return response($error, ResponseStatusCode::NOT_FOUND);
         }
 
         return parent::render($request, $e);
