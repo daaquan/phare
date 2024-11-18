@@ -11,10 +11,10 @@ class Kernel extends ConsoleKernel
      */
     protected array $commands = [
         \App\Console\Commands\AboutCommand::class,
-        \App\Console\Commands\KeyGenerateCommand::class,
+        \Phox\Console\Commands\KeyGenerateCommand::class,
         \App\Console\Commands\Migrate\MigrateCommand::class,
         \App\Console\Commands\Creator\MakeMigrationCommand::class,
-        \App\Console\Commands\QueueWorkCommand::class,
+        \Phox\Console\Commands\QueueWorkCommand::class,
     ];
 
     /**

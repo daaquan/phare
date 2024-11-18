@@ -7,17 +7,83 @@
     "content-hash": "a5a633a7508566df8e0864a5dcdca61c",
     "packages": [
         {
+            "name": "pda/pheanstalk",
+            "version": "v5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pheanstalk/pheanstalk.git",
+                "reference": "80fce7eeb774e1a1ce7c5276181b47fbf08fc838"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pheanstalk/pheanstalk/zipball/80fce7eeb774e1a1ce7c5276181b47fbf08fc838",
+                "reference": "80fce7eeb774e1a1ce7c5276181b47fbf08fc838",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=8.1.0"
+            },
+            "require-dev": {
+                "captainhook/plugin-composer": "^5.3",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.1",
+                "phpunit/phpunit": "^10",
+                "ramsey/conventional-commits": "^1.2",
+                "symplify/easy-coding-standard": "^11",
+                "vimeo/psalm": "^5"
+            },
+            "suggest": {
+                "ext-sockets": "Socket implementation works best for long running processes"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pheanstalk\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Annesley",
+                    "email": "paul@annesley.cc",
+                    "homepage": "http://paul.annesley.cc/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "PHP client for beanstalkd queue",
+            "homepage": "https://github.com/pheanstalk/pheanstalk",
+            "keywords": [
+                "beanstalkd"
+            ],
+            "support": {
+                "issues": "https://github.com/pheanstalk/pheanstalk/issues",
+                "source": "https://github.com/pheanstalk/pheanstalk/tree/v5.0.0"
+            },
+            "time": "2023-08-07T14:05:42+00:00"
+        },
+        {
             "name": "phox/framework",
             "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "git@github.com:daaquan/framework.git",
-                "reference": "dcf475099454f0215a1a93bd8d10dfaba6b169ac"
+                "reference": "bb2a6761c3146db479792e27c6448ae74c79aa0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daaquan/framework/zipball/dcf475099454f0215a1a93bd8d10dfaba6b169ac",
-                "reference": "dcf475099454f0215a1a93bd8d10dfaba6b169ac",
+                "url": "https://api.github.com/repos/daaquan/framework/zipball/bb2a6761c3146db479792e27c6448ae74c79aa0e",
+                "reference": "bb2a6761c3146db479792e27c6448ae74c79aa0e",
                 "shasum": ""
             },
             "require": {
@@ -33,6 +99,7 @@
                 "ext-redis": "*",
                 "ext-zip": "*",
                 "ext-zlib": "*",
+                "pda/pheanstalk": "v5.0",
                 "php": "^8.2",
                 "symfony/dotenv": "^v7.0",
                 "symfony/error-handler": "^7.0"
@@ -79,7 +146,7 @@
                 "issues": "https://github.com/daaquan/framework/issues",
                 "source": "https://github.com/daaquan/framework"
             },
-            "time": "2024-10-31T14:04:32+00:00"
+            "time": "2024-11-17T12:09:22+00:00"
         },
         {
             "name": "psr/container",
@@ -6861,16 +6928,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.11.0",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "70c08f8d20c0eb4fe56f26644dd94dae76a7f450"
+                "reference": "19473c30efe4f7b3cd42522d0b2e6e7f243c6f87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/70c08f8d20c0eb4fe56f26644dd94dae76a7f450",
-                "reference": "70c08f8d20c0eb4fe56f26644dd94dae76a7f450",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/19473c30efe4f7b3cd42522d0b2e6e7f243c6f87",
+                "reference": "19473c30efe4f7b3cd42522d0b2e6e7f243c6f87",
                 "shasum": ""
             },
             "require": {
@@ -6937,7 +7004,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-11-12T09:53:29+00:00"
+            "time": "2024-11-16T12:02:36+00:00"
         },
         {
             "name": "symfony/cache",
