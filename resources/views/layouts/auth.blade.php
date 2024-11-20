@@ -17,7 +17,7 @@
 
   @cssbox
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
+  <style> body { visibility: hidden; } </style>
 </head>
 <body>
 <div class="bg-base-100 drawer lg:drawer-open">
@@ -40,6 +40,10 @@
 
 <script type="application/javascript" src="{{ asset('js/app.js') }}"></script>
 @jsbox
+
+<script>
+  document.body.style.visibility = 'visible';
+</script>
 
 </body>
 </html>
