@@ -17,7 +17,7 @@
 
   @cssbox
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
+  <style> body { visibility: hidden; } </style>
 </head>
 <body>
 <div>
@@ -63,6 +63,10 @@
 @jsbox
 
 <script type="application/javascript" src="{{ asset('js/app.js') }}"></script>
+
+<script>
+  document.body.style.visibility = 'visible';
+</script>
 
 </body>
 </html>
