@@ -31,7 +31,6 @@
         "nunomaduro/phpinsights": "^2.11",
         "pestphp/pest": "^2.36",
         "pestphp/pest-plugin-faker": "^2.0",
-        "pestphp/pest-plugin-mock": "^2.0",
         "phalcon/ide-stubs": "^5.8",
         "roave/security-advisories": "dev-latest",
         "spatie/pest-plugin-test-time": "^2.2"
