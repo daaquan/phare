@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Phalcon\Support\Version;
-use Phox\Attributes\Route;
+use Phare\Attributes\Route;
 
 class IndexController extends Controller
 {

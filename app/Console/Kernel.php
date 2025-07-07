@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use Phox\Console\Kernel as ConsoleKernel;
+use Phare\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
@@ -11,20 +11,20 @@ class Kernel extends ConsoleKernel
      */
     protected array $commands = [
         \App\Console\Commands\AboutCommand::class,
-        \Phox\Console\Commands\KeyGenerateCommand::class,
+        \Phare\Console\Commands\KeyGenerateCommand::class,
         \App\Console\Commands\Migrate\MigrateCommand::class,
         \App\Console\Commands\Creator\MakeMigrationCommand::class,
-        \Phox\Console\Commands\QueueWorkCommand::class,
+        \Phare\Console\Commands\QueueWorkCommand::class,
     ];
 
     /**
      * The bootstrap classes for the application.
      */
     protected array $bootstrappers = [
-        \Phox\Foundation\Bootstrap\LoadEnvironmentVariables::class,
-        \Phox\Foundation\Bootstrap\LoadConfiguration::class,
-        \Phox\Foundation\Bootstrap\HandleExceptions::class,
-        \Phox\Foundation\Bootstrap\RegisterProviders::class,
-        \Phox\Foundation\Bootstrap\RegisterFacades::class,
+        \Phare\Foundation\Bootstrap\LoadEnvironmentVariables::class,
+        \Phare\Foundation\Bootstrap\LoadConfiguration::class,
+        \Phare\Foundation\Bootstrap\HandleExceptions::class,
+        \Phare\Foundation\Bootstrap\RegisterProviders::class,
+        \Phare\Foundation\Bootstrap\RegisterFacades::class,
     ];
 }

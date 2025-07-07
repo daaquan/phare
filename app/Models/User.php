@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Phox\Auth\Authenticatable;
-use Phox\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Phox\Eloquent\Concerns\HasTimestamps;
-use Phox\Eloquent\Concerns\SoftDeletes;
-use Phox\Eloquent\Model;
+use Phare\Auth\Authenticatable;
+use Phare\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Phare\Eloquent\Concerns\HasTimestamps;
+use Phare\Eloquent\Concerns\SoftDeletes;
+use Phare\Eloquent\Model;
 
 /**
  * @property int $id
