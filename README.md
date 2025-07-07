@@ -1,4 +1,4 @@
-# Phox Framework
+# Phare Framework
 
 A scalable, full-featured PHP game framework built on top of the Phalcon framework.
 
@@ -6,11 +6,11 @@ A scalable, full-featured PHP game framework built on top of the Phalcon framewo
 
 ## Overview
 
-Phox Framework combines modern PHP development practices with Phalcon performance to help build robust, efficient game application backends. It supports a wide range of needs, from API development to web applications.
+Phare Framework combines modern PHP development practices with Phalcon's performance to help you build robust, efficient backends for game applications. Its design covers a wide range of needs, from API development to full web applications.
 
 ## Features
 
-Phox Framework provides a broad set of features to support rapid application development.
+Phare Framework ships a rich feature set aimed at rapid application development.
 
 * **Built on Phalcon**: Phalcon (v5.4+), a high-performance C extension, is used as the core.
 * **Module system**: Applications can be split into and managed as modules such as API and Web.
@@ -41,7 +41,7 @@ Phox Framework provides a broad set of features to support rapid application dev
     * Laravel Pint is integrated for automatic PSR-12 compliant code style fixes.
     * PHP Insights static analysis is supported, helping keep code quality up.
 * **Useful utilities**:
-    * Provides a date and time utility class (`Phox\Support\Chronos`) extending Chronos.
+    * A date/time class extending Chronos (`Phare\Support\Chronos`).
     * ID encoding/decoding through Sqids.
     * A rich set of helper classes for arrays, collections and strings (`Arr`, `Collection`, `Str`).
     * Safe environment variable handling via the Symfony DotEnv component.
@@ -71,8 +71,8 @@ Phox Framework provides a broad set of features to support rapid application dev
 
 1.  **Clone (or download) the repository**:
     ```bash
-    git clone <repository_url> phox-framework
-    cd phox-framework
+    git clone <repository_url> phare-framework
+    cd phare-framework
     ```
 2.  **Install the Composer dependencies**:
     ```bash
@@ -90,7 +90,7 @@ Phox Framework provides a broad set of features to support rapid application dev
 
 ## Basic usage (concepts)
 
-Phox Framework uses a conventional MVC-like architecture.
+Phare Framework follows a conventional MVC-like architecture.
 
 ### 1. Booting the application
 
@@ -107,9 +107,9 @@ Routes are defined either in files under `routes/` (for example `api.php`, `web.
 
 namespace App\Http\Controllers\Api;
 
-use Phox\Attributes\Route;
-use Phox\Attributes\RoutePrefix;
-use Phox\Http\Request; // Assumes the Phox Request class
+use Phare\Attributes\Route;
+use Phare\Attributes\RoutePrefix;
+use Phare\Http\Request; // Phare's Request class
 use App\Models\User; // your own User model
 
 #[RoutePrefix('/users')]
@@ -131,7 +131,7 @@ class UserController
     #[Route('/', methods: ['POST'])]
     public function store(Request $request): array
     {
-        // Validate input if Phox\Http\Request provides validation support
+        // With validation (where Phare\Http\Request provides it)
         // $validatedData = $request->validate([
         // 'name' => 'required|string|max:255',
         // 'email' => 'required|email|unique:users',
@@ -162,10 +162,10 @@ Database work goes through Eloquent-like models.
 
 namespace App\Models;
 
-use Phox\Eloquent\Model;
-use Phox\Auth\Authenticatable; // Assumes the Phox Authenticatable trait
-use Phox\Contracts\Auth\Authenticatable as AuthenticatableContract; // Assumes the Phox contract
-use Phox\Eloquent\Concerns\HasTimestamps;
+use Phare\Eloquent\Model;
+use Phare\Auth\Authenticatable; // Phare's Authenticatable trait
+use Phare\Contracts\Auth\Authenticatable as AuthenticatableContract; // Phare's contract
+use Phare\Eloquent\Concerns\HasTimestamps;
 
 class User extends Model implements AuthenticatableContract
 {
@@ -217,14 +217,14 @@ HTML is rendered with the Blade template engine.
         <p>No users found.</p>
     @endif
 
-    {{-- Example of a custom HTML helper (if provided by Phox\View\Tags\BladeHtml) --}}
+    {{-- Using the custom HTML helpers (where Phare\View\Tags\BladeHtml provides them) --}}
     {{-- @button(type="button" class="btn-primary" text="Add New User" href=@route('users.create')) --}}
 @endsection
 ```
 
 ## Testing
 
-Phox Framework supports testing with PHPUnit and Pest PHP.
+Phare Framework supports testing with both PHPUnit and Pest PHP.
 
 * **Run the PHPUnit tests**:
     ```bash

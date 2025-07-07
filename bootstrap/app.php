@@ -14,7 +14,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 */
 
 $basePath = $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__);
-$app = new \Phox\Foundation\Web($basePath);
+$app = new \Phare\Foundation\Web($basePath);
 
 /*
 |--------------------------------------------------------------------------
@@ -28,17 +28,17 @@ $app = new \Phox\Foundation\Web($basePath);
 */
 
 $app->singleton(
-    \Phox\Contracts\Http\Kernel::class,
+    \Phare\Contracts\Http\Kernel::class,
     \App\Http\Kernel::class
 );
 
 $app->singleton(
-    \Phox\Contracts\Console\Kernel::class,
+    \Phare\Contracts\Console\Kernel::class,
     \App\Console\Kernel::class
 );
 
 $app->singleton(
-    \Phox\Contracts\Debug\ExceptionHandler::class,
+    \Phare\Contracts\Debug\ExceptionHandler::class,
     \App\Exceptions\Handler::class
 );
 

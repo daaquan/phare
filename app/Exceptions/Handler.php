@@ -3,8 +3,8 @@
 namespace App\Exceptions;
 
 use Phalcon\Mvc\Router\Exception as RouteException;
-use Phox\Foundation\Exceptions\Handler as ExceptionHandler;
-use Phox\Foundation\Http\ResponseStatusCode;
+use Phare\Foundation\Exceptions\Handler as ExceptionHandler;
+use Phare\Foundation\Http\ResponseStatusCode;
 
 class Handler extends ExceptionHandler
 {

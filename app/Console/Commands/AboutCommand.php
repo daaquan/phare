@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Phox\Console\Command;
+use Phare\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'about', description: 'Shows the console app version.')]

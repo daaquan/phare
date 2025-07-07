@@ -1,6 +1,6 @@
 {
-    "name": "phox/phox",
-    "description": "A Phox starter project.",
+    "name": "phare/phare",
+    "description": "A Phare starter project.",
     "type": "project",
     "keywords": [
         "phalcon",
@@ -8,10 +8,10 @@
         "framework",
         "api"
     ],
-    "homepage": "https://github.com/daaquan/phox",
+    "homepage": "https://github.com/daaquan/phare",
     "support": {
-        "issues": "https://github.com/daaquan/phox/issues",
-        "source": "https://github.com/daaquan/phox"
+        "issues": "https://github.com/daaquan/phare/issues",
+        "source": "https://github.com/daaquan/phare"
     },
     "repositories": [
         {
@@ -30,7 +30,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^8.4",
-        "phox/framework": "dev-main",
+        "phare/framework": "dev-main",
         "symfony/console": "^7.3",
         "chronos/chronos-ext": "dev-main",
         "sqids/sqids-ext": "dev-main"
