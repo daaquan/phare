@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Creator;
 
-use Phox\Console\Command;
+use Phare\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 

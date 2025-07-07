@@ -1,4 +1,4 @@
-# Phox Framework
+# Phare Framework
 
 Phalconフレームワークをベースに開発された、スケーラブルで高機能なPHPゲームフレームワークです。
 
@@ -6,11 +6,11 @@ Phalconフレームワークをベースに開発された、スケーラブル�
 
 ## 概要
 
-Phox Frameworkは、モダンなPHP開発プラクティスとPhalconのパフォーマンスを組み合わせ、堅牢で効率的なゲームアプリケーションバックエンドの構築を支援します。API開発からWebアプリケーションまで、幅広いニーズに対応可能な設計となっています。
+Phare Frameworkは、モダンなPHP開発プラクティスとPhalconのパフォーマンスを組み合わせ、堅牢で効率的なゲームアプリケーションバックエンドの構築を支援します。API開発からWebアプリケーションまで、幅広いニーズに対応可能な設計となっています。
 
 ## 主な機能
 
-Phox Frameworkは、迅速なアプリケーション開発をサポートするための豊富な機能を提供します。
+Phare Frameworkは、迅速なアプリケーション開発をサポートするための豊富な機能を提供します。
 
 * **Phalconベース**: 高パフォーマンスなC言語拡張であるPhalcon (v5.4~) をコアに採用しています。
 * **モジュールシステム**: アプリケーションをAPIやWebなどのモジュール単位で分割し、管理することができます。
@@ -41,7 +41,7 @@ Phox Frameworkは、迅速なアプリケーション開発をサポートする
     * Laravel PintによるPSR-12準拠のコードスタイル自動修正機能を統合しています。
     * PHP Insightsによる静的コード解析をサポートし、コード品質の維持向上に貢献します。
 * **便利なユーティリティ**:
-    * Chronosを拡張した日付時刻操作クラス (`Phox\Support\Chronos`) を提供します。
+    * Chronosを拡張した日付時刻操作クラス (`Phare\Support\Chronos`) を提供します。
     * Sqidsを利用したIDエンコード/デコード機能を提供します。
     * 配列、コレクション、文字列操作を補助する豊富なヘルパークラス (`Arr`, `Collection`, `Str`) を提供します。
     * Symfony DotEnvコンポーネントを利用した安全な環境変数管理を行います。
@@ -71,8 +71,8 @@ Phox Frameworkは、迅速なアプリケーション開発をサポートする
 
 1.  **リポジトリのクローン (またはダウンロード)**:
     ```bash
-    git clone <repository_url> phox-framework
-    cd phox-framework
+    git clone <repository_url> phare-framework
+    cd phare-framework
     ```
 2.  **Composer依存関係のインストール**:
     ```bash
@@ -90,7 +90,7 @@ Phox Frameworkは、迅速なアプリケーション開発をサポートする
 
 ## 基本的な使い方 (概念)
 
-Phox Frameworkは、一般的なMVCライクなアーキテクチャを採用しています。
+Phare Frameworkは、一般的なMVCライクなアーキテクチャを採用しています。
 
 ### 1. アプリケーションの起動
 
@@ -107,9 +107,9 @@ Phox Frameworkは、一般的なMVCライクなアーキテクチャを採用し
 
 namespace App\Http\Controllers\Api;
 
-use Phox\Attributes\Route;
-use Phox\Attributes\RoutePrefix;
-use Phox\Http\Request; // PhoxのRequestクラスを想定
+use Phare\Attributes\Route;
+use Phare\Attributes\RoutePrefix;
+use Phare\Http\Request; // PhareのRequestクラスを想定
 use App\Models\User; // あなたのUserモデルを想定
 
 #[RoutePrefix('/users')]
@@ -131,7 +131,7 @@ class UserController
     #[Route('/', methods: ['POST'])]
     public function store(Request $request): array
     {
-        // バリデーションを行う場合 (Phox\Http\Request にバリデーション機能がある場合)
+        // バリデーションを行う場合 (Phare\Http\Request にバリデーション機能がある場合)
         // $validatedData = $request->validate([
         // 'name' => 'required|string|max:255',
         // 'email' => 'required|email|unique:users',
@@ -162,10 +162,10 @@ class UserController
 
 namespace App\Models;
 
-use Phox\Eloquent\Model;
-use Phox\Auth\Authenticatable; // PhoxのAuthenticatableトレイトを想定
-use Phox\Contracts\Auth\Authenticatable as AuthenticatableContract; // PhoxのContractを想定
-use Phox\Eloquent\Concerns\HasTimestamps;
+use Phare\Eloquent\Model;
+use Phare\Auth\Authenticatable; // PhareのAuthenticatableトレイトを想定
+use Phare\Contracts\Auth\Authenticatable as AuthenticatableContract; // PhareのContractを想定
+use Phare\Eloquent\Concerns\HasTimestamps;
 
 class User extends Model implements AuthenticatableContract
 {
@@ -217,14 +217,14 @@ HTMLのレンダリングにはBladeテンプレートエンジンを使用し�
         <p>No users found.</p>
     @endif
 
-    {{-- カスタムHTMLヘルパーの使用例 (Phox\View\Tags\BladeHtml が提供する場合) --}}
+    {{-- カスタムHTMLヘルパーの使用例 (Phare\View\Tags\BladeHtml が提供する場合) --}}
     {{-- @button(type="button" class="btn-primary" text="Add New User" href=@route('users.create')) --}}
 @endsection
 ```
 
 ## テスト
 
-Phox FrameworkはPHPUnitとPest PHPによるテストをサポートしています。
+Phare FrameworkはPHPUnitとPest PHPによるテストをサポートしています。
 
 * **PHPUnitテストの実行**:
     ```bash

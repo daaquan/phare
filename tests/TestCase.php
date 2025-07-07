@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use Phox\Foundation\AbstractApplication;
-use Phox\Testing\TestCase as BaseTestCase;
+use Phare\Foundation\AbstractApplication;
+use Phare\Testing\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {

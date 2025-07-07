@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
-use Phox\Contracts\Http\MiddlewareContract;
-use Phox\Foundation\Http\Concerns\BeforeMiddleware;
+use Phare\Contracts\Http\MiddlewareContract;
+use Phare\Foundation\Http\Concerns\BeforeMiddleware;
 
 class ExampleMiddleware extends MiddlewareContract implements BeforeMiddleware
 {
