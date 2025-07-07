@@ -13,7 +13,7 @@ define('APP_START', microtime(true));
 |
 */
 
-/** @var \Phox\Foundation\AbstractApplication $app */
+/** @var \Phare\Foundation\AbstractApplication $app */
 $app = require __DIR__ . '/../bootstrap/app.php';
 
 /*
@@ -28,8 +28,8 @@ $app = require __DIR__ . '/../bootstrap/app.php';
 |
 */
 
-/** @var \Phox\Contracts\Http\Kernel $kernel */
-$kernel = $app->make(\Phox\Contracts\Http\Kernel::class);
+/** @var \Phare\Contracts\Http\Kernel $kernel */
+$kernel = $app->make(\Phare\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(
     $request = $app->make('request')

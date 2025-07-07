@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phox\Foundation\Micro as Application;
+use Phare\Foundation\Micro as Application;
 
 class AppServiceProvider implements ServiceProviderInterface
 {

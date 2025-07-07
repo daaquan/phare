@@ -4,7 +4,7 @@ namespace App\Http;
 
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
-use Phox\Foundation\Http\Kernel as HttpKernel;
+use Phare\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
@@ -15,7 +15,7 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [
         //\App\Http\Middleware\CheckForMaintenanceMode::class,
-        \Phox\Routing\Middleware\CorsMiddleware::class,
+        \Phare\Routing\Middleware\CorsMiddleware::class,
     ];
 
     protected array $middlewareGroups = [
@@ -29,17 +29,17 @@ class Kernel extends HttpKernel
     ];
 
     protected array $routeMiddleware = [
-        'auth' => \Phox\Auth\Middleware\Authenticate::class,
+        'auth' => \Phare\Auth\Middleware\Authenticate::class,
     ];
 
     /**
      * The bootstrap classes for the application.
      */
     protected array $bootstrappers = [
-        \Phox\Foundation\Bootstrap\LoadConfiguration::class,
-        \Phox\Foundation\Bootstrap\HandleExceptions::class,
-        \Phox\Foundation\Bootstrap\RegisterProviders::class,
-        \Phox\Foundation\Bootstrap\RegisterFacades::class,
+        \Phare\Foundation\Bootstrap\LoadConfiguration::class,
+        \Phare\Foundation\Bootstrap\HandleExceptions::class,
+        \Phare\Foundation\Bootstrap\RegisterProviders::class,
+        \Phare\Foundation\Bootstrap\RegisterFacades::class,
     ];
 
     public function handle(RequestInterface $request): ResponseInterface

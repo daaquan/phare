@@ -14,15 +14,15 @@ require_once __DIR__ . '/vendor/autoload.php';
 |
 */
 
-$app = new \Phox\Foundation\Micro($_ENV['APP_BASE_PATH'] ?? __DIR__);
+$app = new \Phare\Foundation\Micro($_ENV['APP_BASE_PATH'] ?? __DIR__);
 
 $app->singleton(
-    \Phox\Contracts\Console\Kernel::class,
+    \Phare\Contracts\Console\Kernel::class,
     \App\Console\Kernel::class
 );
 
 $app->singleton(
-    \Phox\Contracts\Debug\ExceptionHandler::class,
+    \Phare\Contracts\Debug\ExceptionHandler::class,
     \App\Exceptions\Handler::class
 );
 
@@ -37,8 +37,8 @@ $app->singleton(
 |
 */
 
-/** @var \Phox\Contracts\Console\Kernel $kernel */
-$kernel = $app->make(\Phox\Contracts\Console\Kernel::class);
+/** @var \Phare\Contracts\Console\Kernel $kernel */
+$kernel = $app->make(\Phare\Contracts\Console\Kernel::class);
 
 $input = new \Symfony\Component\Console\Input\ArgvInput();
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();

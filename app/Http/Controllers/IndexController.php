@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Phox\Attributes\Route;
-use Phox\Http\Request;
+use Phare\Attributes\Route;
+use Phare\Http\Request;
 
 class IndexController extends Controller
 {
