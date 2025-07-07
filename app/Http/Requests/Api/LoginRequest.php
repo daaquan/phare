@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-use Phox\Http\Request;
+use Phare\Http\Request;
 
 class LoginRequest extends Request
 {

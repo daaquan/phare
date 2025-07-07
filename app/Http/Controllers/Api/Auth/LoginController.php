@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
-use Phox\Attributes\Route;
-use Phox\Foundation\Http\ResponseStatusCode;
+use Phare\Attributes\Route;
+use Phare\Foundation\Http\ResponseStatusCode;
 
 class LoginController extends Controller
 {

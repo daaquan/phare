@@ -1,6 +1,6 @@
 <?php
 
-use Phox\Support\Facades\Sqids;
+use Phare\Support\Facades\Sqids;
 
 it('id encodes and decodes', function () {
     $original = 1234567890;

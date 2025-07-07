@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Phox\Console\Command;
-use Phox\Support\Facades\Log;
+use Phare\Console\Command;
+use Phare\Support\Facades\Log;
 use Random\RandomException;
 use Symfony\Component\Console\Attribute\AsCommand;
 

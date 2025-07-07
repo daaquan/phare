@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\LoginRequest;
-use Phox\Attributes\Route;
-use Phox\Http\Request;
+use Phare\Attributes\Route;
+use Phare\Http\Request;
 
 class LoginController extends Controller
 {
