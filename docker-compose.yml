@@ -9,15 +9,15 @@ services:
         environment:
           TZ: "Asia/Tokyo"
           MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-          MYSQL_DATABASE: "api"
-          MYSQL_USER: "api"
+          MYSQL_DATABASE: "app"
+          MYSQL_USER: "app"
           MYSQL_PASSWORD: "secret"
         ports:
             - "3306:3306"
         volumes:
             - mysql:/var/lib/mysql
 
-    php-fpm:
+    php:
         build: docker/php
         container_name: php
         environment:
@@ -26,7 +26,6 @@ services:
             - "9000:9000"
         volumes:
             - .:/var/www/html
-            - ../framework:/var/www/framework
             - ./docker/php/config/extra.ini:/usr/local/etc/php/conf.d/extra.ini
 
     nginx:
