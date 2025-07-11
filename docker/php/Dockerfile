@@ -1,19 +1,15 @@
-FROM composer:latest as composer
-FROM php:8.3-fpm
+FROM composer:latest AS composer
+FROM php:8.2-fpm
 
 # Set working directory
 WORKDIR /var/www/html
 
-LABEL vendor="Phalcon" \
-      maintainer="Phalcon Team <team@phalcon.io>" \
-      description="The PHP image to test the REST API example concepts"
-
-ENV PHALCON_VERSION="5.8.0" \
-    PHP_VERSION="8.3"
+ENV PHALCON_VERSION="5.9.3" \
+    PHP_VERSION="8.2"
 
 # Update
-RUN apt update -y && \
-    apt install -y \
+RUN apt-get update -y && \
+    apt-get install -y \
         apt-utils \
         gettext \
         git \
