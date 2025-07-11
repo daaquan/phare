@@ -12,7 +12,7 @@ use Phalcon\Html\TagFactory;
 
 class AssetsProvider implements ServiceProviderInterface
 {
-    public const string VERSION = '1.0.0';
+    public const VERSION = '1.0.0';
 
     public function register(DiInterface $di): void
     {

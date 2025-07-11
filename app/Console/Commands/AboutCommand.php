@@ -28,7 +28,7 @@ LOGO;
         $this->output->writeComment(static::$logo);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setHelp('Show the brief information about the console app.');
     }
