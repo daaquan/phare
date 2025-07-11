@@ -78,12 +78,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phareframework/framework.git",
-                "reference": "f74be81937fd9f9f5c386b49aa63f929fac68a4f"
+                "reference": "23815c642e7571f135c0ce8d491ca399e047c1f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phareframework/framework/zipball/f74be81937fd9f9f5c386b49aa63f929fac68a4f",
-                "reference": "f74be81937fd9f9f5c386b49aa63f929fac68a4f",
+                "url": "https://api.github.com/repos/phareframework/framework/zipball/23815c642e7571f135c0ce8d491ca399e047c1f6",
+                "reference": "23815c642e7571f135c0ce8d491ca399e047c1f6",
                 "shasum": ""
             },
             "require": {
@@ -95,12 +95,12 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "ext-pdo": "*",
-                "ext-phalcon": "^5.9.3",
+                "ext-phalcon": "^5.9.2",
                 "ext-redis": "*",
                 "ext-zip": "*",
                 "ext-zlib": "*",
                 "pda/pheanstalk": "v5.0",
-                "php": "^8.4",
+                "php": "^8.2",
                 "psr/simple-cache": "^1.0",
                 "symfony/dotenv": "^v7.4",
                 "symfony/error-handler": "^7.4"
@@ -144,7 +144,7 @@
                 "issues": "https://github.com/phareframework/framework/issues",
                 "source": "https://github.com/phareframework/framework"
             },
-            "time": "2025-07-10T09:55:42+00:00"
+            "time": "2025-07-11T14:39:38+00:00"
         },
         {
             "name": "psr/container",
