@@ -13,27 +13,11 @@
         "issues": "https://github.com/daaquan/phare/issues",
         "source": "https://github.com/daaquan/phare"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/daaquan/framework.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:daaquan/chronos.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:daaquan/sqids.git"
-        }
-    ],
     "minimum-stability": "dev",
     "require": {
-        "php": "^8.4",
+        "php": "^8.2",
         "phare/framework": "dev-main",
-        "symfony/console": "^7.3",
-        "chronos/chronos-ext": "dev-main",
-        "sqids/sqids-ext": "dev-main"
+        "symfony/console": "^7.3"
     },
     "autoload": {
         "psr-4": {
@@ -63,8 +47,7 @@
     "require-dev": {
         "laravel/pint": "^1.22",
         "mockery/mockery": "^1.6",
-        "pestphp/pest": "^3.8",
-        "pestphp/pest-plugin-faker": "^3.0",
+        "pestphp/pest": "^2.36",
         "roave/security-advisories": "dev-latest"
     }
 }
