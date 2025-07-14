@@ -78,12 +78,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daaquan/framework.git",
-                "reference": "e51b9077aba757ad165f97edd60f870485b05327"
+                "reference": "de8526c1da23f323d9e41c2c1c302aa70cf50287"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daaquan/framework/zipball/e51b9077aba757ad165f97edd60f870485b05327",
-                "reference": "e51b9077aba757ad165f97edd60f870485b05327",
+                "url": "https://api.github.com/repos/daaquan/framework/zipball/de8526c1da23f323d9e41c2c1c302aa70cf50287",
+                "reference": "de8526c1da23f323d9e41c2c1c302aa70cf50287",
                 "shasum": ""
             },
             "require": {
@@ -143,7 +143,7 @@
                 "issues": "https://github.com/phareframework/framework/issues",
                 "source": "https://github.com/phareframework/framework"
             },
-            "time": "2025-07-11T16:18:53+00:00"
+            "time": "2025-07-14T12:50:42+00:00"
         },
         {
             "name": "psr/container",
