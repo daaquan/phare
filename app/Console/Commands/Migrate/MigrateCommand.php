@@ -20,18 +20,8 @@ class MigrateCommand extends \Phare\Console\Command
             $database = basename($directory);
             $config = config("database.connections.{$database}");
 
-            if ($config->path('shards')) {
-                foreach ($config->path('shards') as $shardId => $shard) {
-                    $shardConfig = $shard->toArray();
-                    $shardConfig['driver'] = $config['driver'];
-                    $shardConfig['host'] = $shard['write'];
-                    $conn = $dbManager->getConnection($shardConfig, $shardId, 'write');
-                    $this->migrateDatabase($conn, "migrations/$database");
-                }
-            } else {
-                $conn = $dbManager->getConnection($config->toArray());
-                $this->migrateDatabase($conn, "migrations/$database");
-            }
+            $conn = $dbManager->getConnection($config->toArray());
+            $this->migrateDatabase($conn, "migrations/$database");
         }
 
         if ($this->migrations) {
