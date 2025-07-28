@@ -11,7 +11,7 @@ class IndexController extends Controller
     #[Route('index', name: 'index')]
     public function index()
     {
-        return response(['version' => 'Phalcon ' . new Version()->get(), 'message' => 'ok']);
+        return response(['version' => 'Phalcon ' . (new Version())->get(), 'message' => 'ok']);
     }
 
     #[Route('version', methods: ['POST'], name: 'version')]
