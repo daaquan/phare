@@ -1,7 +1,7 @@
 -- ユーザー情報テーブル
 CREATE TABLE `users`
 (
-    `id`                bigint unsigned NOT NULL,
+    `id`                bigint unsigned NOT NULL AUTO_INCREMENT,
     `name`              varchar(100) NOT NULL DEFAULT '',
     `email`             varchar(100) NOT NULL,
     `email_verified_at` datetime              DEFAULT NULL,
@@ -10,6 +10,5 @@ CREATE TABLE `users`
     `created_at`        datetime NULL DEFAULT NULL,
     `updated_at`        datetime NULL DEFAULT NULL,
     `deleted_at`        datetime NULL DEFAULT NULL,
-    PRIMARY KEY (`id`),
     UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
