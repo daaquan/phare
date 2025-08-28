@@ -5,7 +5,6 @@ namespace App\Models;
 use Phare\Auth\Authenticatable;
 use Phare\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Phare\Eloquent\Concerns\HasTimestamps;
-use Phare\Eloquent\Concerns\SoftDeletes;
 use Phare\Eloquent\Model;
 
 /**
@@ -17,13 +16,11 @@ use Phare\Eloquent\Model;
  * @property \DateTime $birthday
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
- * @property \DateTime $deleted_at
  */
 class User extends Model implements AuthenticatableContract
 {
     use Authenticatable;
     use HasTimestamps;
-    use SoftDeletes;
 
     protected ?string $table = 'users';
 

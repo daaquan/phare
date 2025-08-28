@@ -9,6 +9,5 @@ CREATE TABLE `users`
     `birthday`          date                  DEFAULT NULL,
     `created_at`        datetime NULL DEFAULT NULL,
     `updated_at`        datetime NULL DEFAULT NULL,
-    `deleted_at`        datetime NULL DEFAULT NULL,
     UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
