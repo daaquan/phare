@@ -15,7 +15,7 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": "~8.2.0",
+        "php": "^8.2",
         "phare/framework": "dev-main",
         "symfony/console": "^7.3"
     },
