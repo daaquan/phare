@@ -50,5 +50,8 @@
         "pestphp/pest": "^2.36",
         "pestphp/pest-plugin-faker": "^2.0",
         "roave/security-advisories": "dev-latest"
+    },
+    "scripts": {
+        "dev": ["Composer\\Config::disableProcessTimeout", "npm run dev", "php artisan serve", "php artisan queue:work"]
     }
 }
