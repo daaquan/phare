@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\Migrate\MigrateCommand::class,
         \App\Console\Commands\Creator\MakeMigrationCommand::class,
         \Phare\Console\Commands\QueueWorkCommand::class,
+        \App\Console\Commands\ServeCommand::class,
     ];
 
     /**
