@@ -13,6 +13,12 @@
         "issues": "https://github.com/daaquan/phare/issues",
         "source": "https://github.com/daaquan/phare"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/daaquan/framework.git"
+        }
+    ],
     "minimum-stability": "dev",
     "require": {
         "php": "^8.2",
