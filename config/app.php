@@ -172,6 +172,7 @@ return [
         \App\Providers\AssetsProvider::class,
 
         \App\Providers\AppServiceProvider::class,
+        \App\Providers\SqidsServiceProvider::class,
     ],
 
     /*
@@ -197,7 +198,7 @@ return [
         'Session' => \Phare\Support\Facades\Session::class,
         'DebugLogger' => \Phare\Support\Facades\DebugLogger::class,
         'Artisan' => \Phare\Support\Facades\Artisan::class,
-        //'ID' => \Phare\Support\Facades\Sqids::class,
+        'ID' => \Phare\Support\Facades\Sqids::class,
         //'Route' => \Phare\Support\Facades\Route::class,
     ],
 ];
