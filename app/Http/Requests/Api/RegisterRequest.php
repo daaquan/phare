@@ -9,7 +9,9 @@ class RegisterRequest extends Request
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|min:2',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
         ];
     }
 }

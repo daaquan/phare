@@ -28,7 +28,7 @@ class RegisterController extends Controller
         }
 
         try {
-            $user = $this->users->createUser($payload);
+            $user = $this->users->createUser($request->only(['name', 'email', 'password']));
         } catch (\Throwable $e) {
             return response(['message' => 'Unable to create user'], ResponseStatusCode::BAD_REQUEST);
         }

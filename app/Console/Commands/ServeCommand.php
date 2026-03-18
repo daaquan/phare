@@ -15,13 +15,20 @@ class ServeCommand extends Command
         $host = $this->option('host');
         $port = $this->option('port');
 
+        if (!filter_var($host, FILTER_VALIDATE_IP)) {
+            $this->error('Invalid host address.');
+
+            return self::FAILURE;
+        }
+
+        if (!filter_var($port, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 65535]])) {
+            $this->error('Invalid port number (1-65535).');
+
+            return self::FAILURE;
+        }
+
         $this->info("Starting server on http://{$host}:{$port}");
 
-        $command = "php -S {$host}:{$port} -t public";
-
-        $this->line("Command: {$command}");
-
-        // Execute the command
-        passthru($command);
+        passthru(sprintf('php -S %s:%d -t public', escapeshellarg($host), (int) $port));
     }
 }

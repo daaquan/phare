@@ -49,7 +49,7 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'sticky' => true, // Reuse the same connection within a request (needed to dodge replication lag)
-            'strict' => false, // Raise an error when INSERT/UPDATE contains invalid or missing values
+            'strict' => true, // Error out when INSERT/UPDATE carries invalid or missing values
             'engine' => 'InnoDB', // Storage engine used when creating tables
             'charset' => 'utf8mb4', // Character set used when creating tables
             'collation' => 'utf8mb4_bin', // Collation used when creating tables (binary comparison, case sensitive)
@@ -67,7 +67,7 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_bin',
             'prefix' => '',
-            'strict' => false,
+            'strict' => true,
             'engine' => null,
         ],
 

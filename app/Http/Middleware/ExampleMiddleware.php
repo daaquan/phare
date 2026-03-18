@@ -11,7 +11,7 @@ class ExampleMiddleware extends MiddlewareContract implements BeforeMiddleware
 {
     public function handle(RequestInterface $request, ResponseInterface $response)
     {
-        if ($request->getHeader('X-DEBUG-MODE')) {
+        if ($request->getHeader('X-DEBUG-MODE') && app()->environment('local', 'testing')) {
             $response->setHeader('REQUEST-START-TIME', APP_START);
         }
 

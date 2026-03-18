@@ -2,8 +2,8 @@
 
 // prevent double submit
 // https://stackoverflow.com/questions/2830542/prevent-double-submission-of-forms-in-jquery
-document.querySelectorAll('form').forEach(form => {
-  form.addEventListener('submit', event => {
+document.querySelectorAll("form").forEach((form) => {
+  form.addEventListener("submit", (event) => {
     const submitButton = form.querySelector('[type="submit"]');
     if (submitButton) {
       submitButton.disabled = true;
@@ -16,13 +16,6 @@ document.querySelectorAll('form').forEach(form => {
 if (window.history.replaceState) {
   window.history.replaceState(null, null, window.location.href);
 }
-
-// disable back button
-// https://stackoverflow.com/questions/12381563/how-to-stop-browser-back-button-using-javascript
-history.pushState(null, document.title, location.href);
-window.addEventListener('popstate', function (event) {
-  history.pushState(null, document.title, location.href);
-});
 
 // prevent closing window
 // https://stackoverflow.com/questions/821011/prevent-a-webpage-from-navigating-away-using-javascript

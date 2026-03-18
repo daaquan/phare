@@ -25,7 +25,6 @@ class User extends Model implements AuthenticatableContract
     protected ?string $table = 'users';
 
     protected array $fillable = [
-        'id',
         'name',
         'email',
         'email_verified_at',
