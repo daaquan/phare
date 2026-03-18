@@ -49,7 +49,7 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'sticky' => true, // 同じリクエスト内で同じコネクションを使い回すか(レプリケーションディレイの問題を回避するために必要)
-            'strict' => false, // 無効な値や欠けている値を含むデータをINSERT/UPDATEしようとするとエラーが発生する
+            'strict' => true, // 無効な値や欠けている値を含むデータをINSERT/UPDATEしようとするとエラーが発生する
             'engine' => 'InnoDB', // テーブル作成時に使用するストレージエンジン
             'charset' => 'utf8mb4', // テーブル作成時に使用する文字セット
             'collation' => 'utf8mb4_bin', // テーブル作成時に使用する照合順序(バイナリー比較で大文字小文字を区別する)
@@ -67,7 +67,7 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_bin',
             'prefix' => '',
-            'strict' => false,
+            'strict' => true,
             'engine' => null,
         ],
 

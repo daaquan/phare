@@ -55,7 +55,7 @@ return [
             'path' => storage_path('logs/app.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
-            'permission' => 0666,
+            'permission' => 0640,
         ],
 
         'stderr' => [

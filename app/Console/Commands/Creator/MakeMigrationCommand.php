@@ -59,6 +59,7 @@ class MakeMigrationCommand extends Command
 
     protected function createMigrationFile(string $database, string $name): string
     {
+        $name = preg_replace('/[^a-zA-Z0-9_]/', '', $name);
         $filename = date('Y_m_d_His') . '_' . $name;
         file_put_contents($this->getMigrationsDirectory($database) . "/{$filename}.sql", '');
 

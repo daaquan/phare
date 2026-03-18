@@ -20,7 +20,7 @@ class Kernel extends HttpKernel
 
     protected array $middlewareGroups = [
         'web' => [
-            //\App\Http\Middleware\EncryptCookies::class,
+            \App\Http\Middleware\EncryptCookies::class,
         ],
 
         'api' => [
@@ -30,6 +30,7 @@ class Kernel extends HttpKernel
 
     protected array $routeMiddleware = [
         'auth' => \Phare\Auth\Middleware\Authenticate::class,
+        'throttle' => \Phare\Middleware\ThrottleRequests::class,
     ];
 
     /**

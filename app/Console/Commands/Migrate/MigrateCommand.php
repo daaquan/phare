@@ -39,7 +39,10 @@ class MigrateCommand extends \Phare\Console\Command
         foreach (glob(\App::databasePath("$path/*.sql")) as $file) {
             $filename = basename($file, '.sql');
 
-            $exists = $conn->query("SELECT * FROM migrations WHERE migration = '{$filename}'");
+            $exists = $conn->query(
+                'SELECT * FROM migrations WHERE migration = ?',
+                [$filename]
+            );
             if ($exists->fetch()) {
                 continue;
             }
@@ -47,7 +50,10 @@ class MigrateCommand extends \Phare\Console\Command
             try {
                 $sqlContent = file_get_contents($file);
                 if ($conn->execute($sqlContent)) {
-                    $conn->execute("INSERT INTO migrations (migration, batch) VALUES ('{$filename}', 1)");
+                    $conn->execute(
+                        'INSERT INTO migrations (migration, batch) VALUES (?, 1)',
+                        [$filename]
+                    );
                 }
 
                 $time = number_format((microtime(true) - $start), 3);
