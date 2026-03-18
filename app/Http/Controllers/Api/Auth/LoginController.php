@@ -27,11 +27,11 @@ class LoginController extends Controller
             return response($request->getMessages(), ResponseStatusCode::BAD_REQUEST);
         }
 
-        if (!\Auth::attempt($requestData)) {
+        if (!\Auth::attempt($request->only(['id', 'password']))) {
             return response(['message' => 'Unauthorized'], ResponseStatusCode::BAD_UNAUTHORIZED);
         }
 
-        return response(['user_id' => \ID::encode(str_split(\Auth::user()->id))]);
+        return response(['user_id' => \ID::encode(\Auth::user()->id)]);
     }
 
     #[Route('logout', methods: ['POST'], name: 'logout')]

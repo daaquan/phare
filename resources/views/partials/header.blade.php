@@ -15,7 +15,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
       </svg>
-      <div role="combobox" aria-haspopup="listbox">
+      <div>
         @form(action=search method=post)
         @csrf
         @input(type="search" name="search" autocomplete="off" required placeholder=""
@@ -47,14 +47,14 @@
          max-h-[calc(100vh-10rem)] w-56 overflow-y-auto border border-white/5 shadow-2xl outline outline-1 outline-black/5">
       <ul class="menu menu-sm gap-1">
         <li>
-          <button><span
+          <a href="?lang=en"><span
                 class="badge badge-sm badge-outline !pl-1.5 !pr-1 pt-px font-mono !text-[.6rem] font-bold tracking-widest opacity-50">EN</span>
-            <span class="font-[sans-serif]">English</span></button>
+            <span class="font-[sans-serif]">English</span></a>
         </li>
         <li>
-          <button class="active"><span
+          <a href="?lang=ja" class="active"><span
                 class="badge badge-sm badge-outline !pl-1.5 !pr-1 pt-px font-mono !text-[.6rem] font-bold tracking-widest opacity-50">JA</span>
-            <span class="font-[sans-serif]">日本語</span></button>
+            <span class="font-[sans-serif]">日本語</span></a>
         </li>
       </ul>
     </div>

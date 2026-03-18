@@ -4,8 +4,6 @@
 
   <h1>@lang('pages.users.title')</h1>
 
-  <p>@yield('content')</p>
-
   <p>@lang('pages.users.description')</p>
 
   <div class="stats stats-vertical lg:stats-horizontal shadow">

@@ -10,6 +10,8 @@ use Phare\Http\Request;
 
 class LoginController extends Controller
 {
+    protected UserContract $user;
+
     public function onConstruct()
     {
         $this->user = app(UserContract::class);
