@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: winter;
+}
+@source "../../../resources/views";
+@import "@tabler/icons-webfont/dist/tabler-icons.min.css";
