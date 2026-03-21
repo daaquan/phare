@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ae076bd4445fdc8d47dd7969e1826bc",
+    "content-hash": "5becb485a6f7b3525f2b37bd77fb707f",
     "packages": [
         {
             "name": "pda/pheanstalk",
@@ -74,10 +74,16 @@
         {
             "name": "phare/framework",
             "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:daaquan/framework.git",
+                "reference": "0852de56de39a96e51cbbbea11e011733b46842d"
+            },
             "dist": {
-                "type": "path",
-                "url": "/opt/phare/framework",
-                "reference": "d08e0a9a0912136e6d0a5686bc74e982176d0579"
+                "type": "zip",
+                "url": "https://api.github.com/repos/daaquan/framework/zipball/0852de56de39a96e51cbbbea11e011733b46842d",
+                "reference": "0852de56de39a96e51cbbbea11e011733b46842d",
+                "shasum": ""
             },
             "require": {
                 "ext-bcmath": "*",
@@ -115,6 +121,7 @@
                 "ext-yaml:": "Required to use yaml serializer",
                 "pda/pheanstalk": "Required to use Beanstalkd queue"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -142,9 +149,7 @@
                 "issues": "https://github.com/phareframework/framework/issues",
                 "source": "https://github.com/phareframework/framework"
             },
-            "transport-options": {
-                "relative": false
-            }
+            "time": "2026-03-18T05:03:15+00:00"
         },
         {
             "name": "psr/container",
