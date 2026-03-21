@@ -6,7 +6,7 @@
 
   <p>@lang('pages.users.description')</p>
 
-  <div class="stats stats-vertical lg:stats-horizontal shadow">
+  <div class="stats bg-base-100 stats-vertical lg:stats-horizontal shadow">
 
     <div class="stat">
       <div class="stat-figure text-primary">
@@ -51,7 +51,7 @@
 
   <div class="my-10"></div>
 
-  <div role="tablist" class="tabs tabs-lifted text-nowrap">
+  <div role="tablist" class="tabs tabs-lift text-nowrap">
     <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="ユーザID"/>
     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6"></div>
 
@@ -59,7 +59,6 @@
     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
       <div class="overflow-x-auto">
         <table class="table m-0">
-          <!-- head -->
           <thead>
           <tr>
             <th></th>
@@ -69,21 +68,18 @@
           </tr>
           </thead>
           <tbody>
-          <!-- row 1 -->
           <tr>
             <th>1</th>
             <td>Cy Ganderton</td>
             <td>Quality Control Specialist</td>
             <td>Blue</td>
           </tr>
-          <!-- row 2 -->
           <tr>
             <th>2</th>
             <td>Hart Hagerty</td>
             <td>Desktop Support Technician</td>
             <td>Purple</td>
           </tr>
-          <!-- row 3 -->
           <tr>
             <th>3</th>
             <td>Brice Swyre</td>
