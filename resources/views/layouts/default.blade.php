@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,shrink-to-fit=no"/>
-  <meta http-equiv="content-security-policy" content="default-src 'self'; style-src 'self' cdn.jsdelivr.net 'unsafe-inline'; font-src 'self' cdn.jsdelivr.net; img-src 'self' data:;"/>
+  <meta http-equiv="content-security-policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' cdn.jsdelivr.net 'unsafe-inline'; font-src 'self' cdn.jsdelivr.net; img-src 'self' data:; connect-src 'self' cdn.jsdelivr.net;"/>
   <title>{{ $title }}</title>
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
