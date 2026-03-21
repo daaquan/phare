@@ -1,6 +1,6 @@
 <div class="flex flex-1 md:gap-1 lg:gap-2">
    <span class="tooltip tooltip-bottom before:text-xs before:content-[attr(data-tip)]" data-tip="Menu">
-      <label aria-label="Open menu" for="drawer" class="btn btn-square btn-ghost drawer-button lg:hidden ">
+      <label aria-label="Open menu" for="drawer" class="btn btn-square btn-ghost drawer-button lg:hidden">
          <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="none"
               viewBox="0 0 24 24" class="inline-block h-5 w-5 stroke-current md:h-6 md:w-6">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -19,7 +19,7 @@
         @form(action=search method=post)
         @csrf
         @input(type="search" name="search" autocomplete="off" required placeholder=""
-        class="input input-sm input-bordered rounded-md w-full pl-10 mt-5 max-w-xs")
+        class="input input-sm rounded-md w-full pl-10 mt-5 max-w-xs")
         @endform
       </div>
     </label>
@@ -52,7 +52,7 @@
             <span class="font-[sans-serif]">English</span></a>
         </li>
         <li>
-          <a href="?lang=ja" class="active"><span
+          <a href="?lang=ja" class="menu-active"><span
                 class="badge badge-sm badge-outline !pl-1.5 !pr-1 pt-px font-mono !text-[.6rem] font-bold tracking-widest opacity-50">JA</span>
             <span class="font-[sans-serif]">日本語</span></a>
         </li>
