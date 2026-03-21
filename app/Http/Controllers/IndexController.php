@@ -7,8 +7,15 @@ use Phare\Http\Request;
 
 class IndexController extends Controller
 {
-    #[Route('/', middlewares: ['auth'], name: 'index')]
-    public function index(Request $request)
+    #[Route('/', name: 'welcome')]
+    public function welcome(Request $request)
+    {
+        return view('welcome')
+            ->with('title', 'PHPファンへようこそ');
+    }
+
+    #[Route('/dashboard', middlewares: ['auth'], name: 'dashboard')]
+    public function dashboard(Request $request)
     {
         return view('dashboard')
             ->with('title', 'Dashboard');
