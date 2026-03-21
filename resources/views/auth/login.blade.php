@@ -21,27 +21,23 @@
       @form(action=login method=post)
       @csrf
 
-      <div>
-        <label for="email" class="label">
-          <span class="label-text">@lang('labels.frontend.auth.email')</span></label>
-        @input(type="email" name="email" required placeholder="mail@example.com" class="w-full input input-bordered")
-      </div>
-      <div>
-        <label for="password" class="label">
-          <span class="text-base label-text">@lang('labels.frontend.auth.password')</span></label>
-        @input(type="password" name="password" required placeholder="Enter your password" class="w-full input
-        input-bordered")
+      <fieldset class="fieldset mb-3">
+        <label class="fieldset-label" for="email">@lang('labels.frontend.auth.email')</label>
+        @input(type="email" name="email" required placeholder="mail@example.com" class="input w-full")
+      </fieldset>
+
+      <fieldset class="fieldset mb-3">
+        <label class="fieldset-label" for="password">@lang('labels.frontend.auth.password')</label>
+        @input(type="password" name="password" required placeholder="Enter your password" class="input w-full")
+      </fieldset>
+
+      <div class="flex items-center gap-2 mb-4">
+        @input(type="checkbox" name="remember_me" id="remember_me" class="checkbox checkbox-sm")
+        <label for="remember_me">@lang('labels.frontend.auth.remember_me')</label>
       </div>
 
-      <div class="flex">
-        <label for="remember_me" class="label form-check-label">
-          @input(type="checkbox" name="remember_me" id="remember_me" class="checkbox checkbox-sm")
-          <span class="label-text">@lang('labels.frontend.auth.remember_me')</span></label>
-      </div>
-
-      <div class="mt-2 text-center">
-        @button(type="submit" text="@lang('labels.frontend.auth.submit')" class="w-full bg-gray-600 text-white
-        hover:bg-gray-400")
+      <div class="text-center">
+        @button(type="submit" text="@lang('labels.frontend.auth.submit')" class="btn w-full bg-gray-600 text-white hover:bg-gray-400")
       </div>
 
       @endform
