@@ -3,11 +3,13 @@
 namespace App\Console\Commands\Migrate;
 
 use Phalcon\Db\Adapter\Pdo\AbstractPdo as PdoConnection;
+use Phalcon\Db\Enum;
+use Phare\Console\Command;
 use Phare\Database\MySql\DatabaseManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'migrate', description: 'Run the database migrations')]
-class MigrateCommand extends \Phare\Console\Command
+class MigrateCommand extends Command
 {
     private array $migrations = [];
 
@@ -35,15 +37,13 @@ class MigrateCommand extends \Phare\Console\Command
     {
         $this->createMigrationsTable($conn);
         $driver = $conn->getType();
-        $start = microtime(true);
 
         foreach (glob(\App::databasePath("$path/*.sql")) as $file) {
             $filename = basename($file, '.sql');
 
-            // Check if migration already ran
             $row = $conn->fetchOne(
                 'SELECT id FROM migrations WHERE migration = ?',
-                \Phalcon\Db\Enum::FETCH_ASSOC,
+                Enum::FETCH_ASSOC,
                 [$filename]
             );
 
@@ -51,36 +51,50 @@ class MigrateCommand extends \Phare\Console\Command
                 continue;
             }
 
+            $start = microtime(true);
+
             try {
                 $sqlContent = file_get_contents($file);
 
-                // Convert MySQL syntax to PostgreSQL when needed
-                if ($driver === 'pgsql' || $driver === 'postgresql') {
+                if ($this->isPostgres($driver)) {
                     $sqlContent = $this->convertMysqlToPostgres($sqlContent);
                 }
 
-                if ($conn->execute($sqlContent)) {
-                    $conn->execute(
-                        'INSERT INTO migrations (migration, batch) VALUES (?, 1)',
-                        [$filename]
-                    );
-                    $time = number_format((microtime(true) - $start), 3);
-                    $this->output->writeInfo("Migrated: {$filename} ({$time}ms)");
-                    $this->migrations[] = $filename;
+                $conn->begin();
+
+                if (!$conn->execute($sqlContent)) {
+                    throw new \RuntimeException('execute() returned false');
                 }
-            } catch (\Exception $e) {
+
+                $conn->execute(
+                    'INSERT INTO migrations (migration, batch) VALUES (?, 1)',
+                    [$filename]
+                );
+
+                $conn->commit();
+
+                $elapsedMs = number_format((microtime(true) - $start) * 1000, 3);
+                $this->output->writeInfo("Migrated: {$filename} ({$elapsedMs}ms)");
+                $this->migrations[] = $filename;
+            } catch (\Throwable $e) {
+                if ($conn->isUnderTransaction()) {
+                    $conn->rollback();
+                }
                 $this->output->writeError("Migration failed for {$filename}: " . $e->getMessage());
             }
-
-            $start = microtime(true);
         }
+    }
+
+    private function isPostgres(string $driver): bool
+    {
+        return $driver === 'pgsql' || $driver === 'postgresql';
     }
 
     private function createMigrationsTable(PdoConnection $conn): void
     {
         $driver = $conn->getType();
 
-        if ($driver === 'pgsql' || $driver === 'postgresql') {
+        if ($this->isPostgres($driver)) {
             $sql = 'CREATE TABLE IF NOT EXISTS migrations (
   id SERIAL PRIMARY KEY,
   migration VARCHAR(191) NOT NULL,
