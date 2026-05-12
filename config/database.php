@@ -41,8 +41,8 @@ return [
             'prefix' => '',
         ],
 
-        'db' => [
-            'driver' => env('DB_CONNECTION', 'mysql'),
+        'mysql' => [
+            'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'forge'),
@@ -53,7 +53,18 @@ return [
             'engine' => 'InnoDB', // テーブル作成時に使用するストレージエンジン
             'charset' => 'utf8mb4', // テーブル作成時に使用する文字セット
             'collation' => 'utf8mb4_bin', // テーブル作成時に使用する照合順序(バイナリー比較で大文字小文字を区別する)
-            //'collation' => 'utf8mb4_unicode_ci', // 大文字小文字を区別しない照合順序(パフォーマンスが比較的に悪い)
+            // 'collation' => 'utf8mb4_unicode_ci', // 大文字小文字を区別しない照合順序(パフォーマンスが比較的に悪い)
+        ],
+
+        'pgsql' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'sticky' => true,
+            'charset' => 'utf8',
         ],
 
         'mysql_test' => [
@@ -102,7 +113,7 @@ return [
             'clusters' => [
                 'default' => [
                     [
-                        //'scheme' => env('REDIS_SCHEME', 'tcp'),
+                        // 'scheme' => env('REDIS_SCHEME', 'tcp'),
                         'host' => env('REDIS_HOST', '127.0.0.1'),
                         'password' => env('REDIS_PASSWORD', null),
                         'port' => env('REDIS_PORT', 6379),
@@ -118,7 +129,7 @@ return [
                     'cluster' => 'redis',
                     'parameters' => ['password' => env('REDIS_PASSWORD', null)],
                 ],
-                //'ssl' => ['verify_peer' => false]
+                // 'ssl' => ['verify_peer' => false]
             ],
         ] : [
             'client' => 'predis',
