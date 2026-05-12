@@ -22,7 +22,7 @@ class UserRepository implements UserContract
     {
         $id = \ID::decode($publicId);
 
-        return User::findFirstById($id);
+        return User::findFirstById(is_array($id) ? implode('', $id) : $id);
     }
 
     public function createUser(array $data): User

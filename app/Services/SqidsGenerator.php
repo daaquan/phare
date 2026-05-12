@@ -18,9 +18,13 @@ class SqidsGenerator
         $this->base = strlen($alphabet);
     }
 
-    public function encode(int|string $number): string
+    public function encode(int|string|array $number): string
     {
-        $value = gmp_init((string) $number, 10);
+        if (is_array($number)) {
+            $number = implode('', $number);
+        }
+
+        $value = gmp_init((string)$number, 10);
 
         if (gmp_cmp($value, 0) < 0) {
             throw new \InvalidArgumentException('Number must be non-negative.');
@@ -39,10 +43,10 @@ class SqidsGenerator
         return $encoded;
     }
 
-    public function decode(string $id): string
+    public function decode(string $id): array
     {
         if ($id === '') {
-            return '0';
+            return ['0'];
         }
 
         $value = gmp_init(0, 10);
@@ -55,7 +59,7 @@ class SqidsGenerator
             $value = gmp_add(gmp_mul($value, $this->base), $position);
         }
 
-        return gmp_strval($value, 10);
+        return str_split(gmp_strval($value, 10));
     }
 
     private function divmod(\GMP $number): array
