@@ -30,6 +30,7 @@ LOGO;
 
     protected function configure(): void
     {
+        parent::configure();
         $this->setHelp('Show the brief information about the console app.');
     }
 }
