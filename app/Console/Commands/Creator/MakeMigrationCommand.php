@@ -11,6 +11,7 @@ class MakeMigrationCommand extends Command
 {
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument('database', InputArgument::REQUIRED, 'The database connection to use. ex: game')
             ->addArgument('name', InputArgument::REQUIRED, 'The migration file name to be created. ex: create_users_table');
