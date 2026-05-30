@@ -167,7 +167,7 @@ return [
         \Phare\Providers\QueueServiceProvider::class,
 
         \Phare\Providers\DebugWhoopsProvider::class,
-        \Phare\Providers\BladeViewProvider::class,
+        \Phare\View\ViewServiceProvider::class,
         \Phare\Providers\TranslateProvider::class,
         \App\Providers\AssetsProvider::class,
 
