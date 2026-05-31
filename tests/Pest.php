@@ -1,5 +1,8 @@
 <?php
 
+use Phare\Database\Schema\Blueprint;
+use Phare\Database\Schema\SchemaBuilder;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -14,6 +17,10 @@
 uses(Tests\TestCase::class)
     ->beforeEach(function () {
         $this->setUpApplication();
+
+        if (in_array('sqlite', PDO::getAvailableDrivers(), true)) {
+            migrateTestSchema($this->app);
+        }
 
         $this->post('/api/auth/logout');
     })
@@ -47,4 +54,39 @@ expect()->extend('toBeExactlyOne', function () {
 
 function something()
 {
+}
+
+/**
+ * Build a fresh sqlite schema for tests (RefreshDatabase-style). The app's
+ * migrations are MySQL .sql files, so the portable Schema builder is used
+ * to recreate the same tables on the in-test sqlite connection.
+ */
+function migrateTestSchema($app): void
+{
+    $connection = $app->make('db');
+    $schema = new SchemaBuilder($connection);
+
+    foreach (['posts', 'users'] as $table) {
+        if ($schema->hasTable($table)) {
+            $connection->execute('DROP TABLE ' . $table);
+        }
+    }
+
+    $schema->create('users', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->string('email')->unique();
+        $table->timestamp('email_verified_at')->nullable();
+        $table->string('password');
+        $table->date('birthday')->nullable();
+        $table->timestamps();
+    });
+
+    $schema->create('posts', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id');
+        $table->string('title');
+        $table->text('body')->nullable();
+        $table->timestamps();
+    });
 }

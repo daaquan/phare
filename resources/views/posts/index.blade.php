@@ -4,7 +4,7 @@
 
   <h1>{{ $title }}</h1>
 
-  @if (count($posts->items) > 0)
+  @if ($posts->total() > 0)
     <div class="overflow-x-auto">
       <table class="table m-0">
         <thead>
@@ -15,7 +15,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach ($posts->items as $post)
+        @foreach ($posts as $post)
           <tr>
             <th>{{ $post->id }}</th>
             <td>{{ $post->title }}</td>

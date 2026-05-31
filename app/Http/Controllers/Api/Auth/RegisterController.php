@@ -17,7 +17,7 @@ class RegisterController extends Controller
         $this->users = app(UserContract::class);
     }
 
-    #[Route('register', methods: ['POST'], middlewares: ['throttle:5,1'], name: 'register')]
+    #[Route('register', methods: ['POST'], middlewares: ['throttle'], name: 'register')]
     public function store()
     {
         $request = new RegisterRequest();
