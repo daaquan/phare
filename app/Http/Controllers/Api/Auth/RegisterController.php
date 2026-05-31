@@ -17,14 +17,14 @@ class RegisterController extends Controller
         $this->users = app(UserContract::class);
     }
 
-    #[Route('register', methods: ['POST'], name: 'register')]
+    #[Route('register', methods: ['POST'], middlewares: ['throttle:5,1'], name: 'register')]
     public function store()
     {
         $request = new RegisterRequest();
         $payload = $request->all();
 
         if (!$request->validate($payload)) {
-            return response($request->getMessages(), ResponseStatusCode::BAD_REQUEST);
+            return response($request->getMessages(), ResponseStatusCode::UNPROCESSABLE_ENTITY);
         }
 
         try {
@@ -34,7 +34,7 @@ class RegisterController extends Controller
         }
 
         return response([
-            'id' => $user->id,
+            'id' => \ID::encode($user->id),
             'name' => $user->name,
             'email' => $user->email,
         ]);

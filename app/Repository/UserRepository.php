@@ -20,9 +20,19 @@ class UserRepository implements UserContract
 
     public function getUserByPublicId(string $publicId): ?User
     {
-        $id = \ID::decode($publicId);
+        try {
+            $decoded = \ID::decode($publicId);
+        } catch (\InvalidArgumentException) {
+            return null;
+        }
 
-        return User::findFirstById(is_array($id) ? implode('', $id) : $id);
+        $id = is_array($decoded) ? implode('', $decoded) : (string)$decoded;
+
+        if ($id === '' || !ctype_digit($id) || $id === '0') {
+            return null;
+        }
+
+        return User::findFirstById($id);
     }
 
     public function createUser(array $data): User
