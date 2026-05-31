@@ -17,17 +17,17 @@ class LoginController extends Controller
         $this->user = app(UserContract::class);
     }
 
-    #[Route('login', methods: ['POST'], name: 'store')]
+    #[Route('login', methods: ['POST'], middlewares: ['throttle:5,1'], name: 'store')]
     public function store()
     {
         $request = new LoginRequest();
         $requestData = $request->all();
 
         if (!$request->validate($requestData)) {
-            return response($request->getMessages(), ResponseStatusCode::BAD_REQUEST);
+            return response($request->getMessages(), ResponseStatusCode::UNPROCESSABLE_ENTITY);
         }
 
-        if (!\Auth::attempt($request->only(['id', 'password']))) {
+        if (!\Auth::attempt($request->only(['email', 'password']))) {
             return response(['message' => 'Unauthorized'], ResponseStatusCode::BAD_UNAUTHORIZED);
         }
 
