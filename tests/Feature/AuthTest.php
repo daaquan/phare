@@ -1,5 +1,7 @@
 <?php
 
+$requiresDatabase = !in_array('sqlite', PDO::getAvailableDrivers(), true);
+
 dataset('user', [
     [[
         'name' => \Pest\Faker\fake()->name(),
@@ -14,11 +16,11 @@ test('test register api success response create user', function ($user) {
     $this->post('/api/auth/register', $user)
         ->assertOk()
         ->assertSee($user['email']);
-})->with('user');
+})->with('user')->skip($requiresDatabase, 'sqlite PDO driver unavailable');
 
 test('test register api response validation error')
     ->post('/api/auth/register')
-    ->assertStatus(400)
+    ->assertStatus(422)
     ->assertSee('Field name is required');
 
 test('test login api success response user login', function ($user) {
@@ -27,19 +29,20 @@ test('test login api success response user login', function ($user) {
         ->createUser($user);
 
     $response = $this->post('/api/auth/login', [
-        'id' => $created['id'],
+        'email' => $user['email'],
         'password' => $user['password'],
     ]);
 
     $response->assertOk()->assertSee(ID::encode($created['id']));
-})->with('user');
+})->with('user')->skip($requiresDatabase, 'sqlite PDO driver unavailable');
 
-test('test login api response with string id input')
-    ->post('/api/auth/login', ['id' => 1, 'password' => 'incorrect password'])
+test('test login api response with wrong credentials')
+    ->skip($requiresDatabase, 'sqlite PDO driver unavailable')
+    ->post('/api/auth/login', ['email' => 'nobody@example.com', 'password' => 'incorrect password'])
     ->assertStatus(401)
     ->assertSee('Unauthorized');
 
 test('test login api response without password input')
-    ->post('/api/auth/login')
-    ->assertStatus(400)
+    ->post('/api/auth/login', ['email' => 'someone@example.com'])
+    ->assertStatus(422)
     ->assertSee('Field password is required');
