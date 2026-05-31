@@ -44,4 +44,12 @@ class User extends Model implements AuthenticatableContract
         'email_verified_at' => 'datetime',
         'birthday' => 'date',
     ];
+
+    /**
+     * A user has many posts.
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }
