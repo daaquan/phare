@@ -44,4 +44,12 @@ class User extends Model implements AuthenticatableContract
         'email_verified_at' => 'datetime',
         'birthday' => 'date',
     ];
+
+    /**
+     * ユーザーは複数の投稿を持つ。
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }
