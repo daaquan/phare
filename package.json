@@ -23,7 +23,7 @@
     "sass": "^1.69.7",
     "sass-loader": "^16.0.5",
     "tailwindcss": "^4.2.2",
-    "webpack": "^5.101.3",
+    "webpack": "5.101.3",
     "webpack-cli": "^5.1.4"
   }
 }
