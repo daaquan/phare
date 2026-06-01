@@ -14,7 +14,7 @@
 
 
   @cssbox
-  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
   <style> body { visibility: hidden; } </style>
   <noscript><style> body { visibility: visible; } </style></noscript>
 </head>
@@ -37,7 +37,7 @@
 
 @include('partials.flash-messages')
 
-<script type="application/javascript" src="{{ asset('js/app.js') }}"></script>
+<script type="application/javascript" src="{{ asset('assets/js/app.js') }}"></script>
 @jsbox
 
 <script>
