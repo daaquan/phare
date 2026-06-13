@@ -23,7 +23,7 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    #[Route('login', methods: ['POST'], name: 'store')]
+    #[Route('login', methods: ['POST'], middlewares: ['throttle'], name: 'store')]
     public function store(LoginRequest $request)
     {
         $formData = $request->only(['email', 'password']);
@@ -47,5 +47,13 @@ class LoginController extends Controller
         $this->flashSession->error(__('auth.failed'));
 
         return redirect(route('login'));
+    }
+
+    #[Route('logout', methods: ['POST'], name: 'logout')]
+    public function logout()
+    {
+        \Auth::logout();
+
+        return redirect(route('welcome'));
     }
 }
