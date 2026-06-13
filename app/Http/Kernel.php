@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
     protected array $middlewareGroups = [
         'web' => [
             //\App\Http\Middleware\EncryptCookies::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
         'api' => [

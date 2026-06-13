@@ -18,14 +18,14 @@ class PostController extends Controller
         $perPage = 10;
         $page = max(1, (int)$request->getQuery('page', 'int', 1));
 
-        $all = [];
-        foreach (Post::query()->orderByDesc('id')->get() as $post) {
-            $all[] = $post;
+        $total = (int)Post::count();
+
+        $items = [];
+        foreach (Post::query()->orderByDesc('id')->forPage($page, $perPage)->get() as $post) {
+            $items[] = $post;
         }
 
-        $items = array_slice($all, ($page - 1) * $perPage, $perPage);
-
-        $posts = new LengthAwarePaginator($items, count($all), $perPage, $page, ['path' => '/posts']);
+        $posts = new LengthAwarePaginator($items, $total, $perPage, $page, ['path' => '/posts']);
 
         return view('posts/index')
             ->with('title', '投稿一覧')

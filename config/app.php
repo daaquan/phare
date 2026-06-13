@@ -169,7 +169,6 @@ return [
         \Phare\Providers\DebugWhoopsProvider::class,
         \Phare\View\ViewServiceProvider::class,
         \Phare\Providers\TranslateProvider::class,
-        \App\Providers\AssetsProvider::class,
 
         \App\Providers\AppServiceProvider::class,
         \App\Providers\SqidsServiceProvider::class,
