@@ -5,7 +5,7 @@ $requiresDatabase = !in_array('sqlite', PDO::getAvailableDrivers(), true);
 dataset('user', [
     [[
         'name' => \Pest\Faker\fake()->name(),
-        'password' => 'secret',
+        'password' => 'secret123',
         'email_verified_at' => \Pest\Faker\fake()->dateTime()->format('Y-m-d H:i:s'),
     ]],
 ]);

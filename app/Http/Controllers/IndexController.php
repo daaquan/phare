@@ -11,7 +11,7 @@ class IndexController extends Controller
     public function welcome(Request $request)
     {
         return view('welcome')
-            ->with('title', 'Welcome to PHP Fans');
+            ->with('title', __('welcome.title'));
     }
 
     #[Route('/dashboard', middlewares: ['auth'], name: 'dashboard')]

@@ -42,7 +42,7 @@ php artisan queue:work
 - **Bootstrap**: `bootstrap/app.php` creates `Phare\Foundation\Web` instance, binds HTTP kernel, console kernel, and exception handler
 - **Service Providers**: Registered in `config/app.php` `providers` array. Framework providers (`Phare\Providers\*`) load first, then app providers (`App\Providers\*`)
 - **Facades/Aliases**: Defined in `config/app.php` `aliases` — maps short names like `DB`, `Auth`, `Log` to `Phare\Support\Facades\*`
-- **Routing**: Attribute-based (`#[Route]`, `#[RoutePrefix]`) on controllers, plus file-based routes in `routes/api.php` and `routes/callbacks.php`
+- **Routing**: Attribute-based (`#[Route]`, `#[RoutePrefix]`) on controllers by default (controllers scanned under `app/Http/Controllers`). HTTP method + sub-namespace determine the URI/middleware group (`Api\` → `/api`, `Auth\` → `/auth`). Alternatively, set `app.route_loader = 'file'` to load file-based routes from `routes/` (e.g. `routes/callbacks.php`) instead — the two loaders are mutually exclusive.
 - **Repository Pattern**: `App\Contracts\Repository\*` interfaces with `App\Repository\*` implementations
 - **ORM**: Phalcon-based but with Eloquent-like API (`Phare\Eloquent\Model`). Models define `$connection`, `$table`, `$fillable`, `$hidden`, `$casts`
 - **Controllers split**: `Http/Controllers/Api/` (JSON API) and `Http/Controllers/Auth/` + `Http/Controllers/` (web/Blade views)
