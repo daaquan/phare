@@ -66,7 +66,7 @@ function migrateTestSchema($app): void
     $connection = $app->make('db');
     $schema = new SchemaBuilder($connection);
 
-    foreach (['posts', 'users'] as $table) {
+    foreach (['posts', 'users', 'password_reset_tokens'] as $table) {
         if ($schema->hasTable($table)) {
             $connection->execute('DROP TABLE ' . $table);
         }
@@ -88,5 +88,11 @@ function migrateTestSchema($app): void
         $table->string('title');
         $table->text('body')->nullable();
         $table->timestamps();
+    });
+
+    $schema->create('password_reset_tokens', function (Blueprint $table) {
+        $table->string('email')->primary();
+        $table->string('token');
+        $table->timestamp('created_at')->nullable();
     });
 }

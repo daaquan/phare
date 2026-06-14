@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Phare\Auth\Authenticatable;
 use Phare\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Phare\Contracts\Auth\CanResetPassword;
 use Phare\Eloquent\Concerns\HasTimestamps;
 use Phare\Eloquent\Model;
 
@@ -17,7 +18,7 @@ use Phare\Eloquent\Model;
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
  */
-class User extends Model implements AuthenticatableContract
+class User extends Model implements AuthenticatableContract, CanResetPassword
 {
     use Authenticatable;
     use HasTimestamps;
@@ -51,5 +52,35 @@ class User extends Model implements AuthenticatableContract
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function getEmailForPasswordReset(): string
+    {
+        return (string)$this->email;
+    }
+
+    /**
+     * メール認証が済んでいるか。
+     */
+    public function hasVerifiedEmail(): bool
+    {
+        return $this->email_verified_at !== null;
+    }
+
+    /**
+     * メール認証済みとして記録する。
+     */
+    public function markEmailAsVerified(): void
+    {
+        $this->email_verified_at = date('Y-m-d H:i:s');
+        $this->save();
+    }
+
+    /**
+     * メール認証リンクに埋め込むハッシュ（Laravel 互換: sha1(email)）。
+     */
+    public function verificationHash(): string
+    {
+        return sha1((string)$this->email);
     }
 }
