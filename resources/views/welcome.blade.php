@@ -40,35 +40,21 @@
                     </div>
                 </a>
 
-                <a href="https://laracasts.com" class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-gray-900/5 transition duration-300 hover:ring-gray-900/20 focus:outline-none focus-visible:ring-red-500 md:row-span-3 lg:p-10 lg:pb-10">
+                <a href="https://phalcon.io" class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-gray-900/5 transition duration-300 hover:ring-gray-900/20 focus:outline-none focus-visible:ring-red-500 md:row-span-3 lg:p-10 lg:pb-10">
                     <div class="relative flex items-center gap-4 lg:gap-8">
                         <div class="flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 shrink-0">
                             <svg class="h-8 w-8 stroke-red-500 transition group-hover:rotate-[-4deg] group-hover:stroke-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-gray-900">{{ __('welcome.cards.laracasts.title') }}</h3>
-                            <p class="mt-2 text-sm text-gray-600">{{ __('welcome.cards.laracasts.description') }}</p>
+                            <h3 class="text-lg font-semibold text-gray-900">{{ __('welcome.cards.phalcon.title') }}</h3>
+                            <p class="mt-2 text-sm text-gray-600">{{ __('welcome.cards.phalcon.description') }}</p>
                         </div>
                     </div>
                 </a>
 
-                <a href="https://laravel-news.com" class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-gray-900/5 transition duration-300 hover:ring-gray-900/20 focus:outline-none focus-visible:ring-red-500 md:row-span-3 lg:p-10 lg:pb-10">
-                    <div class="relative flex items-center gap-4 lg:gap-8">
-                        <div class="flex h-16 w-16 items-center justify-center rounded-full bg-orange-500/10 shrink-0">
-                            <svg class="h-8 w-8 stroke-orange-500 transition group-hover:rotate-[-4deg] group-hover:stroke-orange-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-gray-900">{{ __('welcome.cards.news.title') }}</h3>
-                            <p class="mt-2 text-sm text-gray-600">{{ __('welcome.cards.news.description') }}</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="https://github.com/laravel/laravel" class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-gray-900/5 transition duration-300 hover:ring-gray-900/20 focus:outline-none focus-visible:ring-red-500 md:row-span-3 lg:p-10 lg:pb-10">
+                <a href="https://github.com/daaquan/framework" class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-gray-900/5 transition duration-300 hover:ring-gray-900/20 focus:outline-none focus-visible:ring-red-500 md:row-span-3 lg:p-10 lg:pb-10">
                     <div class="relative flex items-center gap-4 lg:gap-8">
                         <div class="flex h-16 w-16 items-center justify-center rounded-full bg-gray-900/10 shrink-0">
                             <svg class="h-8 w-8 stroke-gray-900 transition group-hover:rotate-[-4deg] group-hover:stroke-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
