@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\LoginRequest;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
+use Phare\Support\Facades\Inertia;
 
 class LoginController extends Controller
 {
@@ -20,7 +21,15 @@ class LoginController extends Controller
     #[Route('login', name: 'login')]
     public function index(Request $request)
     {
-        return view('auth.login');
+        return Inertia::render('auth/Login', [
+            'strings' => [
+                'title' => __('labels.frontend.auth.login_box_title'),
+                'email' => __('labels.frontend.auth.email'),
+                'password' => __('labels.frontend.auth.password'),
+                'remember' => __('labels.frontend.auth.remember_me'),
+                'submit' => __('labels.frontend.auth.submit'),
+            ],
+        ]);
     }
 
     #[Route('login', methods: ['POST'], middlewares: ['throttle'], name: 'store')]
