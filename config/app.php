@@ -168,6 +168,7 @@ return [
 
         \Phare\Providers\DebugWhoopsProvider::class,
         \Phare\View\ViewServiceProvider::class,
+        \Phare\Inertia\InertiaServiceProvider::class,
         \Phare\Providers\TranslateProvider::class,
 
         \App\Providers\AppServiceProvider::class,
@@ -198,6 +199,7 @@ return [
         'DebugLogger' => \Phare\Support\Facades\DebugLogger::class,
         'Artisan' => \Phare\Support\Facades\Artisan::class,
         'ID' => \Phare\Support\Facades\Sqids::class,
+        'Inertia' => \Phare\Support\Facades\Inertia::class,
         //'Route' => \Phare\Support\Facades\Route::class,
     ],
 ];
