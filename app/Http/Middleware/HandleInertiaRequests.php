@@ -27,9 +27,7 @@ class HandleInertiaRequests extends MiddlewareContract implements BeforeMiddlewa
 
         Inertia::share('auth', ['user' => $this->resolveUser()]);
         Inertia::share('flash', $this->resolveFlash());
-        // Always present so the client `errors` prop is a stable map;
-        // field-level errors arrive with form requests.
-        Inertia::share('errors', (object)[]);
+        Inertia::share('errors', $this->resolveErrors());
 
         return $next();
     }
@@ -49,6 +47,7 @@ class HandleInertiaRequests extends MiddlewareContract implements BeforeMiddlewa
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            'email_verified' => method_exists($user, 'hasVerifiedEmail') && $user->hasVerifiedEmail(),
         ];
     }
 
@@ -72,6 +71,23 @@ class HandleInertiaRequests extends MiddlewareContract implements BeforeMiddlewa
         }
 
         return $flash;
+    }
+
+    /**
+     * Validation errors flashed to the session by controllers, consumed once.
+     */
+    protected function resolveErrors(): object
+    {
+        $session = app('session');
+
+        if ($session !== null && $session->has('errors')) {
+            $errors = (array)$session->get('errors');
+            $session->remove('errors');
+
+            return (object)$errors;
+        }
+
+        return (object)[];
     }
 
     protected function assetVersion(): ?string
