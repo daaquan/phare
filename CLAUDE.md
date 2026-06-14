@@ -25,9 +25,9 @@ php artisan serve
 ./vendor/bin/pint
 ./vendor/bin/pint --test                             # check without fixing
 
-# Frontend assets (Laravel Mix + Tailwind + DaisyUI)
-npm run dev
-npm run prod
+# Frontend assets (Vite + React + Inertia + shadcn/ui + Tailwind v4)
+npm run dev        # Vite dev server (HMR; writes public/hot)
+npm run build      # production build (writes public/build + manifest.json)
 
 # Artisan commands
 php artisan migrate
@@ -45,8 +45,19 @@ php artisan queue:work
 - **Routing**: Attribute-based (`#[Route]`, `#[RoutePrefix]`) on controllers by default (controllers scanned under `app/Http/Controllers`). HTTP method + sub-namespace determine the URI/middleware group (`Api\` → `/api`, `Auth\` → `/auth`). Alternatively, set `app.route_loader = 'file'` to load file-based routes from `routes/` (e.g. `routes/callbacks.php`) instead — the two loaders are mutually exclusive.
 - **Repository Pattern**: `App\Contracts\Repository\*` interfaces with `App\Repository\*` implementations
 - **ORM**: Phalcon-based but with Eloquent-like API (`Phare\Eloquent\Model`). Models define `$connection`, `$table`, `$fillable`, `$hidden`, `$casts`
-- **Controllers split**: `Http/Controllers/Api/` (JSON API) and `Http/Controllers/Auth/` + `Http/Controllers/` (web/Blade views)
+- **Controllers split**: `Http/Controllers/Api/` (JSON API) and `Http/Controllers/Auth/`, `Http/Controllers/Settings/` + `Http/Controllers/` (web — render Inertia pages via `Inertia::render('Component', $props)`)
 - **Request validation**: Separate request classes in `Http/Requests/Api/` and `Http/Requests/Web/`
+
+## Frontend (Inertia + React + shadcn/ui)
+
+- **Stack**: Vite (`laravel-vite-plugin` + `@vitejs/plugin-react` + `@tailwindcss/vite`), React 19, `@inertiajs/react`, TypeScript, shadcn/ui (new-york), Tailwind v4 (CSS-first, no `tailwind.config.js`). **No Laravel Mix, no DaisyUI, no Blade page views.**
+- **Server adapter**: `Phare\Inertia` (framework). Controllers return `Inertia::render(...)`; a `dispatch:afterExecuteRoute` bridge renders it to the response. `@vite` / `@viteReactRefresh` / `@inertia` Blade directives live in the framework.
+- **Root view**: `resources/views/app.blade.php` is the ONLY Blade file — `@vite(['resources/css/app.css','resources/js/app.tsx'])` + `@inertia`. Everything else is React.
+- **JS layout**: `resources/js/` — `app.tsx` (createInertiaApp, resolves `pages/**/*.tsx`), `pages/`, `layouts/` (AppLayout sidebar, GuestLayout, SettingsLayout), `components/ui/` (shadcn), `lib/utils.ts` (`cn`), `hooks/`, `types/`. Path alias `@/*` → `resources/js/*`.
+- **Shared props**: `App\Http\Middleware\HandleInertiaRequests` shares `auth.user`, `flash`, and validation `errors` (controllers flash field errors to the session via `Controller::backWithErrors`). Theme tokens (`.dark`) ship in `app.css`; the appearance toggle is client-side (`useAppearance` + a pre-paint script in `app.blade.php`).
+- **Auth**: full set — login, register, forgot/reset password (`PasswordBroker` + `log` mailer), email verification (hard `verified` gate, `sha1(email)` hash), settings (`/settings/{profile,password,appearance}`). `guest`/`verified` route middleware in `App\Http\Kernel`.
+- **Build gotcha**: rebuild (`npm run dev` / `npm run build`) after editing pages/components; Tailwind v4 JIT only emits classes seen in `@source` (`resources/js`, `resources/views`) at build time.
+- **Caveat**: route middleware (`auth`/`guest`/`verified`) run via Phalcon `application:beforeHandleRequest` events in production but are a no-op in the Pest test harness, so feature tests assert the rendered Inertia component, not redirects. DB-write flows segfault under the sqlite test driver (pre-existing Phalcon ORM issue) and are skipped.
 
 ## Key Configuration
 
