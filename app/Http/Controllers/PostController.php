@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
-use Phare\Pagination\LengthAwarePaginator;
+use Phare\Support\Facades\Inertia;
 
 class PostController extends Controller
 {
@@ -22,13 +22,20 @@ class PostController extends Controller
 
         $items = [];
         foreach (Post::query()->orderByDesc('id')->forPage($page, $perPage)->get() as $post) {
-            $items[] = $post;
+            $items[] = [
+                'id' => $post->id,
+                'title' => $post->title,
+                'author' => $post->user?->name ?? '—',
+            ];
         }
 
-        $posts = new LengthAwarePaginator($items, $total, $perPage, $page, ['path' => '/posts']);
-
-        return view('posts/index')
-            ->with('title', '投稿一覧')
-            ->with('posts', $posts);
+        return Inertia::render('Posts/Index', [
+            'title' => '投稿一覧',
+            'posts' => [
+                'data' => $items,
+                'current_page' => $page,
+                'last_page' => max(1, (int)ceil($total / $perPage)),
+            ],
+        ]);
     }
 }
