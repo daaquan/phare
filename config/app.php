@@ -169,6 +169,7 @@ return [
         \Phare\Providers\DebugWhoopsProvider::class,
         \Phare\View\ViewServiceProvider::class,
         \Phare\Inertia\InertiaServiceProvider::class,
+        \Phare\Mail\MailServiceProvider::class,
         \Phare\Providers\TranslateProvider::class,
 
         \App\Providers\AppServiceProvider::class,

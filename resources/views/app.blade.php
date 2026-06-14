@@ -11,6 +11,15 @@
 
   <title inertia>{{ config('app.name', 'Phare') }}</title>
 
+  {{-- Apply the stored theme before first paint to avoid a flash. --}}
+  <script>
+    (function () {
+      var a = localStorage.getItem('appearance') || 'system';
+      var dark = a === 'dark' || (a === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.toggle('dark', dark);
+    })();
+  </script>
+
   @viteReactRefresh
   @vite(['resources/css/app.css', 'resources/js/app.tsx'])
   @inertiaHead

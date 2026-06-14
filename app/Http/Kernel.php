@@ -33,6 +33,8 @@ class Kernel extends HttpKernel
     protected array $routeMiddleware = [
         'auth' => \Phare\Auth\Middleware\Authenticate::class,
         'throttle' => \Phare\Middleware\ThrottleRequests::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
     ];
 
     /**
