@@ -22,6 +22,7 @@ class Kernel extends HttpKernel
         'web' => [
             //\App\Http\Middleware\EncryptCookies::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\HandleInertiaRequests::class,
         ],
 
         'api' => [

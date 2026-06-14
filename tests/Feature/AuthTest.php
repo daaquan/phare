@@ -1,5 +1,7 @@
 <?php
 
+use App\Repository\UserRepository;
+
 $requiresDatabase = !in_array('sqlite', PDO::getAvailableDrivers(), true);
 
 dataset('user', [
@@ -25,7 +27,7 @@ test('test register api response validation error')
 
 test('test login api success response user login', function ($user) {
     $user['email'] = \Pest\Faker\fake()->email();
-    $created = (new \App\Repository\UserRepository())
+    $created = (new UserRepository())
         ->createUser($user);
 
     $response = $this->post('/api/auth/login', [
