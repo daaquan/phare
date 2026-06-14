@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Contracts\Repository\UserContract;
+use App\Http\Controllers\Concerns\SendsAuthEmails;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\RegisterRequest;
+use Phare\Attributes\Route;
+use Phare\Http\Request;
+use Phare\Support\Facades\Auth;
+use Phare\Support\Facades\Inertia;
+
+class RegisterController extends Controller
+{
+    use SendsAuthEmails;
+
+    protected UserContract $users;
+
+    public function onConstruct(): void
+    {
+        $this->users = app(UserContract::class);
+    }
+
+    #[Route('register', middlewares: ['guest'], name: 'register')]
+    public function create(Request $request)
+    {
+        return Inertia::render('auth/Register');
+    }
+
+    #[Route('register', methods: ['POST'], middlewares: ['guest', 'throttle'], name: 'register.store')]
+    public function store()
+    {
+        $request = new RegisterRequest();
+        $data = $request->all();
+
+        if (!$request->validate($data)) {
+            return $this->backWithErrors($request, '/auth/register');
+        }
+
+        if (($data['password'] ?? null) !== ($data['password_confirmation'] ?? null)) {
+            $this->session->set('errors', ['password' => 'パスワードが一致しません。']);
+
+            return $this->response->redirect('/auth/register');
+        }
+
+        try {
+            $user = $this->users->createUser($request->only(['name', 'email', 'password']));
+        } catch (\Throwable $e) {
+            $this->session->set('errors', ['email' => 'このメールアドレスは既に使用されています。']);
+
+            return $this->response->redirect('/auth/register');
+        }
+
+        $this->sendVerificationEmail($user);
+        Auth::login($user);
+
+        return $this->response->redirect('/auth/verify-email');
+    }
+}
