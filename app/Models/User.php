@@ -31,10 +31,15 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         'email_verified_at',
         'password',
         'birthday',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'two_factor_confirmed_at',
     ];
 
     protected array $hidden = [
         'password',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
     ];
 
     protected array $passwordAttributes = [
@@ -44,6 +49,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     protected array $casts = [
         'email_verified_at' => 'datetime',
         'birthday' => 'date',
+        'two_factor_confirmed_at' => 'datetime',
     ];
 
     /**
@@ -82,5 +88,65 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     public function verificationHash(): string
     {
         return sha1((string)$this->email);
+    }
+
+    /**
+     * 二段階認証が有効化（確認済み）か。
+     */
+    public function hasTwoFactorEnabled(): bool
+    {
+        return $this->two_factor_secret !== null
+            && $this->two_factor_confirmed_at !== null;
+    }
+
+    /**
+     * リカバリーコード一覧（未消費分）。
+     *
+     * @return array<int, string>
+     */
+    public function recoveryCodes(): array
+    {
+        if ($this->two_factor_recovery_codes === null) {
+            return [];
+        }
+
+        $codes = json_decode((string)$this->two_factor_recovery_codes, true);
+
+        return is_array($codes) ? array_values(array_map('strval', $codes)) : [];
+    }
+
+    /**
+     * 新しいリカバリーコード一式を生成して返す（保存はしない）。
+     *
+     * @return array<int, string>
+     */
+    public static function generateRecoveryCodes(int $count = 8): array
+    {
+        $codes = [];
+        for ($i = 0; $i < $count; $i++) {
+            $codes[] = strtoupper(bin2hex(random_bytes(5))); // 10桁の英数字
+        }
+
+        return $codes;
+    }
+
+    /**
+     * リカバリーコードを 1 つ消費する。成功すれば残りを保存して true。
+     */
+    public function consumeRecoveryCode(string $code): bool
+    {
+        $code = strtoupper(trim($code));
+        $codes = $this->recoveryCodes();
+
+        $index = array_search($code, $codes, true);
+        if ($index === false) {
+            return false;
+        }
+
+        unset($codes[$index]);
+        $this->two_factor_recovery_codes = json_encode(array_values($codes));
+        $this->save();
+
+        return true;
     }
 }

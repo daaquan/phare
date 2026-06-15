@@ -57,4 +57,28 @@ class ProfileController extends Controller
 
         return $this->response->redirect('/settings/profile');
     }
+
+    #[Route('profile', methods: ['DELETE'], middlewares: ['auth'], name: 'settings.profile.destroy')]
+    public function destroy(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user instanceof User) {
+            return $this->response->redirect('/user/login');
+        }
+
+        // Laravel parity: account deletion requires re-entering the password.
+        $password = (string)$request->get('password');
+        if (!Auth::attempt(['id' => $user->id, 'password' => $password])) {
+            $this->session->set('errors', ['password' => 'パスワードが正しくありません。']);
+
+            return $this->response->redirect('/settings/profile');
+        }
+
+        Auth::logout();
+        $user->delete();
+
+        $this->flashSession->success('アカウントを削除しました。');
+
+        return $this->response->redirect('/');
+    }
 }
