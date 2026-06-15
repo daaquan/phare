@@ -22,7 +22,7 @@ class PasswordController extends Controller
     {
         $user = Auth::user();
         if (!$user instanceof User) {
-            return $this->response->redirect('/auth/login');
+            return $this->response->redirect('/user/login');
         }
 
         $current = (string)$request->get('current_password');

@@ -29,7 +29,7 @@ test('welcome renders the Welcome Inertia component for guests', function () {
 });
 
 test('login renders the auth/Login Inertia component', function () {
-    $this->get('/auth/login', inertiaHeaders())
+    $this->get('/user/login', inertiaHeaders())
         ->assertOk()
         ->assertSee('"component":"auth\/Login"');
 });

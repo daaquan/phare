@@ -21,7 +21,7 @@ export default function Register() {
 
     const submit = (e: FormEvent) => {
         e.preventDefault();
-        post('/auth/register');
+        post('/user/register');
     };
 
     return (
@@ -80,7 +80,7 @@ export default function Register() {
                         <p className="text-center text-sm text-muted-foreground">
                             すでにアカウントをお持ちですか？{' '}
                             <Link
-                                href="/auth/login"
+                                href="/user/login"
                                 className="text-primary underline-offset-4 hover:underline"
                             >
                                 ログイン

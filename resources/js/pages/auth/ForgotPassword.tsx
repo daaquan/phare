@@ -14,7 +14,7 @@ export default function ForgotPassword() {
 
     const submit = (e: FormEvent) => {
         e.preventDefault();
-        post('/auth/forgot-password');
+        post('/user/forgot-password');
     };
 
     return (
@@ -60,7 +60,7 @@ export default function ForgotPassword() {
 
                         <p className="text-center text-sm">
                             <Link
-                                href="/auth/login"
+                                href="/user/login"
                                 className="text-primary underline-offset-4 hover:underline"
                             >
                                 ログインに戻る

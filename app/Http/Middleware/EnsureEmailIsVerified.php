@@ -19,7 +19,7 @@ class EnsureEmailIsVerified extends MiddlewareContract implements BeforeMiddlewa
         $user = Auth::user();
 
         if ($user !== null && method_exists($user, 'hasVerifiedEmail') && !$user->hasVerifiedEmail()) {
-            return app('response')->redirect('/auth/verify-email');
+            return app('response')->redirect('/user/verify-email');
         }
 
         return $next($request);

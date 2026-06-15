@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Concerns\SendsAuthEmails;
@@ -35,13 +35,13 @@ class RegisterController extends Controller
         $data = $request->all();
 
         if (!$request->validate($data)) {
-            return $this->backWithErrors($request, '/auth/register');
+            return $this->backWithErrors($request, '/user/register');
         }
 
         if (($data['password'] ?? null) !== ($data['password_confirmation'] ?? null)) {
             $this->session->set('errors', ['password' => 'パスワードが一致しません。']);
 
-            return $this->response->redirect('/auth/register');
+            return $this->response->redirect('/user/register');
         }
 
         try {
@@ -49,12 +49,12 @@ class RegisterController extends Controller
         } catch (\Throwable $e) {
             $this->session->set('errors', ['email' => 'このメールアドレスは既に使用されています。']);
 
-            return $this->response->redirect('/auth/register');
+            return $this->response->redirect('/user/register');
         }
 
         $this->sendVerificationEmail($user);
         Auth::login($user);
 
-        return $this->response->redirect('/auth/verify-email');
+        return $this->response->redirect('/user/verify-email');
     }
 }

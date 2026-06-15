@@ -12,7 +12,7 @@ export default function VerifyEmail() {
 
     const resend = (e: FormEvent) => {
         e.preventDefault();
-        post('/auth/email/verification-notification');
+        post('/user/email/verification-notification');
     };
 
     return (
@@ -40,7 +40,7 @@ export default function VerifyEmail() {
                         </form>
                         <Button
                             variant="ghost"
-                            onClick={() => router.post('/auth/logout')}
+                            onClick={() => router.post('/user/logout')}
                         >
                             ログアウト
                         </Button>
