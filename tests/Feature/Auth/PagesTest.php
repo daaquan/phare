@@ -61,3 +61,15 @@ test('settings appearance renders the Appearance component', function () {
         ->assertOk()
         ->assertSee('"component":"settings\/Appearance"');
 });
+
+test('confirm-password page renders the ConfirmPassword component', function () {
+    $this->get('/user/confirm-password', authInertiaHeaders())
+        ->assertOk()
+        ->assertSee('"component":"auth\/ConfirmPassword"');
+});
+
+test('settings two-factor renders the TwoFactor component', function () {
+    $this->get('/settings/two-factor', authInertiaHeaders())
+        ->assertOk()
+        ->assertSee('"component":"settings\/TwoFactor"');
+});

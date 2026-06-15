@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\LoginRequest;
+use App\Models\User;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Inertia;
@@ -50,6 +51,14 @@ class LoginController extends Controller
         ];
 
         if (\Auth::attempt($credentials)) {
+            // With two-factor enabled, hold the login until the code is confirmed.
+            if ($user instanceof User && $user->hasTwoFactorEnabled()) {
+                \Auth::logout();
+                $this->session->set('login.id', $user->id);
+
+                return redirect('/user/two-factor-challenge');
+            }
+
             return redirect('/');
         }
 

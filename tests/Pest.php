@@ -2,6 +2,7 @@
 
 use Phare\Database\Schema\Blueprint;
 use Phare\Database\Schema\SchemaBuilder;
+use Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,7 @@ use Phare\Database\Schema\SchemaBuilder;
 |
 */
 
-uses(Tests\TestCase::class)
+uses(TestCase::class)
     ->beforeEach(function () {
         $this->setUpApplication();
 
@@ -52,9 +53,7 @@ expect()->extend('toBeExactlyOne', function () {
 |
 */
 
-function something()
-{
-}
+function something() {}
 
 /**
  * Build a fresh sqlite schema for tests (RefreshDatabase-style). The app's

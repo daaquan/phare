@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 const tabs = [
     { label: 'Profile', href: '/settings/profile' },
     { label: 'Password', href: '/settings/password' },
+    { label: 'Two-factor authentication', href: '/settings/two-factor' },
     { label: 'Appearance', href: '/settings/appearance' },
 ];
 

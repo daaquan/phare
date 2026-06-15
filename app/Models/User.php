@@ -31,10 +31,15 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         'email_verified_at',
         'password',
         'birthday',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'two_factor_confirmed_at',
     ];
 
     protected array $hidden = [
         'password',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
     ];
 
     protected array $passwordAttributes = [
@@ -44,6 +49,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     protected array $casts = [
         'email_verified_at' => 'datetime',
         'birthday' => 'date',
+        'two_factor_confirmed_at' => 'datetime',
     ];
 
     /**
@@ -82,5 +88,65 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     public function verificationHash(): string
     {
         return sha1((string)$this->email);
+    }
+
+    /**
+     * Whether two-factor is enabled (i.e. confirmed).
+     */
+    public function hasTwoFactorEnabled(): bool
+    {
+        return $this->two_factor_secret !== null
+            && $this->two_factor_confirmed_at !== null;
+    }
+
+    /**
+     * The unused recovery codes.
+     *
+     * @return array<int, string>
+     */
+    public function recoveryCodes(): array
+    {
+        if ($this->two_factor_recovery_codes === null) {
+            return [];
+        }
+
+        $codes = json_decode((string)$this->two_factor_recovery_codes, true);
+
+        return is_array($codes) ? array_values(array_map('strval', $codes)) : [];
+    }
+
+    /**
+     * Generate and return a fresh set of recovery codes without persisting them.
+     *
+     * @return array<int, string>
+     */
+    public static function generateRecoveryCodes(int $count = 8): array
+    {
+        $codes = [];
+        for ($i = 0; $i < $count; $i++) {
+            $codes[] = strtoupper(bin2hex(random_bytes(5))); // 10 alphanumeric characters
+        }
+
+        return $codes;
+    }
+
+    /**
+     * Consume one recovery code. On success the remainder is saved and true returned.
+     */
+    public function consumeRecoveryCode(string $code): bool
+    {
+        $code = strtoupper(trim($code));
+        $codes = $this->recoveryCodes();
+
+        $index = array_search($code, $codes, true);
+        if ($index === false) {
+            return false;
+        }
+
+        unset($codes[$index]);
+        $this->two_factor_recovery_codes = json_encode(array_values($codes));
+        $this->save();
+
+        return true;
     }
 }
