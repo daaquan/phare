@@ -31,7 +31,7 @@ export default function Login({ strings }: LoginProps) {
 
     const submit = (e: FormEvent) => {
         e.preventDefault();
-        post('/auth/login');
+        post('/user/login');
     };
 
     return (

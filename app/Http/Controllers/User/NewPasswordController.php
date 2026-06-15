@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
@@ -38,27 +38,27 @@ class NewPasswordController extends Controller
         if (strlen($password) < 8) {
             $this->session->set('errors', ['password' => 'パスワードは8文字以上で入力してください。']);
 
-            return $this->response->redirect('/auth/reset-password/' . $token . '?email=' . urlencode($email));
+            return $this->response->redirect('/user/reset-password/' . $token . '?email=' . urlencode($email));
         }
 
         if ($password !== $confirmation) {
             $this->session->set('errors', ['password' => 'パスワードが一致しません。']);
 
-            return $this->response->redirect('/auth/reset-password/' . $token . '?email=' . urlencode($email));
+            return $this->response->redirect('/user/reset-password/' . $token . '?email=' . urlencode($email));
         }
 
         $broker = app('password.broker');
         if (!$broker->validateToken($email, $token)) {
             $this->session->set('errors', ['email' => '無効または期限切れのトークンです。']);
 
-            return $this->response->redirect('/auth/forgot-password');
+            return $this->response->redirect('/user/forgot-password');
         }
 
         $user = $this->users->getUserByEmail($email);
         if ($user === null) {
             $this->session->set('errors', ['email' => 'ユーザーが見つかりません。']);
 
-            return $this->response->redirect('/auth/forgot-password');
+            return $this->response->redirect('/user/forgot-password');
         }
 
         $user->password = $password;

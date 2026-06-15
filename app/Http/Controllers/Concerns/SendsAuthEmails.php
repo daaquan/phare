@@ -14,7 +14,7 @@ trait SendsAuthEmails
     protected function sendVerificationEmail(User $user): void
     {
         $link = $this->appUrl()
-            . '/auth/verify-email/' . $user->id . '/' . $user->verificationHash();
+            . '/user/verify-email/' . $user->id . '/' . $user->verificationHash();
 
         $html = '<p>メールアドレスを確認するには、以下のリンクをクリックしてください。</p>'
             . "<p><a href=\"{$link}\">{$link}</a></p>";
@@ -29,7 +29,7 @@ trait SendsAuthEmails
     protected function sendPasswordResetEmail(string $email, string $token): void
     {
         $link = $this->appUrl()
-            . '/auth/reset-password/' . $token . '?email=' . urlencode($email);
+            . '/user/reset-password/' . $token . '?email=' . urlencode($email);
 
         $html = '<p>パスワードを再設定するには、以下のリンクをクリックしてください。</p>'
             . "<p><a href=\"{$link}\">{$link}</a></p>";

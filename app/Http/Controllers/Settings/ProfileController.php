@@ -25,7 +25,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         if (!$user instanceof User) {
-            return $this->response->redirect('/auth/login');
+            return $this->response->redirect('/user/login');
         }
 
         $name = trim((string)$request->get('name'));

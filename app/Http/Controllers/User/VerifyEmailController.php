@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
@@ -24,7 +24,7 @@ class VerifyEmailController extends Controller
         // Laravel-compatible hash check (sha1 of the email). The route is
         // additionally auth-guarded so only the signed-in user can verify.
         if ($user === null || !hash_equals($user->verificationHash(), $hash)) {
-            return $this->response->redirect('/auth/verify-email');
+            return $this->response->redirect('/user/verify-email');
         }
 
         if (!$user->hasVerifiedEmail()) {

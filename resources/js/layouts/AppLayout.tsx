@@ -69,7 +69,7 @@ export default function AppLayout({
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 variant="destructive"
-                                onSelect={() => router.post('/auth/logout')}
+                                onSelect={() => router.post('/user/logout')}
                             >
                                 <LogOut className="size-4" />
                                 ログアウト
@@ -82,7 +82,7 @@ export default function AppLayout({
                     <div className="flex items-center justify-between gap-4 bg-amber-100 px-6 py-2 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-200">
                         <span>メールアドレスが未確認です。</span>
                         <Link
-                            href="/auth/verify-email"
+                            href="/user/verify-email"
                             className="font-medium underline-offset-4 hover:underline"
                         >
                             確認する

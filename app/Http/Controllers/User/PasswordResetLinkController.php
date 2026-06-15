@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Concerns\SendsAuthEmails;
@@ -41,6 +41,6 @@ class PasswordResetLinkController extends Controller
 
         $this->flashSession->success('パスワード再設定用のリンクを送信しました。');
 
-        return $this->response->redirect('/auth/forgot-password');
+        return $this->response->redirect('/user/forgot-password');
     }
 }

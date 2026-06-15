@@ -17,19 +17,19 @@ function authInertiaHeaders(array $extra = []): array
 }
 
 test('register page renders for guests', function () {
-    $this->get('/auth/register', authInertiaHeaders())
+    $this->get('/user/register', authInertiaHeaders())
         ->assertOk()
         ->assertSee('"component":"auth\/Register"');
 });
 
 test('forgot-password page renders for guests', function () {
-    $this->get('/auth/forgot-password', authInertiaHeaders())
+    $this->get('/user/forgot-password', authInertiaHeaders())
         ->assertOk()
         ->assertSee('"component":"auth\/ForgotPassword"');
 });
 
 test('reset-password page renders with the token', function () {
-    $this->get('/auth/reset-password/abc123?email=a@b.c', authInertiaHeaders())
+    $this->get('/user/reset-password/abc123?email=a@b.c', authInertiaHeaders())
         ->assertOk()
         ->assertSee('"component":"auth\/ResetPassword"')
         ->assertSee('abc123');
@@ -39,7 +39,7 @@ test('reset-password page renders with the token', function () {
 // production but is a no-op in the test harness (same as the #3 dashboard test),
 // so these assert the rendered component rather than the redirect.
 test('verify-email page renders the VerifyEmail component', function () {
-    $this->get('/auth/verify-email', authInertiaHeaders())
+    $this->get('/user/verify-email', authInertiaHeaders())
         ->assertOk()
         ->assertSee('"component":"auth\/VerifyEmail"');
 });
