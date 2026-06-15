@@ -43,7 +43,7 @@ export default function Welcome({ title, strings, cards }: WelcomeProps) {
                             </Button>
                         ) : (
                             <Button asChild>
-                                <Link href="/auth/login">{strings.login}</Link>
+                                <Link href="/user/login">{strings.login}</Link>
                             </Button>
                         )}
                     </header>

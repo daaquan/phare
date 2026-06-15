@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Concerns\SendsAuthEmails;
 use App\Http\Controllers\Controller;
@@ -28,6 +28,6 @@ class EmailVerificationNotificationController extends Controller
 
         $this->flashSession->success('Verification email resent.');
 
-        return $this->response->redirect('/auth/verify-email');
+        return $this->response->redirect('/user/verify-email');
     }
 }
