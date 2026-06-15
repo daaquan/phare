@@ -29,6 +29,6 @@ class ServeCommand extends Command
 
         $this->info("Starting server on http://{$host}:{$port}");
 
-        passthru(sprintf('php -S %s:%d -t public', escapeshellarg($host), (int) $port));
+        passthru(sprintf('php -S %s:%d -t public', escapeshellarg($host), (int)$port));
     }
 }
