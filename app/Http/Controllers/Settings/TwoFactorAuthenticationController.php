@@ -8,47 +8,14 @@ use App\Support\TwoFactor\Totp;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
-use Phare\Support\Facades\Inertia;
 
 /**
  * Laravel parity: enable, confirm, disable and regenerate recovery codes for
- * Regenerate recovery codes. Protected by `password.confirm` because this is a sensitive operation.
+ * two-factor (TOTP). SecurityController (/settings/security) renders the screen;
+ * this class only serves the write endpoints, guarded by password.confirm.
  */
 class TwoFactorAuthenticationController extends Controller
 {
-    #[Route('two-factor', middlewares: ['auth', 'verified'], name: 'settings.two-factor')]
-    public function show(Request $request)
-    {
-        // Protected by the `auth` middleware, so treat null as an unconfigured state here.
-        $user = Auth::user();
-        $enabled = $user instanceof User && $user->hasTwoFactorEnabled();
-        $pending = $user instanceof User
-            && $user->two_factor_secret !== null
-            && !$enabled;
-
-        $props = [
-            'enabled' => $enabled,
-            'pending' => $pending,
-        ];
-
-        // Expose the QR code / manual key only while an unconfirmed secret exists.
-        if ($pending && $user instanceof User && $user->two_factor_secret !== null) {
-            $secret = (string)$user->two_factor_secret;
-            $props['secret'] = $secret;
-            $props['otpauthUri'] = Totp::provisioningUri(
-                $secret,
-                (string)$user->email,
-                (string)config('app.name', 'Phare'),
-            );
-        }
-
-        if ($enabled && $user instanceof User) {
-            $props['recoveryCodes'] = $user->recoveryCodes();
-        }
-
-        return Inertia::render('settings/TwoFactor', $props);
-    }
-
     #[Route('two-factor/enable', methods: ['POST'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.enable')]
     public function enable(Request $request)
     {
@@ -63,7 +30,7 @@ class TwoFactorAuthenticationController extends Controller
         $user->two_factor_confirmed_at = null;
         $user->save();
 
-        return $this->response->redirect('/settings/two-factor');
+        return $this->response->redirect('/settings/security');
     }
 
     #[Route('two-factor/confirm', methods: ['POST'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.confirm')]
@@ -75,14 +42,14 @@ class TwoFactorAuthenticationController extends Controller
         }
 
         if ($user->two_factor_secret === null) {
-            return $this->response->redirect('/settings/two-factor');
+            return $this->response->redirect('/settings/security');
         }
 
         $code = (string)$request->get('code');
         if (!Totp::verify((string)$user->two_factor_secret, $code)) {
             $this->session->set('errors', ['code' => 'That authentication code is not correct.']);
 
-            return $this->response->redirect('/settings/two-factor');
+            return $this->response->redirect('/settings/security');
         }
 
         $user->two_factor_confirmed_at = date('Y-m-d H:i:s');
@@ -90,7 +57,7 @@ class TwoFactorAuthenticationController extends Controller
 
         $this->flashSession->success('Two-factor authentication enabled.');
 
-        return $this->response->redirect('/settings/two-factor');
+        return $this->response->redirect('/settings/security');
     }
 
     #[Route('two-factor/recovery-codes', methods: ['POST'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.recovery')]
@@ -106,7 +73,7 @@ class TwoFactorAuthenticationController extends Controller
 
         $this->flashSession->success('Recovery codes regenerated.');
 
-        return $this->response->redirect('/settings/two-factor');
+        return $this->response->redirect('/settings/security');
     }
 
     #[Route('two-factor', methods: ['DELETE'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.disable')]
@@ -124,6 +91,6 @@ class TwoFactorAuthenticationController extends Controller
 
         $this->flashSession->success('Two-factor authentication disabled.');
 
-        return $this->response->redirect('/settings/two-factor');
+        return $this->response->redirect('/settings/security');
     }
 }

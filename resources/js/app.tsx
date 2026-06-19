@@ -2,6 +2,8 @@ import { createInertiaApp, type ResolvedComponent } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 
+import { Toaster } from '@/components/ui/sonner';
+
 const appName = 'Phare';
 
 createInertiaApp({
@@ -15,7 +17,12 @@ createInertiaApp({
         return page.default;
     },
     setup({ el, App, props }) {
-        createRoot(el).render(<App {...props} />);
+        createRoot(el).render(
+            <>
+                <App {...props} />
+                <Toaster />
+            </>,
+        );
     },
     progress: {
         color: '#4B5563',

@@ -60,6 +60,14 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * A user has many passkeys (WebAuthn credentials).
+     */
+    public function passkeys()
+    {
+        return $this->hasMany(Passkey::class);
+    }
+
     public function getEmailForPasswordReset(): string
     {
         return (string)$this->email;
