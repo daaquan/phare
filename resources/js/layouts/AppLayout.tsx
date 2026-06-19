@@ -14,6 +14,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useFlashToast } from '@/hooks/use-flash-toast';
 import { type SharedProps } from '@/types';
 
 interface AppLayoutProps {
@@ -32,6 +33,8 @@ export default function AppLayout({
 }: PropsWithChildren<AppLayoutProps>) {
     const { auth } = usePage<SharedProps>().props;
     const initial = auth.user?.name?.charAt(0).toUpperCase() ?? '?';
+
+    useFlashToast();
 
     return (
         <div className="flex min-h-screen bg-background text-foreground">
