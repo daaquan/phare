@@ -1,6 +1,7 @@
-import { FormEvent } from 'react';
-import { Head, useForm, usePage } from '@inertiajs/react';
-import { ShieldCheck } from 'lucide-react';
+import { FormEvent, useState } from 'react';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
+import { KeyRound, ShieldCheck } from 'lucide-react';
+import { toast } from 'sonner';
 
 import GuestLayout from '@/layouts/GuestLayout';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { loginWithPasskey } from '@/lib/passkeys';
 import { type SharedProps } from '@/types';
 
 interface LoginProps {
@@ -22,16 +24,32 @@ interface LoginProps {
 }
 
 export default function Login({ strings }: LoginProps) {
-    const { flash } = usePage<SharedProps>().props;
+    const { csrf_token } = usePage<SharedProps>().props;
     const { data, setData, post, processing } = useForm({
         email: '',
         password: '',
         remember_me: false,
     });
+    const [passkeyBusy, setPasskeyBusy] = useState(false);
 
     const submit = (e: FormEvent) => {
         e.preventDefault();
         post('/user/login');
+    };
+
+    const passkeyLogin = async () => {
+        setPasskeyBusy(true);
+        try {
+            const redirect = await loginWithPasskey(csrf_token);
+            router.visit(redirect);
+        } catch (err) {
+            toast.error(
+                err instanceof Error
+                    ? err.message
+                    : 'パスキーでのログインに失敗しました。',
+            );
+            setPasskeyBusy(false);
+        }
     };
 
     return (
@@ -45,12 +63,6 @@ export default function Login({ strings }: LoginProps) {
                     </div>
 
                     <Separator className="mb-6" />
-
-                    {flash.error && (
-                        <p className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                            {flash.error}
-                        </p>
-                    )}
 
                     <form onSubmit={submit} className="space-y-4">
                         <div className="space-y-2">
@@ -97,6 +109,26 @@ export default function Login({ strings }: LoginProps) {
                             {strings.submit}
                         </Button>
                     </form>
+
+                    <div className="mt-4 space-y-3">
+                        <div className="flex items-center gap-3">
+                            <Separator className="flex-1" />
+                            <span className="text-xs text-muted-foreground">
+                                または
+                            </span>
+                            <Separator className="flex-1" />
+                        </div>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            className="w-full"
+                            onClick={passkeyLogin}
+                            disabled={passkeyBusy}
+                        >
+                            <KeyRound className="size-4" />
+                            パスキーでログイン
+                        </Button>
+                    </div>
                 </CardContent>
             </Card>
         </GuestLayout>

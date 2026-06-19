@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { type SharedProps } from '@/types';
 
 export default function ForgotPassword() {
-    const { flash, errors } = usePage<SharedProps>().props;
+    const { errors } = usePage<SharedProps>().props;
     const { data, setData, post, processing } = useForm({ email: '' });
 
     const submit = (e: FormEvent) => {
@@ -26,12 +26,6 @@ export default function ForgotPassword() {
                     <p className="text-sm text-muted-foreground">
                         登録済みのメールアドレスに再設定用リンクを送信します。
                     </p>
-
-                    {flash.success && (
-                        <p className="rounded-md bg-primary/10 px-3 py-2 text-sm text-primary">
-                            {flash.success}
-                        </p>
-                    )}
 
                     <form onSubmit={submit} className="space-y-4">
                         <div className="space-y-2">

@@ -6,6 +6,7 @@ use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
 use Phare\Contracts\Http\MiddlewareContract;
 use Phare\Foundation\Http\Concerns\BeforeMiddleware;
+use Phare\Security\Csrf;
 use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Inertia;
 
@@ -28,6 +29,9 @@ class HandleInertiaRequests extends MiddlewareContract implements BeforeMiddlewa
         Inertia::share('auth', ['user' => $this->resolveUser()]);
         Inertia::share('flash', $this->resolveFlash());
         Inertia::share('errors', $this->resolveErrors());
+        // fetch ベースのエンドポイント（パスキー等）が X-CSRF-TOKEN ヘッダーで
+        // 送り返せるよう、セッションの CSRF トークンを共有する。
+        Inertia::share('csrf_token', app(Csrf::class)->getToken());
 
         return $next();
     }

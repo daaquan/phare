@@ -50,10 +50,10 @@ test('settings profile renders the Profile component', function () {
         ->assertSee('"component":"settings\/Profile"');
 });
 
-test('settings password renders the Password component', function () {
-    $this->get('/settings/password', authInertiaHeaders())
+test('settings security renders the security component', function () {
+    $this->get('/settings/security', authInertiaHeaders())
         ->assertOk()
-        ->assertSee('"component":"settings\/Password"');
+        ->assertSee('"component":"settings\/security"');
 });
 
 test('settings appearance renders the Appearance component', function () {
@@ -66,10 +66,4 @@ test('confirm-password page renders the ConfirmPassword component', function () 
     $this->get('/user/confirm-password', authInertiaHeaders())
         ->assertOk()
         ->assertSee('"component":"auth\/ConfirmPassword"');
-});
-
-test('settings two-factor renders the TwoFactor component', function () {
-    $this->get('/settings/two-factor', authInertiaHeaders())
-        ->assertOk()
-        ->assertSee('"component":"settings\/TwoFactor"');
 });

@@ -7,16 +7,9 @@ use App\Models\User;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
-use Phare\Support\Facades\Inertia;
 
 class PasswordController extends Controller
 {
-    #[Route('password', middlewares: ['auth', 'verified'], name: 'settings.password')]
-    public function edit(Request $request)
-    {
-        return Inertia::render('settings/Password');
-    }
-
     #[Route('password', methods: ['PUT'], middlewares: ['auth', 'verified'], name: 'settings.password.update')]
     public function update(Request $request)
     {
@@ -32,19 +25,19 @@ class PasswordController extends Controller
         if (!Auth::attempt(['id' => $user->id, 'password' => $current])) {
             $this->session->set('errors', ['current_password' => '現在のパスワードが正しくありません。']);
 
-            return $this->response->redirect('/settings/password');
+            return $this->response->redirect('/settings/security');
         }
 
         if (strlen($password) < 8) {
             $this->session->set('errors', ['password' => 'パスワードは8文字以上で入力してください。']);
 
-            return $this->response->redirect('/settings/password');
+            return $this->response->redirect('/settings/security');
         }
 
         if ($password !== $confirmation) {
             $this->session->set('errors', ['password' => 'パスワードが一致しません。']);
 
-            return $this->response->redirect('/settings/password');
+            return $this->response->redirect('/settings/security');
         }
 
         $user->password = $password;
@@ -52,6 +45,6 @@ class PasswordController extends Controller
 
         $this->flashSession->success('パスワードを更新しました。');
 
-        return $this->response->redirect('/settings/password');
+        return $this->response->redirect('/settings/security');
     }
 }

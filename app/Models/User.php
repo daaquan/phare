@@ -60,6 +60,14 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * ユーザーは複数のパスキー（WebAuthn 資格情報）を持つ。
+     */
+    public function passkeys()
+    {
+        return $this->hasMany(Passkey::class);
+    }
+
     public function getEmailForPasswordReset(): string
     {
         return (string)$this->email;

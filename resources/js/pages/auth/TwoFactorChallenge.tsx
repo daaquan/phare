@@ -6,6 +6,11 @@ import GuestLayout from '@/layouts/GuestLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+} from '@/components/ui/input-otp';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { type SharedProps } from '@/types';
@@ -44,17 +49,19 @@ export default function TwoFactorChallenge() {
                     <form onSubmit={submit} className="space-y-4">
                         {!useRecovery ? (
                             <div className="space-y-2">
-                                <Label htmlFor="code">認証コード</Label>
-                                <Input
-                                    id="code"
-                                    inputMode="numeric"
+                                <Label>認証コード</Label>
+                                <InputOTP
+                                    maxLength={6}
                                     value={data.code}
-                                    onChange={(e) =>
-                                        setData('code', e.target.value)
-                                    }
-                                    placeholder="123456"
+                                    onChange={(value) => setData('code', value)}
                                     autoFocus
-                                />
+                                >
+                                    <InputOTPGroup>
+                                        {Array.from({ length: 6 }).map((_, i) => (
+                                            <InputOTPSlot key={i} index={i} />
+                                        ))}
+                                    </InputOTPGroup>
+                                </InputOTP>
                             </div>
                         ) : (
                             <div className="space-y-2">
