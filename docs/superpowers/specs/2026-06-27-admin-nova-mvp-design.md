@@ -52,7 +52,9 @@ App\Admin\
 ```
 
 ### Resource base (responsibilities)
-- Hold `static string $model`, `array $search` (searchable columns).
+- Hold `static string $model`, `array $search` (searchable columns),
+  `string $title` (column used as the human label when this resource is shown
+  in a BelongsTo picker/cell; defaults to `'name'` if present else `'id'`).
 - `fields(): array` — author-declared Field list.
 - `uriKey(): string` — kebab/plural key from class name (e.g. `posts`),
   overridable.
@@ -114,7 +116,7 @@ Field types (7):
 | Boolean   | switch/checkbox  | |
 | Select    | dropdown         | `->options([...])` fixed list |
 | DateTime  | date/datetime    | `->readonly()` for created_at/updated_at |
-| BelongsTo | relation picker  | `->resource(UserResource::class)`; picker queries target resource's `search` endpoint with `?q=`; display = related label |
+| BelongsTo | relation picker  | `->resource(UserResource::class)`; picker queries target resource's `search` endpoint with `?q=`; display label = target resource's `$title` column |
 
 Example:
 
