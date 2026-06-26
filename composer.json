@@ -23,6 +23,7 @@
     "require": {
         "php": "^8.3",
         "phare/framework": "dev-main",
+        "pusher/pusher-php-server": "^7.2",
         "symfony/console": "^7.0 || ^8.0",
         "web-auth/webauthn-lib": "^5.3"
     },

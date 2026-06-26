@@ -15,6 +15,7 @@ use Phare\Eloquent\Model;
  * @property \DateTime $email_verified_at
  * @property string $password
  * @property \DateTime $birthday
+ * @property bool $is_admin
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
  */
@@ -34,6 +35,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         'two_factor_secret',
         'two_factor_recovery_codes',
         'two_factor_confirmed_at',
+        'is_admin',
     ];
 
     protected array $hidden = [
@@ -50,7 +52,18 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         'email_verified_at' => 'datetime',
         'birthday' => 'date',
         'two_factor_confirmed_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
+
+    /**
+     * 管理者か（管理画面アクセス制御に使用）。
+     */
+    public function isAdmin(): bool
+    {
+        // readAttribute は未設定カラムでも例外を投げず null を返す
+        // （is_admin マイグレーション未適用の環境/テストでも安全）。
+        return (bool)$this->readAttribute('is_admin');
+    }
 
     /**
      * ユーザーは複数の投稿を持つ。

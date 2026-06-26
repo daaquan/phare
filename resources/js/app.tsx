@@ -3,6 +3,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 
 import { Toaster } from '@/components/ui/sonner';
+import '@/echo';
 
 const appName = 'Phare';
 
