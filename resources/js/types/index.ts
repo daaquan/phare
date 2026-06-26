@@ -3,6 +3,7 @@ export interface User {
     name: string;
     email: string;
     email_verified: boolean;
+    is_admin?: boolean;
 }
 
 export interface FlashMessages {
