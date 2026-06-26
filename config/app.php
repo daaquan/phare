@@ -165,6 +165,7 @@ return [
         \Phare\Providers\ModelProvider::class,
         \Phare\Providers\DatabaseProvider::class,
         \Phare\Providers\QueueServiceProvider::class,
+        \Phare\Broadcasting\BroadcastServiceProvider::class,
 
         \Phare\Providers\DebugWhoopsProvider::class,
         \Phare\View\ViewServiceProvider::class,
@@ -201,6 +202,7 @@ return [
         'Artisan' => \Phare\Support\Facades\Artisan::class,
         'ID' => \Phare\Support\Facades\Sqids::class,
         'Inertia' => \Phare\Support\Facades\Inertia::class,
+        'Broadcast' => \Phare\Support\Facades\Broadcast::class,
         //'Route' => \Phare\Support\Facades\Route::class,
     ],
 ];

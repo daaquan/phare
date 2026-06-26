@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\EnsureEmailIsVerified;
+use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\RequirePassword;
@@ -48,6 +49,7 @@ class Kernel extends HttpKernel
         'guest' => RedirectIfAuthenticated::class,
         'verified' => EnsureEmailIsVerified::class,
         'password.confirm' => RequirePassword::class,
+        'admin' => EnsureUserIsAdmin::class,
     ];
 
     /**

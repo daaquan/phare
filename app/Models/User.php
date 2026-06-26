@@ -15,6 +15,7 @@ use Phare\Eloquent\Model;
  * @property \DateTime $email_verified_at
  * @property string $password
  * @property \DateTime $birthday
+ * @property bool $is_admin
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
  */
@@ -34,6 +35,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         'two_factor_secret',
         'two_factor_recovery_codes',
         'two_factor_confirmed_at',
+        'is_admin',
     ];
 
     protected array $hidden = [
@@ -50,7 +52,18 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         'email_verified_at' => 'datetime',
         'birthday' => 'date',
         'two_factor_confirmed_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
+
+    /**
+     * Whether the user is an admin (drives admin screen access control).
+     */
+    public function isAdmin(): bool
+    {
+        // readAttribute returns null instead of throwing for an unset column, which
+        // keeps this safe where the is_admin migration has not run (tests included).
+        return (bool)$this->readAttribute('is_admin');
+    }
 
     /**
      * A user has many posts.

@@ -1,6 +1,6 @@
 import { type PropsWithChildren } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
-import { LayoutDashboard, FileText, LogOut, Settings } from 'lucide-react';
+import { LayoutDashboard, FileText, LogOut, Radio, Settings } from 'lucide-react';
 
 import {
     Avatar,
@@ -34,6 +34,17 @@ export default function AppLayout({
     const { auth } = usePage<SharedProps>().props;
     const initial = auth.user?.name?.charAt(0).toUpperCase() ?? '?';
 
+    const items = auth.user?.is_admin
+        ? [
+              ...navItems,
+              {
+                  label: 'Broadcasting',
+                  href: '/admin/broadcasting',
+                  icon: Radio,
+              },
+          ]
+        : navItems;
+
     useFlashToast();
 
     return (
@@ -43,7 +54,7 @@ export default function AppLayout({
                     Phare
                 </div>
                 <nav className="flex-1 space-y-1 px-3 py-2">
-                    {navItems.map((item) => (
+                    {items.map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}

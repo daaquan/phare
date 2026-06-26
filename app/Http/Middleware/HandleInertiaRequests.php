@@ -52,6 +52,7 @@ class HandleInertiaRequests extends MiddlewareContract implements BeforeMiddlewa
             'name' => $user->name,
             'email' => $user->email,
             'email_verified' => method_exists($user, 'hasVerifiedEmail') && $user->hasVerifiedEmail(),
+            'is_admin' => method_exists($user, 'isAdmin') && $user->isAdmin(),
         ];
     }
 
