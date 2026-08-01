@@ -34,7 +34,8 @@ class SecurityController extends Controller
         ];
 
         // Expose the manual key / otpauth URI only while a secret is unconfirmed.
-        if ($pending && $user instanceof User && $user->two_factor_secret !== null) {
+        // $pending already implies $user is a User with a non-null two_factor_secret.
+        if ($pending) {
             $secret = (string)$user->two_factor_secret;
             $twoFactor['secret'] = $secret;
             $twoFactor['otpauthUri'] = Totp::provisioningUri(
@@ -44,7 +45,8 @@ class SecurityController extends Controller
             );
         }
 
-        if ($enabled && $user instanceof User) {
+        // $enabled likewise implies $user is a User.
+        if ($enabled) {
             $twoFactor['recoveryCodes'] = $user->recoveryCodes();
         }
 

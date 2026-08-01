@@ -25,7 +25,7 @@ LOGO;
     public function handle()
     {
         $this->output->write('Framework Console (' . \App::version() . ')');
-        $this->output->writeComment(static::$logo);
+        $this->output->writeComment(self::$logo);
     }
 
     protected function configure(): void

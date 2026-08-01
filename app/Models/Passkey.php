@@ -15,9 +15,14 @@ use Phare\Eloquent\Model;
  * @property string $name
  * @property string $credential_id
  * @property string $data
- * @property \DateTime $last_used_at
+ * @property \DateTime|string|null $last_used_at Reads as datetime; assignment also accepts a string
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
+ *
+ * Phalcon magic finders (implemented by Model::__callStatic).
+ *
+ * @method static iterable<int, static> findByUserId(mixed $userId)
+ * @method static static|null findFirstByCredentialId(string $credentialId)
  */
 class Passkey extends Model
 {

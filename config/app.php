@@ -1,5 +1,42 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\SqidsServiceProvider;
+use Phare\Broadcasting\BroadcastServiceProvider;
+use Phare\Inertia\InertiaServiceProvider;
+use Phare\Mail\MailServiceProvider;
+use Phare\Providers\AuthServiceProvider;
+use Phare\Providers\DatabaseProvider;
+use Phare\Providers\DebugLoggerProvider;
+use Phare\Providers\DebugWhoopsProvider;
+use Phare\Providers\DispatcherProvider;
+use Phare\Providers\EncrypterProvider;
+use Phare\Providers\ErrorHandlerProvider;
+use Phare\Providers\EventsManagerProvider;
+use Phare\Providers\LogServiceProvider;
+use Phare\Providers\ModelProvider;
+use Phare\Providers\QueueServiceProvider;
+use Phare\Providers\RequestProvider;
+use Phare\Providers\ResponseProvider;
+use Phare\Providers\RouteServiceProvider;
+use Phare\Providers\SessionProvider;
+use Phare\Providers\TranslateProvider;
+use Phare\Support\Facades\Application;
+use Phare\Support\Facades\Artisan;
+use Phare\Support\Facades\Auth;
+use Phare\Support\Facades\Broadcast;
+use Phare\Support\Facades\Cache;
+use Phare\Support\Facades\DB;
+use Phare\Support\Facades\DebugLogger;
+use Phare\Support\Facades\Inertia;
+use Phare\Support\Facades\Log;
+use Phare\Support\Facades\Request;
+use Phare\Support\Facades\Response;
+use Phare\Support\Facades\Security;
+use Phare\Support\Facades\Session;
+use Phare\Support\Facades\Sqids;
+use Phare\View\ViewServiceProvider;
+
 return [
 
     /*
@@ -149,32 +186,32 @@ return [
     */
 
     'providers' => [
-        \Phare\Providers\LogServiceProvider::class,
-        \Phare\Providers\EventsManagerProvider::class,
-        \Phare\Providers\ErrorHandlerProvider::class,
-        \Phare\Providers\DispatcherProvider::class,
-        \Phare\Providers\DebugLoggerProvider::class,
-        \Phare\Providers\EncrypterProvider::class,
-        //\Phare\Providers\ChronosProvider::class,
-        //\Phare\Providers\SqidsProvider::class,
-        \Phare\Providers\RouteServiceProvider::class,
-        \Phare\Providers\RequestProvider::class,
-        \Phare\Providers\ResponseProvider::class,
-        \Phare\Providers\SessionProvider::class,
-        \Phare\Providers\AuthServiceProvider::class,
-        \Phare\Providers\ModelProvider::class,
-        \Phare\Providers\DatabaseProvider::class,
-        \Phare\Providers\QueueServiceProvider::class,
-        \Phare\Broadcasting\BroadcastServiceProvider::class,
+        LogServiceProvider::class,
+        EventsManagerProvider::class,
+        ErrorHandlerProvider::class,
+        DispatcherProvider::class,
+        DebugLoggerProvider::class,
+        EncrypterProvider::class,
+        // \Phare\Providers\ChronosProvider::class,
+        // \Phare\Providers\SqidsProvider::class,
+        RouteServiceProvider::class,
+        RequestProvider::class,
+        ResponseProvider::class,
+        SessionProvider::class,
+        AuthServiceProvider::class,
+        ModelProvider::class,
+        DatabaseProvider::class,
+        QueueServiceProvider::class,
+        BroadcastServiceProvider::class,
 
-        \Phare\Providers\DebugWhoopsProvider::class,
-        \Phare\View\ViewServiceProvider::class,
-        \Phare\Inertia\InertiaServiceProvider::class,
-        \Phare\Mail\MailServiceProvider::class,
-        \Phare\Providers\TranslateProvider::class,
+        DebugWhoopsProvider::class,
+        ViewServiceProvider::class,
+        InertiaServiceProvider::class,
+        MailServiceProvider::class,
+        TranslateProvider::class,
 
-        \App\Providers\AppServiceProvider::class,
-        \App\Providers\SqidsServiceProvider::class,
+        AppServiceProvider::class,
+        SqidsServiceProvider::class,
     ],
 
     /*
@@ -189,20 +226,20 @@ return [
     */
 
     'aliases' => [
-        'App' => \Phare\Support\Facades\Application::class,
-        'DB' => \Phare\Support\Facades\DB::class,
-        'Log' => \Phare\Support\Facades\Log::class,
-        'Auth' => \Phare\Support\Facades\Auth::class,
-        'Cache' => \Phare\Support\Facades\Cache::class,
-        'Security' => \Phare\Support\Facades\Security::class,
-        'Request' => \Phare\Support\Facades\Request::class,
-        'Response' => \Phare\Support\Facades\Response::class,
-        'Session' => \Phare\Support\Facades\Session::class,
-        'DebugLogger' => \Phare\Support\Facades\DebugLogger::class,
-        'Artisan' => \Phare\Support\Facades\Artisan::class,
-        'ID' => \Phare\Support\Facades\Sqids::class,
-        'Inertia' => \Phare\Support\Facades\Inertia::class,
-        'Broadcast' => \Phare\Support\Facades\Broadcast::class,
-        //'Route' => \Phare\Support\Facades\Route::class,
+        'App' => Application::class,
+        'DB' => DB::class,
+        'Log' => Log::class,
+        'Auth' => Auth::class,
+        'Cache' => Cache::class,
+        'Security' => Security::class,
+        'Request' => Request::class,
+        'Response' => Response::class,
+        'Session' => Session::class,
+        'DebugLogger' => DebugLogger::class,
+        'Artisan' => Artisan::class,
+        'ID' => Sqids::class,
+        'Inertia' => Inertia::class,
+        'Broadcast' => Broadcast::class,
+        // 'Route' => \Phare\Support\Facades\Route::class,
     ],
 ];

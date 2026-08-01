@@ -6,11 +6,13 @@ use App\Events\MessageBroadcast;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Phare\Attributes\Route;
+use Phare\Broadcasting\Broadcasters\PusherBroadcaster;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Broadcast;
 use Phare\Support\Facades\Inertia;
 use Phare\Support\Facades\Log;
+use Pusher\Pusher;
 
 /**
  * Broadcasting monitoring dashboard. Uses the Pusher SDK to call the HTTP API
@@ -37,7 +39,7 @@ class BroadcastingController extends Controller
         $prefix = (string)($request->get('prefix') ?? '');
 
         try {
-            $pusher = Broadcast::driver('pusher')->getPusher();
+            $pusher = $this->pusher();
             $params = ['info' => 'subscription_count'];
             if ($prefix !== '') {
                 $params['filter_by_prefix'] = $prefix;
@@ -74,7 +76,7 @@ class BroadcastingController extends Controller
         }
 
         try {
-            $pusher = Broadcast::driver('pusher')->getPusher();
+            $pusher = $this->pusher();
 
             $info = $pusher->getChannelInfo($name, ['info' => 'subscription_count,user_count']);
             $payload = [
@@ -124,6 +126,21 @@ class BroadcastingController extends Controller
 
             return $this->json(['ok' => false, 'error' => $e->getMessage()]);
         }
+    }
+
+    /**
+     * The monitor API assumes the Soketi (Pusher protocol) HTTP client. Any other
+     * driver throws, and the caller's catch turns that into ok:false.
+     */
+    private function pusher(): Pusher
+    {
+        $driver = Broadcast::driver('pusher');
+
+        if (!$driver instanceof PusherBroadcaster) {
+            throw new \RuntimeException('broadcasting: the pusher driver is not configured');
+        }
+
+        return $driver->getPusher();
     }
 
     private function channelType(string $name): string

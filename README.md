@@ -249,11 +249,10 @@ Run the following command to format your code before committing.
 
 ## Static analysis
 
-Static code analysis with PHP Insights is also configured.
-Run the following command to check code quality.
+Static analysis runs through PHPStan (level 5, configured in `phpstan.neon.dist`).
 
 ```bash
-./vendor/bin/phpinsights
+./vendor/bin/phpstan analyse
 ```
 
 ## Contributing
