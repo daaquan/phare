@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
 use Phare\Contracts\Http\MiddlewareContract;
@@ -41,18 +42,18 @@ class HandleInertiaRequests extends MiddlewareContract implements BeforeMiddlewa
      */
     protected function resolveUser(): ?array
     {
-        if (!Auth::check()) {
+        $user = Auth::user();
+
+        if (!$user instanceof User) {
             return null;
         }
-
-        $user = Auth::user();
 
         return [
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
-            'email_verified' => method_exists($user, 'hasVerifiedEmail') && $user->hasVerifiedEmail(),
-            'is_admin' => method_exists($user, 'isAdmin') && $user->isAdmin(),
+            'email_verified' => $user->hasVerifiedEmail(),
+            'is_admin' => $user->isAdmin(),
         ];
     }
 

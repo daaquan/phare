@@ -6,11 +6,13 @@ use App\Events\MessageBroadcast;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Phare\Attributes\Route;
+use Phare\Broadcasting\Broadcasters\PusherBroadcaster;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Broadcast;
 use Phare\Support\Facades\Inertia;
 use Phare\Support\Facades\Log;
+use Pusher\Pusher;
 
 /**
  * Broadcasting 監視ダッシュボード。Soketi (Pusher プロトコル) の HTTP API を
@@ -37,7 +39,7 @@ class BroadcastingController extends Controller
         $prefix = (string)($request->get('prefix') ?? '');
 
         try {
-            $pusher = Broadcast::driver('pusher')->getPusher();
+            $pusher = $this->pusher();
             $params = ['info' => 'subscription_count'];
             if ($prefix !== '') {
                 $params['filter_by_prefix'] = $prefix;
@@ -74,7 +76,7 @@ class BroadcastingController extends Controller
         }
 
         try {
-            $pusher = Broadcast::driver('pusher')->getPusher();
+            $pusher = $this->pusher();
 
             $info = $pusher->getChannelInfo($name, ['info' => 'subscription_count,user_count']);
             $payload = [
@@ -124,6 +126,21 @@ class BroadcastingController extends Controller
 
             return $this->json(['ok' => false, 'error' => $e->getMessage()]);
         }
+    }
+
+    /**
+     * 監視 API は Soketi (Pusher プロトコル) の HTTP クライアント前提。
+     * 他ドライバ構成では例外にして、呼び出し側の catch で ok:false を返す。
+     */
+    private function pusher(): Pusher
+    {
+        $driver = Broadcast::driver('pusher');
+
+        if (!$driver instanceof PusherBroadcaster) {
+            throw new \RuntimeException('broadcasting: pusher ドライバが構成されていません');
+        }
+
+        return $driver->getPusher();
     }
 
     private function channelType(string $name): string

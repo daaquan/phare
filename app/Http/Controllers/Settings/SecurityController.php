@@ -34,7 +34,8 @@ class SecurityController extends Controller
         ];
 
         // 未確認のシークレットがある間だけ手入力キー / otpauth URI を露出する。
-        if ($pending && $user instanceof User && $user->two_factor_secret !== null) {
+        // $pending の時点で $user は User かつ two_factor_secret が非 null。
+        if ($pending) {
             $secret = (string)$user->two_factor_secret;
             $twoFactor['secret'] = $secret;
             $twoFactor['otpauthUri'] = Totp::provisioningUri(
@@ -44,7 +45,8 @@ class SecurityController extends Controller
             );
         }
 
-        if ($enabled && $user instanceof User) {
+        // $enabled も同様に $user が User であることを含意する。
+        if ($enabled) {
             $twoFactor['recoveryCodes'] = $user->recoveryCodes();
         }
 

@@ -1,5 +1,10 @@
 <?php
 
+use App\Exceptions\Handler;
+use App\Http\Kernel;
+use Phare\Contracts\Debug\ExceptionHandler;
+use Phare\Foundation\Web;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 /*
@@ -14,7 +19,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 */
 
 $basePath = $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__);
-$app = new \Phare\Foundation\Web($basePath);
+$app = new Web($basePath);
 
 /*
 |--------------------------------------------------------------------------
@@ -28,18 +33,18 @@ $app = new \Phare\Foundation\Web($basePath);
 */
 
 $app->singleton(
-    \Phare\Contracts\Http\Kernel::class,
-    \App\Http\Kernel::class
+    Phare\Contracts\Http\Kernel::class,
+    Kernel::class
 );
 
 $app->singleton(
-    \Phare\Contracts\Console\Kernel::class,
-    \App\Console\Kernel::class
+    Phare\Contracts\Console\Kernel::class,
+    App\Console\Kernel::class
 );
 
 $app->singleton(
-    \Phare\Contracts\Debug\ExceptionHandler::class,
-    \App\Exceptions\Handler::class
+    ExceptionHandler::class,
+    Handler::class
 );
 
 /*
