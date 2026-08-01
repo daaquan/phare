@@ -7,18 +7,18 @@ interface ErrorProps {
 }
 
 const messages: Record<number, { title: string; description: string }> = {
-    403: { title: '403', description: 'このページへのアクセスは禁止されています。' },
-    404: { title: '404', description: 'ページが見つかりませんでした。' },
-    419: { title: '419', description: 'ページの有効期限が切れました。' },
-    429: { title: '429', description: 'リクエストが多すぎます。' },
-    500: { title: '500', description: 'サーバーエラーが発生しました。' },
-    503: { title: '503', description: 'メンテナンス中です。' },
+    403: { title: '403', description: 'Access to this page is forbidden.' },
+    404: { title: '404', description: 'That page could not be found.' },
+    419: { title: '419', description: 'The page has expired.' },
+    429: { title: '429', description: 'Too many requests.' },
+    500: { title: '500', description: 'A server error occurred.' },
+    503: { title: '503', description: 'Down for maintenance.' },
 };
 
 export default function ErrorPage({ status }: ErrorProps) {
     const { title, description } = messages[status] ?? {
         title: String(status),
-        description: 'エラーが発生しました。',
+        description: 'Something went wrong.',
     };
 
     return (
@@ -28,7 +28,7 @@ export default function ErrorPage({ status }: ErrorProps) {
                 <h1 className="text-6xl font-bold">{title}</h1>
                 <p className="text-muted-foreground">{description}</p>
                 <Button asChild>
-                    <Link href="/">ホームへ戻る</Link>
+                    <Link href="/">Back to home</Link>
                 </Button>
             </div>
         </>

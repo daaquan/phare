@@ -12,9 +12,9 @@ use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Inertia;
 
 /**
- * Laravel パリティ: パスワード認証後の二段階認証チャレンジ。
- * ログインは `login.id` セッションで保留され、TOTP コードまたは
- * リカバリーコードの検証に成功して初めて確定する。
+ * Laravel parity: the two-factor challenge shown after password authentication.
+ * The login is held in the `login.id` session entry and only completes once a TOTP
+ * code or a recovery code verifies.
  */
 class TwoFactorChallengeController extends Controller
 {
@@ -61,7 +61,7 @@ class TwoFactorChallengeController extends Controller
         }
 
         if (!$authenticated) {
-            $this->session->set('errors', ['code' => '認証コードが正しくありません。']);
+            $this->session->set('errors', ['code' => 'That authentication code is not correct.']);
 
             return $this->response->redirect('/user/two-factor-challenge');
         }

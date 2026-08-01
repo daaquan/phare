@@ -20,7 +20,7 @@ test('posts index renders the Inertia component', function () {
     foreach (range(1, 12) as $i) {
         $post = (new Post())->fill([
             'user_id' => $user->id,
-            'title' => "投稿 {$i}",
+            'title' => "Post {$i}",
             'body' => 'body',
         ]);
         $post->create();

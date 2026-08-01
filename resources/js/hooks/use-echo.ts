@@ -5,8 +5,8 @@ import echo from '@/echo';
 type ChannelKind = 'public' | 'private' | 'presence';
 
 /**
- * チャンネルを購読しイベントを受信する薄いフック。アンマウント時に解除。
- * Echo 未初期化（鍵未設定）なら何もしない。
+ * Thin hook that subscribes to a channel and receives events, leaving on unmount.
+ * Does nothing when Echo is uninitialised (no key configured).
  */
 export function useEcho(
     channel: string,

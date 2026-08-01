@@ -30,8 +30,8 @@ class HandleInertiaRequests extends MiddlewareContract implements BeforeMiddlewa
         Inertia::share('auth', ['user' => $this->resolveUser()]);
         Inertia::share('flash', $this->resolveFlash());
         Inertia::share('errors', $this->resolveErrors());
-        // fetch ベースのエンドポイント（パスキー等）が X-CSRF-TOKEN ヘッダーで
-        // 送り返せるよう、セッションの CSRF トークンを共有する。
+        // Share the session CSRF token so fetch-based endpoints (passkeys and the
+        // like) can send it back in the X-CSRF-TOKEN header.
         Inertia::share('csrf_token', app(Csrf::class)->getToken());
 
         return $next();

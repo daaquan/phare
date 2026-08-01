@@ -22,7 +22,7 @@ in the app.
 - **Framework** `/opt/framework/src/Phare/Admin/` — engine. English comments.
   Package version bump required to consume in app.
 - **App** `/opt/phare/app/Admin/` — concrete resources (`PostResource`,
-  `UserResource`). Japanese comments.
+  `UserResource`). English comments.
 
 Mirrors the existing `Phare\Inertia` / `Phare\Broadcasting` domain-dir +
 ServiceProvider convention.
@@ -121,7 +121,7 @@ Field types (7):
 Example:
 
 ```php
-// app/Admin/PostResource.php — 投稿リソース
+// app/Admin/PostResource.php -- the post resource
 class PostResource extends Resource {
     public static string $model = Post::class;
     public array $search = ['title'];

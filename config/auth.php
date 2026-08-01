@@ -5,11 +5,11 @@ use App\Models\User;
 return [
     /*
     |--------------------------------------------------------------------------
-    | 認証のデフォルト設定
+    | Authentication defaults
     |--------------------------------------------------------------------------
     |
-    | アプリケーションのデフォルトガードと、パスワードリセットで使用する
-    | ブローカーを指定します。任意で別の値に変更できます。
+    | The default guard for the application and the broker used for password
+    | resets. Both may be changed to any other configured value.
     |
     */
     'defaults' => [
@@ -19,11 +19,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | 認証ガード
+    | Authentication guards
     |--------------------------------------------------------------------------
     |
-    | 各ガードに認証ドライバとユーザープロバイダを定義します。セッション
-    | ベースの認証では `session` ドライバを使用します。
+    | Defines the driver and user provider for each guard. Session-based
+    | authentication uses the `session` driver.
     |
     */
     'guards' => [
@@ -35,11 +35,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | ユーザープロバイダ
+    | User providers
     |--------------------------------------------------------------------------
     |
-    | ガードがユーザーを取得する方法を定義します。`eloquent` ドライバは
-    | 指定したモデルからユーザーを解決します。
+    | Defines how guards retrieve users. The `eloquent` driver resolves them
+    | from the configured model.
     |
     */
     'providers' => [
@@ -51,11 +51,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | パスワードリセット
+    | Password resets
     |--------------------------------------------------------------------------
     |
-    | リセットトークンの保存先テーブルと有効期限（分）、再送までの
-    | スロットル時間（秒）を指定します。
+    | The table holding reset tokens, their lifetime in minutes, and the
+    | throttle in seconds before another link may be requested.
     |
     */
     'passwords' => [
@@ -69,22 +69,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | パスワード確認のタイムアウト
+    | Password confirmation timeout
     |--------------------------------------------------------------------------
     |
-    | パスワード確認画面で再入力を求めるまでの猶予秒数です。
+    | Seconds before the password confirmation screen asks again.
     |
     */
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
     /*
     |--------------------------------------------------------------------------
-    | レガシー互換（単一ガードのフォールバック）
+    | Legacy compatibility (single-guard fallback)
     |--------------------------------------------------------------------------
     |
-    | guards/providers を解決できない場合に AuthManager が参照する
-    | トップレベルキー。`session_id` は web ガードのセッションキーにも
-    | 使われるため、既存セッションとの互換のため 'auth' を維持します。
+    | Top-level keys AuthManager falls back to when guards/providers cannot be
+    | resolved. `session_id` also serves as the web guard session key, so it
+    | stays 'auth' to keep existing sessions valid.
     |
     */
     'model' => User::class,

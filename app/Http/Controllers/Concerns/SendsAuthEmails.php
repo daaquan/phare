@@ -16,12 +16,12 @@ trait SendsAuthEmails
         $link = $this->appUrl()
             . '/user/verify-email/' . $user->id . '/' . $user->verificationHash();
 
-        $html = '<p>メールアドレスを確認するには、以下のリンクをクリックしてください。</p>'
+        $html = '<p>Click the link below to verify your email address.</p>'
             . "<p><a href=\"{$link}\">{$link}</a></p>";
 
         $mail = (new HtmlMailable($html))
             ->to((string)$user->email, (string)$user->name)
-            ->subject('メールアドレスの確認');
+            ->subject('Verify your email address');
 
         app('mailer')->send($mail);
     }
@@ -31,12 +31,12 @@ trait SendsAuthEmails
         $link = $this->appUrl()
             . '/user/reset-password/' . $token . '?email=' . urlencode($email);
 
-        $html = '<p>パスワードを再設定するには、以下のリンクをクリックしてください。</p>'
+        $html = '<p>Click the link below to reset your password.</p>'
             . "<p><a href=\"{$link}\">{$link}</a></p>";
 
         $mail = (new HtmlMailable($html))
             ->to($email)
-            ->subject('パスワード再設定');
+            ->subject('Reset your password');
 
         app('mailer')->send($mail);
     }

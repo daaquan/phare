@@ -29,7 +29,7 @@ async function postJson(
         credentials: 'same-origin',
     });
     if (!res.ok) {
-        throw new Error(await errorMessage(res, 'リクエストに失敗しました。'));
+        throw new Error(await errorMessage(res, 'The request failed.'));
     }
     return (await res.json().catch(() => ({}))) as Record<string, unknown>;
 }
@@ -42,7 +42,7 @@ async function fetchOptions<T>(url: string, csrfToken: string): Promise<T> {
         credentials: 'same-origin',
     });
     if (!res.ok) {
-        throw new Error(await errorMessage(res, 'オプションの取得に失敗しました。'));
+        throw new Error(await errorMessage(res, 'Could not fetch the options.'));
     }
     return (await res.json()) as T;
 }
@@ -65,7 +65,7 @@ export async function deletePasskey(id: number, csrfToken: string): Promise<void
         credentials: 'same-origin',
     });
     if (!res.ok) {
-        throw new Error(await errorMessage(res, '削除に失敗しました。'));
+        throw new Error(await errorMessage(res, 'Delete failed.'));
     }
 }
 

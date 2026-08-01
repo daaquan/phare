@@ -7,7 +7,7 @@ use Phare\Middleware\VerifyCsrfToken as Middleware;
 class VerifyCsrfToken extends Middleware
 {
     /**
-     * CSRF 検証から除外する URI。
+     * URIs excluded from CSRF verification.
      *
      * @var array<int, string>
      */

@@ -25,11 +25,12 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialUserEntity;
 
 /**
- * WebAuthn（パスキー）のサーバー側処理ラッパー。
+ * Server-side wrapper around WebAuthn (passkey) handling.
  *
- * 署名・アテステーション検証という暗号処理は web-auth/webauthn-lib に委譲する。
- * TOTP と違い WebAuthn（CBOR + COSE + EC/RSA 署名）の自前実装はセキュリティ
- * リスクが高いため、アプリ側はオプション生成・資格情報の保存・ログイン接続だけを担う。
+ * The cryptography -- signature and attestation verification -- is delegated to
+ * web-auth/webauthn-lib. Unlike TOTP, hand-rolling WebAuthn (CBOR + COSE + EC/RSA
+ * signatures) is too risky, so the app only builds options, stores credentials and
+ * wires the login.
  */
 final class WebAuthnService
 {
@@ -39,7 +40,7 @@ final class WebAuthnService
 
     public function __construct()
     {
-        // アテステーション形式は none のみ受け付ける（プラットフォーム認証器のパスキー用途）。
+        // Accept the "none" attestation format only (platform authenticator passkeys).
         $attestationManager = new AttestationStatementSupportManager([
             new NoneAttestationStatementSupport(),
         ]);
@@ -52,12 +53,12 @@ final class WebAuthnService
     }
 
     // ------------------------------------------------------------------
-    // 登録 (attestation)
+    // Registration (attestation)
     // ------------------------------------------------------------------
 
     /**
-     * 登録用オプションを生成し JSON を返す。チャレンジ照合のため、呼び出し側で
-     * この JSON をセッションへ退避しておくこと。
+     * Build the registration options and return them as JSON. The caller must stash
+     * that JSON in the session so the challenge can be matched later.
      */
     public function creationOptions(User $user): string
     {
@@ -69,7 +70,7 @@ final class WebAuthnService
             (string)$user->name,
         );
 
-        // 既存パスキーは除外（同じ認証器での二重登録を防ぐ）。
+        // Exclude existing passkeys so the same authenticator cannot register twice.
         $exclude = [];
         foreach (Passkey::findByUserId((int)$user->id) as $passkey) {
             $exclude[] = PublicKeyCredentialDescriptor::create(
@@ -99,12 +100,12 @@ final class WebAuthnService
     }
 
     /**
-     * ブラウザからの登録レスポンスを検証し、成功すれば資格情報を保存する。
+     * Verify the registration response from the browser and store the credential.
      *
-     * @param string $optionsJson 発行時にセッションへ退避した creationOptions の JSON
-     * @param string $responseJson ブラウザが返した PublicKeyCredential の JSON
+     * @param string $optionsJson The creationOptions JSON stashed in the session
+     * @param string $responseJson The PublicKeyCredential JSON returned by the browser
      *
-     * @throws \Throwable 検証失敗時
+     * @throws \Throwable When verification fails
      */
     public function verifyAndStore(User $user, string $optionsJson, string $responseJson, string $name): Passkey
     {
@@ -129,7 +130,7 @@ final class WebAuthnService
         $passkey = new Passkey();
         $passkey->fill([
             'user_id' => (int)$user->id,
-            'name' => $name !== '' ? $name : 'パスキー',
+            'name' => $name !== '' ? $name : 'Passkey',
             'credential_id' => self::base64urlEncode($record->publicKeyCredentialId),
             'data' => $this->serializer->serialize($record, 'json'),
         ]);
@@ -139,19 +140,19 @@ final class WebAuthnService
     }
 
     // ------------------------------------------------------------------
-    // 認証 (assertion)
+    // Authentication (assertion)
     // ------------------------------------------------------------------
 
     /**
-     * ログイン用オプション（ユーザー名なし・discoverable）を生成し JSON を返す。
-     * 呼び出し側でセッションへ退避しておくこと。
+     * Build username-less (discoverable) login options and return them as JSON.
+     * The caller must stash them in the session.
      */
     public function requestOptions(): string
     {
         $options = PublicKeyCredentialRequestOptions::create(
             random_bytes(32),
             $this->rpId(),
-            [], // allowCredentials を空にして discoverable credential を許可
+            [], // empty allowCredentials, so discoverable credentials are allowed
             PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_PREFERRED,
         );
 
@@ -159,9 +160,9 @@ final class WebAuthnService
     }
 
     /**
-     * ログイン用アサーションを検証し、成功すれば所有ユーザーを返す（失敗時は null）。
+     * Verify the login assertion and return the owning user, or null on failure.
      *
-     * @throws \Throwable 検証失敗時
+     * @throws \Throwable When verification fails
      */
     public function verifyAssertion(string $optionsJson, string $responseJson): ?User
     {
@@ -197,7 +198,7 @@ final class WebAuthnService
             $record->userHandle,
         );
 
-        // 署名カウンター等の更新を保存する。
+        // Persist the updated signature counter and friends.
         $passkey->data = $this->serializer->serialize($updated, 'json');
         $passkey->last_used_at = date('Y-m-d H:i:s');
         $passkey->save();
@@ -206,13 +207,13 @@ final class WebAuthnService
     }
 
     // ------------------------------------------------------------------
-    // 設定値（Relying Party）
+    // Configuration (relying party)
     // ------------------------------------------------------------------
 
     private function appUrl(): string
     {
-        // env() の第2引数に文字列デフォルトを渡すと is_callable 経由で関数扱いされる
-        // 危険があるため、?: で安全にフォールバックする。
+        // Passing a string default as env()'s second argument risks it being treated as a
+        // callable via is_callable, so fall back with ?: instead.
         return (string)(env('APP_URL') ?: 'http://localhost:8000');
     }
 

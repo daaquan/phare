@@ -7,10 +7,10 @@ use Phare\Broadcasting\PresenceChannel;
 use Phare\Broadcasting\PrivateChannel;
 
 /**
- * 配信スタックの疎通確認用デモイベント。監視画面のテスト送信ボタンや
- * アプリ内のメッセージ通知から dispatch する。
+ * Demo event for smoke-testing the broadcasting stack. Dispatched by the monitor's
+ * test-send button and by in-app message notifications.
  *
- * 使い方: broadcast(new MessageBroadcast($userId, 'hello'))->send();
+ * Usage: broadcast(new MessageBroadcast($userId, 'hello'))->send();
  */
 class MessageBroadcast extends BroadcastEvent
 {
@@ -20,7 +20,7 @@ class MessageBroadcast extends BroadcastEvent
     ) {}
 
     /**
-     * private-App.User.{id}（本人宛）と presence-monitor（監視）に流す。
+     * Sent to private-App.User.{id} (the user) and presence-monitor (the dashboard).
      */
     public function broadcastOn(): array
     {

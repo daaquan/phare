@@ -29,7 +29,7 @@ export default function ManagePasskeys({ passkeys }: Props) {
             refresh();
         } catch (err) {
             toast.error(
-                err instanceof Error ? err.message : 'パスキーの登録に失敗しました。',
+                err instanceof Error ? err.message : 'Passkey registration failed.',
             );
         } finally {
             setBusy(false);
@@ -42,7 +42,7 @@ export default function ManagePasskeys({ passkeys }: Props) {
             await deletePasskey(id, csrf_token);
             refresh();
         } catch (err) {
-            toast.error(err instanceof Error ? err.message : '削除に失敗しました。');
+            toast.error(err instanceof Error ? err.message : 'Delete failed.');
         } finally {
             setBusy(false);
         }
@@ -63,7 +63,7 @@ export default function ManagePasskeys({ passkeys }: Props) {
                                     <p className="text-sm font-medium">{pk.name}</p>
                                     {pk.last_used_at && (
                                         <p className="text-xs text-muted-foreground">
-                                            最終使用: {pk.last_used_at}
+                                            Last used: {pk.last_used_at}
                                         </p>
                                     )}
                                 </div>
@@ -73,7 +73,7 @@ export default function ManagePasskeys({ passkeys }: Props) {
                                 size="icon"
                                 onClick={() => remove(pk.id)}
                                 disabled={busy}
-                                aria-label="パスキーを削除"
+                                aria-label="Delete passkey"
                             >
                                 <Trash2 className="size-4 text-destructive" />
                             </Button>
@@ -82,23 +82,23 @@ export default function ManagePasskeys({ passkeys }: Props) {
                 </ul>
             ) : (
                 <p className="text-sm text-muted-foreground">
-                    登録済みのパスキーはありません。
+                    No passkeys registered yet.
                 </p>
             )}
 
             <form onSubmit={register} className="flex items-end gap-2">
                 <div className="flex-1 space-y-2">
-                    <Label htmlFor="passkey_name">パスキー名（任意）</Label>
+                    <Label htmlFor="passkey_name">Passkey name (optional)</Label>
                     <Input
                         id="passkey_name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="例: MacBook Touch ID"
+                        placeholder="e.g. MacBook Touch ID"
                     />
                 </div>
                 <Button type="submit" disabled={busy}>
                     <KeyRound className="size-4" />
-                    パスキーを追加
+                    Add passkey
                 </Button>
             </form>
         </div>

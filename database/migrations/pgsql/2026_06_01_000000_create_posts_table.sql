@@ -1,4 +1,4 @@
--- 投稿テーブル
+-- Posts table
 CREATE TABLE `posts`
 (
     `id`         bigint unsigned NOT NULL AUTO_INCREMENT,

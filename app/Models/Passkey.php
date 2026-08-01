@@ -6,20 +6,20 @@ use Phare\Eloquent\Concerns\HasTimestamps;
 use Phare\Eloquent\Model;
 
 /**
- * WebAuthn パスキー（公開鍵資格情報）。署名検証に必要な状態は
- * web-auth/webauthn-lib がシリアライズした `data`（CredentialRecord）が保持し、
- * `credential_id`（base64url）は照合用のインデックス列として持つ。
+ * A WebAuthn passkey (public key credential). The state needed for signature
+ * verification lives in `data`, the CredentialRecord serialised by
+ * web-auth/webauthn-lib; `credential_id` (base64url) is the lookup index column.
  *
  * @property int $id
  * @property int $user_id
  * @property string $name
  * @property string $credential_id
  * @property string $data
- * @property \DateTime|string|null $last_used_at 読み出しは datetime、代入は文字列も可
+ * @property \DateTime|string|null $last_used_at Reads as datetime; assignment also accepts a string
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
  *
- * Phalcon のマジックファインダー（実体は Model::__callStatic）。
+ * Phalcon magic finders (implemented by Model::__callStatic).
  *
  * @method static iterable<int, static> findByUserId(mixed $userId)
  * @method static static|null findFirstByCredentialId(string $credentialId)
@@ -44,7 +44,7 @@ class Passkey extends Model
     ];
 
     /**
-     * パスキーは 1 人のユーザーに属する。
+     * A passkey belongs to one user.
      */
     public function user()
     {

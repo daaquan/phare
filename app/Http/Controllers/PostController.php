@@ -10,7 +10,7 @@ use Phare\Support\Facades\Inertia;
 class PostController extends Controller
 {
     /**
-     * 投稿一覧をページネーション付きで表示する。
+     * Render the paginated post list.
      */
     #[Route('/posts', methods: ['GET'], name: 'posts.index')]
     public function index(Request $request)
@@ -30,7 +30,7 @@ class PostController extends Controller
         }
 
         return Inertia::render('Posts/Index', [
-            'title' => '投稿一覧',
+            'title' => 'Posts',
             'posts' => [
                 'data' => $items,
                 'current_page' => $page,

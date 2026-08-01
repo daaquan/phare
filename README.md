@@ -1,106 +1,106 @@
 # Phare Framework
 
-Phalconフレームワークをベースに開発された、スケーラブルで高機能なPHPゲームフレームワークです。
+A scalable, full-featured PHP game framework built on top of the Phalcon framework.
 
-**キーワード:** phalcon, framework
+**Keywords:** phalcon, framework
 
-## 概要
+## Overview
 
-Phare Frameworkは、モダンなPHP開発プラクティスとPhalconのパフォーマンスを組み合わせ、堅牢で効率的なゲームアプリケーションバックエンドの構築を支援します。API開発からWebアプリケーションまで、幅広いニーズに対応可能な設計となっています。
+Phare Framework combines modern PHP development practices with Phalcon's performance to help you build robust, efficient backends for game applications. Its design covers a wide range of needs, from API development to full web applications.
 
-## 主な機能
+## Features
 
-Phare Frameworkは、迅速なアプリケーション開発をサポートするための豊富な機能を提供します。
+Phare Framework ships a rich feature set aimed at rapid application development.
 
-* **Phalconベース**: 高パフォーマンスなC言語拡張であるPhalcon (v5.4~) をコアに採用しています。
-* **モジュールシステム**: アプリケーションをAPIやWebなどのモジュール単位で分割し、管理することができます。
-* **ルーティング**:
-    * コントローラーのアトリビュート (`#[Route]`, `#[RoutePrefix]`) を使用した直感的なルーティング定義が可能です。
-    * 従来のファイルベースのルーティング定義もサポートしています。
-    * パフォーマンス向上のためのルートキャッシュ機能を備えています。
-* **データベースアクセス**:
-    * Eloquentライクな直感的でパワフルなORMを提供します。
-    * MySQL, PostgreSQL, SQLiteなど、複数のデータベースシステムをサポートしています。
-    * データベースシャーディングに対応し、大規模データ処理を考慮した設計が可能です。
-    * タイムスタンプ (`created_at`, `updated_at`) やソフトデリート などの便利な機能も提供します。
-* **テンプレートエンジン**:
-    * BladeOneをベースとしたカスタムBladeテンプレートエンジンを搭載し、シンプルで強力なビュー作成が可能です。
-    * HTML生成を容易にするためのカスタムBladeディレクティブ (フォーム要素、CSSフレームワークコンポーネント等) を提供します。
-    * Phalcon標準のVoltテンプレートエンジンも利用可能です。
-* **認証機構**: セッションベースのユーザー認証システムを簡単に構築できます。
-* **セッション管理**: ファイル、Redis (クラスタ構成含む) をバックエンドとした柔軟なセッション管理を実現します。
-* **キャッシュシステム**: ファイル、Redis、APCなど複数のドライバをサポートするキャッシュ機能を提供します。
-* **キューイングシステム**: Beanstalkdを利用した非同期タスク処理のためのキューイングシステムを統合しています。
-* **エラーハンドリングとロギング**:
-    * 堅牢な例外処理と、開発時に詳細な情報を提供するデバッグ機能を備えています。
-    * 設定可能なマルチチャネルロギングシステム (ファイル、Syslog、標準エラー出力など) を提供します。
-* **高機能なテストスイート**:
-    * PHPUnitおよびPest PHPに対応したテスト環境を提供し、単体テストや機能テストの作成を容易にします。
-    * HTTPリクエストのシミュレーションやレスポンス検証のための便利なアサーションメソッドを提供します。
-* **開発支援ツール**:
-    * Laravel PintによるPSR-12準拠のコードスタイル自動修正機能を統合しています。
-    * PHP Insightsによる静的コード解析をサポートし、コード品質の維持向上に貢献します。
-* **便利なユーティリティ**:
-    * Chronosを拡張した日付時刻操作クラス (`Phare\Support\Chronos`) を提供します。
-    * Sqidsを利用したIDエンコード/デコード機能を提供します。
-    * 配列、コレクション、文字列操作を補助する豊富なヘルパークラス (`Arr`, `Collection`, `Str`) を提供します。
-    * Symfony DotEnvコンポーネントを利用した安全な環境変数管理を行います。
-* **サービスコンテナとFacade**:
-    * 堅牢なDIコンテナによる依存性の管理と解決を行います。
-    * 主要なサービスへ簡単にアクセスするためのFacadeパターンを採用しています。
-* **ヘルパー関数**: `config()`, `env()`, `app()`, `response()`, `request()`, `route()`, `session()`, `now()` など、開発を効率化する多数のグローバルヘルパー関数を提供します。
+* **Built on Phalcon**: Phalcon (v5.4+), a high-performance C extension, is used as the core.
+* **Module system**: Applications can be split into and managed as modules such as API and Web.
+* **Routing**:
+    * Intuitive route definitions through controller attributes (`#[Route]`, `#[RoutePrefix]`).
+    * Traditional file-based route definitions are supported as well.
+    * Route caching is available for better performance.
+* **Database access**:
+    * An intuitive, powerful Eloquent-like ORM.
+    * Support for multiple database systems including MySQL, PostgreSQL and SQLite.
+    * Database sharding support, so large data volumes can be designed for.
+    * Conveniences such as timestamps (`created_at`, `updated_at`) and soft deletes.
+* **Template engine**:
+    * A custom Blade template engine based on BladeOne, for simple and powerful views.
+    * Custom Blade directives that make HTML generation easier (form elements, CSS framework components and so on).
+    * Phalcon's standard Volt template engine is also available.
+* **Authentication**: Session-based user authentication is straightforward to set up.
+* **Session management**: Flexible session handling backed by files or Redis (including clustered setups).
+* **Cache system**: Caching with support for multiple drivers such as file, Redis and APC.
+* **Queueing system**: An integrated queue for asynchronous task processing on top of Beanstalkd.
+* **Error handling and logging**:
+    * Robust exception handling plus debugging facilities that surface detail during development.
+    * A configurable multi-channel logging system (file, syslog, stderr and more).
+* **Capable test suite**:
+    * A test environment for both PHPUnit and Pest PHP, making unit and feature tests easy to write.
+    * Convenient assertion methods for simulating HTTP requests and inspecting responses.
+* **Development tooling**:
+    * Laravel Pint is integrated for automatic PSR-12 compliant code style fixes.
+    * PHPStan static analysis is supported, helping keep code quality up.
+* **Useful utilities**:
+    * A date/time class extending Chronos (`Phare\Support\Chronos`).
+    * ID encoding/decoding through Sqids.
+    * A rich set of helper classes for arrays, collections and strings (`Arr`, `Collection`, `Str`).
+    * Safe environment variable handling via the Symfony DotEnv component.
+* **Service container and facades**:
+    * Dependency management and resolution through a solid DI container.
+    * The facade pattern for easy access to the main services.
+* **Helper functions**: Many global helpers that speed development up, including `config()`, `env()`, `app()`, `response()`, `request()`, `route()`, `session()` and `now()`.
 
-## システム要件
+## System requirements
 
 * PHP ^8.2
-* 必須PHP拡張:
+* Required PHP extensions:
     * `ext-mbstring`
     * `ext-openssl`
     * `ext-intl`
     * `ext-pdo`
-    * `ext-gmp` (Sqidsで推奨)
-    * `ext-bcmath` (Sqidsで推奨)
+    * `ext-gmp` (recommended for Sqids)
+    * `ext-bcmath` (recommended for Sqids)
     * `ext-phalcon` (~5.4)
-    * `ext-sqids` (推奨、IDジェネレータ用)
-    * `ext-chronos` (推奨、Chronos DateTimeライブラリ用)
-* 推奨PHP拡張:
-    * `ext-redis` (Redisキャッシュ/セッション使用時)
-    * `ext-msgpack` (msgpackシリアライザ使用時)
+    * `ext-sqids` (recommended, for the ID generator)
+    * `ext-chronos` (recommended, for the Chronos DateTime library)
+* Recommended PHP extensions:
+    * `ext-redis` (when using the Redis cache/session)
+    * `ext-msgpack` (when using the msgpack serializer)
 
-## インストール
+## Installation
 
-1.  **リポジトリのクローン (またはダウンロード)**:
+1.  **Clone (or download) the repository**:
     ```bash
     git clone <repository_url> phare-framework
     cd phare-framework
     ```
-2.  **Composer依存関係のインストール**:
+2.  **Install the Composer dependencies**:
     ```bash
     composer install
     ```
-3.  **環境設定**:
-    * `.env.example` ファイルをコピーして `.env` ファイルを作成します。
-    * `.env` ファイル内のデータベース接続情報、アプリケーションキー (`APP_KEY`) などを適切に設定します。 `APP_KEY` は通常、32文字のランダムな文字列です。
+3.  **Configure the environment**:
+    * Copy `.env.example` to create a `.env` file.
+    * Fill in the database connection details, the application key (`APP_KEY`) and so on. `APP_KEY` is normally a random 32-character string.
         ```bash
-        # 例: APP_KEYの生成 (もし `php artisan key:generate` のようなコマンドがあればそれを使用)
+        # e.g. generating APP_KEY (use `php artisan key:generate` if available)
         # openssl rand -base64 32
         ```
-4.  **ディレクトリパーミッション**:
-    `storage` ディレクトリおよび `bootstrap/cache` ディレクトリに書き込み権限があることを確認してください。
+4.  **Directory permissions**:
+    Make sure the `storage` and `bootstrap/cache` directories are writable.
 
-## 基本的な使い方 (概念)
+## Basic usage (concepts)
 
-Phare Frameworkは、一般的なMVCライクなアーキテクチャを採用しています。
+Phare Framework follows a conventional MVC-like architecture.
 
-### 1. アプリケーションの起動
+### 1. Booting the application
 
-フレームワークは、`bootstrap/app.php` ファイルを通じてアプリケーションインスタンスを生成し、必要なサービスプロバイダをロードします。
+The framework creates the application instance through `bootstrap/app.php` and loads the required service providers.
 
-### 2. ルーティング
+### 2. Routing
 
-ルートは `routes/` ディレクトリ内のファイル (例: `api.php`, `web.php`) やコントローラーのアトリビュートで定義します。
+Routes are defined either in files under `routes/` (for example `api.php`, `web.php`) or through controller attributes.
 
-**例: アトリビュートベースのルーティング (`app/Http/Controllers/Api/ExampleController.php`)**
+**Example: attribute-based routing (`app/Http/Controllers/Api/ExampleController.php`)**
 
 ```php
 <?php
@@ -109,8 +109,8 @@ namespace App\Http\Controllers\Api;
 
 use Phare\Attributes\Route;
 use Phare\Attributes\RoutePrefix;
-use Phare\Http\Request; // PhareのRequestクラスを想定
-use App\Models\User; // あなたのUserモデルを想定
+use Phare\Http\Request; // Phare's Request class
+use App\Models\User; // your own User model
 
 #[RoutePrefix('/users')]
 class UserController
@@ -131,7 +131,7 @@ class UserController
     #[Route('/', methods: ['POST'])]
     public function store(Request $request): array
     {
-        // バリデーションを行う場合 (Phare\Http\Request にバリデーション機能がある場合)
+        // With validation (where Phare\Http\Request provides it)
         // $validatedData = $request->validate([
         // 'name' => 'required|string|max:255',
         // 'email' => 'required|email|unique:users',
@@ -139,11 +139,11 @@ class UserController
         // ]);
         // $user = User::create($validatedData);
 
-        // シンプルな例
+        // The simple version
         $user = new User();
         $user->name = $request->get('name');
         $user->email = $request->get('email');
-        $user->password = bcrypt($request->get('password')); // bcryptヘルパーを想定
+        $user->password = bcrypt($request->get('password')); // assumes a bcrypt helper
         $user->save();
 
         return ['message' => 'User created successfully', 'user_id' => $user->id];
@@ -151,11 +151,11 @@ class UserController
 }
 ```
 
-### 3. モデル
+### 3. Models
 
-データベースとのやり取りは、Eloquentライクなモデルを通じて行います。
+Database work goes through Eloquent-like models.
 
-**例: `app/Models/User.php`**
+**Example: `app/Models/User.php`**
 
 ```php
 <?php
@@ -163,16 +163,16 @@ class UserController
 namespace App\Models;
 
 use Phare\Eloquent\Model;
-use Phare\Auth\Authenticatable; // PhareのAuthenticatableトレイトを想定
-use Phare\Contracts\Auth\Authenticatable as AuthenticatableContract; // PhareのContractを想定
+use Phare\Auth\Authenticatable; // Phare's Authenticatable trait
+use Phare\Contracts\Auth\Authenticatable as AuthenticatableContract; // Phare's contract
 use Phare\Eloquent\Concerns\HasTimestamps;
 
 class User extends Model implements AuthenticatableContract
 {
     use Authenticatable;
-    use HasTimestamps; // created_at と updated_at を自動管理
+    use HasTimestamps; // manages created_at and updated_at
 
-    protected ?string $connection = 'mysql'; // config/database.php で定義した接続名
+    protected ?string $connection = 'mysql'; // a connection name from config/database.php
     protected ?string $table = 'users';
     protected string $primaryKey = 'id';
 
@@ -180,7 +180,7 @@ class User extends Model implements AuthenticatableContract
         'name',
         'email',
         'password',
-        // その他fillableなカラム
+        // other fillable columns
     ];
 
     protected array $hidden = [
@@ -194,14 +194,14 @@ class User extends Model implements AuthenticatableContract
 }
 ```
 
-### 4. ビュー (Blade)
+### 4. Views (Blade)
 
-HTMLのレンダリングにはBladeテンプレートエンジンを使用します。
+HTML is rendered with the Blade template engine.
 
-**例: `resources/views/users/index.blade.php`**
+**Example: `resources/views/users/index.blade.php`**
 
 ```blade
-@extends('layouts.app') {{-- layouts/app.blade.php を継承 --}}
+@extends('layouts.app') {{-- extends layouts/app.blade.php --}}
 
 @section('title', 'User List')
 
@@ -217,50 +217,48 @@ HTMLのレンダリングにはBladeテンプレートエンジンを使用し�
         <p>No users found.</p>
     @endif
 
-    {{-- カスタムHTMLヘルパーの使用例 (Phare\View\Tags\BladeHtml が提供する場合) --}}
+    {{-- Using the custom HTML helpers (where Phare\View\Tags\BladeHtml provides them) --}}
     {{-- @button(type="button" class="btn-primary" text="Add New User" href=@route('users.create')) --}}
 @endsection
 ```
 
-## テスト
+## Testing
 
-Phare FrameworkはPHPUnitとPest PHPによるテストをサポートしています。
+Phare Framework supports testing with both PHPUnit and Pest PHP.
 
-* **PHPUnitテストの実行**:
+* **Run the PHPUnit tests**:
     ```bash
     ./vendor/bin/phpunit
     ```
-* **Pest PHPテストの実行**:
+* **Run the Pest PHP tests**:
     ```bash
     ./vendor/bin/pest
     ```
 
-テストケースは `tests/` ディレクトリに配置します。
-`tests/Unit` に単体テスト、`tests/Feature` (またはプロジェクト構成による) に機能テストを配置するのが一般的です。
+Test cases live in the `tests/` directory. Unit tests conventionally go in `tests/Unit` and feature tests in `tests/Feature` (or wherever the project structure puts them).
 
-## コードスタイル
+## Code style
 
-本プロジェクトでは、コードスタイルの一貫性を保つためにLaravel Pintを使用しています。
-コミット前に以下のコマンドを実行してコードスタイルを整形することを推奨します。
+This project uses Laravel Pint to keep the code style consistent. Running it before committing is recommended.
 
 ```bash
 ./vendor/bin/pint
 ```
 
-## 静的解析
+## Static analysis
 
-PHPStan (level 5, 設定は `phpstan.neon.dist`) で静的解析を行います。
+Static analysis runs through PHPStan (level 5, configured in `phpstan.neon.dist`).
 
 ```bash
 ./vendor/bin/phpstan analyse
 ```
 
-## 貢献
+## Contributing
 
-貢献を歓迎します！バグ報告、機能提案、プルリクエストはGitHubリポジトリのIssuesやPull Requestsセクションにお願いします。
+Contributions are welcome. Bug reports, feature suggestions and pull requests all belong in the Issues and Pull Requests sections of the GitHub repository.
 
-1.  リポジトリをフォークしてください。
-2.  フィーチャーブランチを作成してください (`git checkout -b feature/AmazingFeature`)。
-3.  変更をコミットしてください (`git commit -m 'Add some AmazingFeature'`)。
-4.  ブランチにプッシュしてください (`git push origin feature/AmazingFeature`)。
-5.  プルリクエストを作成してください。
+1.  Fork the repository.
+2.  Create a feature branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4.  Push the branch (`git push origin feature/AmazingFeature`).
+5.  Open a pull request.

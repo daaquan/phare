@@ -10,8 +10,8 @@ use Phare\Foundation\Http\Concerns\BeforeMiddleware;
 use Phare\Support\Facades\Auth;
 
 /**
- * 管理画面 (broadcasting monitor 等) を管理者のみに制限する。
- * 非管理者・未認証はトップへリダイレクト。
+ * Restricts admin screens (the broadcasting monitor and friends) to admins.
+ * Non-admins and guests are redirected to the top page.
  */
 class EnsureUserIsAdmin extends MiddlewareContract implements BeforeMiddleware
 {

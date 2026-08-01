@@ -4,9 +4,9 @@ use Phare\Broadcasting\AccessDeniedException;
 use Phare\Broadcasting\Broadcasters\PusherBroadcaster;
 
 /**
- * 購読認可の拒否パスの回帰テスト。以前は存在しない Symfony の
- * AccessDeniedHttpException を throw していたため、拒否時に 403 ではなく
- * "class not found" で落ちていた。
+ * Regression test for the subscription denial path. It used to throw Symfony's
+ * AccessDeniedHttpException, a class no installed package provides, so a denial
+ * died with "class not found" instead of returning 403.
  */
 function broadcastAuthRequest(array $params): object
 {
@@ -21,7 +21,7 @@ function broadcastAuthRequest(array $params): object
     };
 }
 
-test('guarded でないチャンネルの認可要求は AccessDeniedException になる', function () {
+test('an auth request for an unguarded channel raises AccessDeniedException', function () {
     $broadcaster = new PusherBroadcaster('key', 'secret', 'app-id');
 
     expect(fn () => $broadcaster->auth(broadcastAuthRequest([
@@ -30,7 +30,7 @@ test('guarded でないチャンネルの認可要求は AccessDeniedException �
     ])))->toThrow(AccessDeniedException::class);
 });
 
-test('チャンネル名なしの認可要求は AccessDeniedException になる', function () {
+test('an auth request without a channel name raises AccessDeniedException', function () {
     $broadcaster = new PusherBroadcaster('key', 'secret', 'app-id');
 
     expect(fn () => $broadcaster->auth(broadcastAuthRequest(['socket_id' => '1.1'])))

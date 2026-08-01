@@ -1,81 +1,81 @@
-# Broadcasting (Laravel Echo 同等) + 監視管理画面 — 設計
+# Broadcasting (Laravel Echo equivalent) + monitor admin screen — design
 
-日付: 2026-06-26
-ステータス: 実装中
+Date: 2026-06-26
+Status: in progress
 
-## 目的
+## Goal
 
-リアルタイム配信機能を Laravel Echo 同等のレベルでアプリ (`/opt/phare`) に通す。
-あわせて配信状況を見る管理画面 (broadcasting monitor) を提供する。
+Wire real-time broadcasting through the app (`/opt/phare`) at a level equivalent to Laravel
+Echo, and provide an admin screen (the broadcasting monitor) for observing it.
 
-サーバ側の配信基盤 (`Phare\Broadcasting\*`: BroadcastManager / Pusher・Redis・Log・Null
-broadcaster / channel 認可ロジック) は framework 側に既存。本作業はアプリ側の配線と
-JS クライアント、監視ダッシュボードの追加。
+The server-side foundation (`Phare\Broadcasting\*`: BroadcastManager, the Pusher / Redis /
+Log / Null broadcasters, channel authorisation) already exists in the framework. This work
+covers the app-side wiring, the JS client, and the monitor dashboard.
 
-## 決定事項
+## Decisions
 
-- **転送**: Soketi (self-hosted, Pusher プロトコル互換)。framework の `PusherBroadcaster`
-  をそのまま Soketi に向ける。Reverb 代替。
-- **JS クライアント**: 本物の `laravel-echo` + `pusher-js` npm を利用 (Echo を自作しない)。
-- **管理画面スコープ**: broadcasting monitor のみ (汎用 admin ではない)。
-- **管理画面アクセス制御**: `users.is_admin` boolean + `admin` route-middleware。
+- **Transport**: Soketi (self-hosted, Pusher protocol compatible). The framework's
+  `PusherBroadcaster` points straight at it. Stands in for Reverb.
+- **JS client**: the real `laravel-echo` + `pusher-js` npm packages -- no home-grown Echo.
+- **Admin scope**: the broadcasting monitor only, not a general-purpose admin.
+- **Admin access control**: a `users.is_admin` boolean plus an `admin` route middleware.
 
-## データフロー
+## Data flow
 
 ```
-PHP event → Broadcast facade → PusherBroadcaster → Soketi(WS) → laravel-echo(browser)
-                                     ↑                    ↓
-                        POST /broadcasting/auth   private/presence 購読
-監視: Admin\BroadcastingController → Pusher SDK (getPusher()->getChannels 等)
-       → Soketi HTTP API → React ダッシュボード(poll)
+PHP event -> Broadcast facade -> PusherBroadcaster -> Soketi(WS) -> laravel-echo (browser)
+                                     ^                      |
+                        POST /broadcasting/auth   private/presence subscription
+Monitor: Admin\BroadcastingController -> Pusher SDK (getPusher()->getChannels etc.)
+         -> Soketi HTTP API -> React dashboard (polling)
 ```
 
-## コンポーネント
+## Components
 
-### サーバ配線 (アプリ)
-- `config/broadcasting.php` — `pusher` を既定にし Soketi の host/port/scheme を env から。
-  ローカルは `useTLS=false`。
-- `routes/channels.php` — チャンネル認可コールバック (`Broadcast::channel(...)`)。
-  `App.User.{id}` private と `presence-monitor` presence のデモ。
-- `App\Providers\BroadcastServiceProvider`（framework）を providers に追加し `broadcast`
-  サービスと `Broadcast` alias を有効化。
+### Server wiring (app)
+- `config/broadcasting.php` — default to `pusher`, with Soketi's host/port/scheme from env.
+  Locally `useTLS=false`.
+- `routes/channels.php` — channel authorisation callbacks (`Broadcast::channel(...)`),
+  demonstrating a private `App.User.{id}` and a `presence-monitor` presence channel.
+- Add `App\Providers\BroadcastServiceProvider` (framework) to the providers to enable the
+  `broadcast` service and the `Broadcast` alias.
 - `App\Http\Controllers\Broadcasting\AuthController` — `POST /broadcasting/auth`
-  (middleware `auth`)。`routes/channels.php` を読み込み `Broadcast::auth($request)` を返す。
-  チャンネル登録はリクエスト時に lazy に行いブート順依存を避ける。
-- `App\Events\MessageBroadcast` — private + presence に流すデモイベント。
+  (middleware `auth`). Loads `routes/channels.php` and returns `Broadcast::auth($request)`.
+  Channels are registered lazily per request to stay independent of boot order.
+- `App\Events\MessageBroadcast` — demo event sent to a private and a presence channel.
 
-### フロント Echo クライアント
+### Frontend Echo client
 - `npm i laravel-echo pusher-js`
-- `resources/js/echo.ts` — Echo 初期化 (broadcaster `pusher`、wsHost/wsPort を Vite env、
-  authEndpoint `/broadcasting/auth`、X-CSRF-TOKEN)。`window.Echo` に公開。
-- `resources/js/hooks/use-echo.ts` — `useEcho(channel, event, cb)` 薄いフック。
-- `app.tsx` で `echo.ts` を import。
+- `resources/js/echo.ts` — Echo initialisation (broadcaster `pusher`, wsHost/wsPort from Vite
+  env, authEndpoint `/broadcasting/auth`, X-CSRF-TOKEN). Exposed on `window.Echo`.
+- `resources/js/hooks/use-echo.ts` — the thin `useEcho(channel, event, cb)` hook.
+- `app.tsx` imports `echo.ts`.
 
-### 監視管理画面 (`/admin/broadcasting`)
+### Monitor admin screen (`/admin/broadcasting`)
 - `App\Http\Controllers\Admin\BroadcastingController`
-  - `GET /admin/broadcasting` → `Inertia::render('admin/Broadcasting')`
-  - `GET /admin/broadcasting/channels` → Soketi の占有チャンネル一覧 (JSON)
-  - `GET /admin/broadcasting/channels/{name}` → 占有/購読数 + presence メンバー (JSON)
-  - `POST /admin/broadcasting/test` → `MessageBroadcast` を dispatch
-  - すべて middleware `['auth','verified','admin']`
-  - Soketi 未起動時は try/catch で空 + 警告ログ (落とさない)
-- `resources/js/pages/admin/Broadcasting.tsx` — チャンネル表 (名前/種別/購読数)、
-  presence メンバー、自動 poll、テスト送信ボタンでライブ受信を確認。
+  - `GET /admin/broadcasting` -> `Inertia::render('admin/Broadcasting')`
+  - `GET /admin/broadcasting/channels` -> Soketi's occupied channels (JSON)
+  - `GET /admin/broadcasting/channels/{name}` -> occupancy/subscription count + presence members (JSON)
+  - `POST /admin/broadcasting/test` -> dispatch `MessageBroadcast`
+  - all behind middleware `['auth','verified','admin']`
+  - when Soketi is down, try/catch returns empty results plus a warning log rather than failing
+- `resources/js/pages/admin/Broadcasting.tsx` — channel table (name/type/subscribers),
+  presence members, automatic polling, and a test-send button proving live receipt.
 
-### アクセス制御
-- マイグレーション: `users.is_admin` boolean default false。
-- `App\Http\Middleware\EnsureUserIsAdmin` + Kernel `routeMiddleware['admin']`。
+### Access control
+- Migration: `users.is_admin` boolean default false.
+- `App\Http\Middleware\EnsureUserIsAdmin` plus Kernel `routeMiddleware['admin']`.
 
-## スコープ外 (YAGNI)
-- 永続イベントログ: Soketi は履歴を持たない。必要時に Soketi webhook 受信で追加。
-- 汎用 app admin (ユーザー/投稿管理など): 監視のみにスコープ。
+## Out of scope (YAGNI)
+- A persistent event log: Soketi keeps no history. Add it later by receiving Soketi webhooks.
+- A general app admin (user/post management and so on): scoped to monitoring only.
 
-## テスト
-- チャンネル認可 / イベントの broadcastOn・broadcastWith のユニットテスト。
-- 監視コントローラの描画テスト (CLAUDE.md の通り、リダイレクトでなく Inertia
-  コンポーネントを assert。DB 書き込み系は sqlite ドライバの segfault で skip)。
-- Pusher SDK をモックして channels エンドポイントのテスト。
+## Testing
+- Unit tests for channel authorisation and for events' broadcastOn/broadcastWith.
+- Rendering tests for the monitor controller (per CLAUDE.md, assert the Inertia component
+  rather than redirects; DB-write flows are skipped due to the sqlite driver segfault).
+- Tests for the channels endpoint with the Pusher SDK mocked.
 
-## ローカル実行
-- `npx @soketi/soketi start`（または docker）。env は `PUSHER_*`（app id/key/secret）+
-  `PUSHER_HOST=127.0.0.1` `PUSHER_PORT=6001` `PUSHER_SCHEME=http`。
+## Running locally
+- `npx @soketi/soketi start` (or docker). Env: `PUSHER_*` (app id/key/secret) plus
+  `PUSHER_HOST=127.0.0.1`, `PUSHER_PORT=6001`, `PUSHER_SCHEME=http`.

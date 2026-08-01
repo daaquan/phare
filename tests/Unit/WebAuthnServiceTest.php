@@ -3,8 +3,8 @@
 use App\Support\WebAuthn\WebAuthnService;
 
 /**
- * パスキーの暗号検証は web-auth/webauthn-lib（独自のテスト済み）が担うため、
- * ここはアプリ側の結線（オプション生成・base64url）だけを検証する。
+ * The passkey cryptography is verified by web-auth/webauthn-lib, which has its own
+ * tests, so this only covers the app-side wiring: option building and base64url.
  */
 it('builds WebAuthn request options as valid JSON carrying a challenge', function () {
     $json = (new WebAuthnService())->requestOptions();

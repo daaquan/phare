@@ -12,9 +12,9 @@ use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Inertia;
 
 /**
- * セキュリティ設定ページ。Laravel 13 スターターキットに合わせ、パスワード変更・
- * 二段階認証・パスキーを 1 つの画面に統合する（個別の更新エンドポイントは
- * PasswordController / TwoFactorAuthenticationController / PasskeyController が担う）。
+ * Security settings page. Following the Laravel 13 starter kit, password changes,
+ * two-factor and passkeys live on one screen; the individual update endpoints stay
+ * in PasswordController / TwoFactorAuthenticationController / PasskeyController.
  */
 class SecurityController extends Controller
 {
@@ -33,8 +33,8 @@ class SecurityController extends Controller
             'pending' => $pending,
         ];
 
-        // 未確認のシークレットがある間だけ手入力キー / otpauth URI を露出する。
-        // $pending の時点で $user は User かつ two_factor_secret が非 null。
+        // Expose the manual key / otpauth URI only while a secret is unconfirmed.
+        // $pending already implies $user is a User with a non-null two_factor_secret.
         if ($pending) {
             $secret = (string)$user->two_factor_secret;
             $twoFactor['secret'] = $secret;
@@ -45,7 +45,7 @@ class SecurityController extends Controller
             );
         }
 
-        // $enabled も同様に $user が User であることを含意する。
+        // $enabled likewise implies $user is a User.
         if ($enabled) {
             $twoFactor['recoveryCodes'] = $user->recoveryCodes();
         }

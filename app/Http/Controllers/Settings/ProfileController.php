@@ -32,7 +32,7 @@ class ProfileController extends Controller
         $email = trim((string)$request->get('email'));
 
         if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->session->set('errors', ['name' => '名前とメールアドレスを正しく入力してください。']);
+            $this->session->set('errors', ['name' => 'Enter a valid name and email address.']);
 
             return $this->response->redirect('/settings/profile');
         }
@@ -53,7 +53,7 @@ class ProfileController extends Controller
             $this->sendVerificationEmail($user);
         }
 
-        $this->flashSession->success('プロフィールを更新しました。');
+        $this->flashSession->success('Profile updated.');
 
         return $this->response->redirect('/settings/profile');
     }
@@ -69,7 +69,7 @@ class ProfileController extends Controller
         // Laravel parity: account deletion requires re-entering the password.
         $password = (string)$request->get('password');
         if (!Auth::attempt(['id' => $user->id, 'password' => $password])) {
-            $this->session->set('errors', ['password' => 'パスワードが正しくありません。']);
+            $this->session->set('errors', ['password' => 'That password is not correct.']);
 
             return $this->response->redirect('/settings/profile');
         }
@@ -77,7 +77,7 @@ class ProfileController extends Controller
         Auth::logout();
         $user->delete();
 
-        $this->flashSession->success('アカウントを削除しました。');
+        $this->flashSession->success('Account deleted.');
 
         return $this->response->redirect('/');
     }

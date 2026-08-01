@@ -10,9 +10,9 @@ use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
 
 /**
- * Laravel パリティ: 二段階認証 (TOTP) の有効化・確認・無効化・
- * リカバリーコード再生成。表示は SecurityController（/settings/security）が担い、
- * ここは更新系エンドポイントのみを提供する。機密操作のため password.confirm で保護する。
+ * Laravel parity: enable, confirm, disable and regenerate recovery codes for
+ * two-factor (TOTP). SecurityController (/settings/security) renders the screen;
+ * this class only serves the write endpoints, guarded by password.confirm.
  */
 class TwoFactorAuthenticationController extends Controller
 {
@@ -24,7 +24,7 @@ class TwoFactorAuthenticationController extends Controller
             return $this->response->redirect('/user/login');
         }
 
-        // 確認前のシークレットとリカバリーコードを発行（まだ confirmed にしない）。
+        // Issue the unconfirmed secret and recovery codes (not confirmed yet).
         $user->two_factor_secret = Totp::generateSecret();
         $user->two_factor_recovery_codes = json_encode(User::generateRecoveryCodes());
         $user->two_factor_confirmed_at = null;
@@ -47,7 +47,7 @@ class TwoFactorAuthenticationController extends Controller
 
         $code = (string)$request->get('code');
         if (!Totp::verify((string)$user->two_factor_secret, $code)) {
-            $this->session->set('errors', ['code' => '認証コードが正しくありません。']);
+            $this->session->set('errors', ['code' => 'That authentication code is not correct.']);
 
             return $this->response->redirect('/settings/security');
         }
@@ -55,7 +55,7 @@ class TwoFactorAuthenticationController extends Controller
         $user->two_factor_confirmed_at = date('Y-m-d H:i:s');
         $user->save();
 
-        $this->flashSession->success('二段階認証を有効にしました。');
+        $this->flashSession->success('Two-factor authentication enabled.');
 
         return $this->response->redirect('/settings/security');
     }
@@ -71,7 +71,7 @@ class TwoFactorAuthenticationController extends Controller
         $user->two_factor_recovery_codes = json_encode(User::generateRecoveryCodes());
         $user->save();
 
-        $this->flashSession->success('リカバリーコードを再生成しました。');
+        $this->flashSession->success('Recovery codes regenerated.');
 
         return $this->response->redirect('/settings/security');
     }
@@ -89,7 +89,7 @@ class TwoFactorAuthenticationController extends Controller
         $user->two_factor_confirmed_at = null;
         $user->save();
 
-        $this->flashSession->success('二段階認証を無効にしました。');
+        $this->flashSession->success('Two-factor authentication disabled.');
 
         return $this->response->redirect('/settings/security');
     }

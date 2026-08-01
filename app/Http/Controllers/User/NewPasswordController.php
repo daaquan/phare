@@ -36,27 +36,27 @@ class NewPasswordController extends Controller
         $confirmation = (string)$request->get('password_confirmation');
 
         if (strlen($password) < 8) {
-            $this->session->set('errors', ['password' => 'パスワードは8文字以上で入力してください。']);
+            $this->session->set('errors', ['password' => 'The password must be at least 8 characters.']);
 
             return $this->response->redirect('/user/reset-password/' . $token . '?email=' . urlencode($email));
         }
 
         if ($password !== $confirmation) {
-            $this->session->set('errors', ['password' => 'パスワードが一致しません。']);
+            $this->session->set('errors', ['password' => 'The passwords do not match.']);
 
             return $this->response->redirect('/user/reset-password/' . $token . '?email=' . urlencode($email));
         }
 
         $broker = app('password.broker');
         if (!$broker->validateToken($email, $token)) {
-            $this->session->set('errors', ['email' => '無効または期限切れのトークンです。']);
+            $this->session->set('errors', ['email' => 'That token is invalid or has expired.']);
 
             return $this->response->redirect('/user/forgot-password');
         }
 
         $user = $this->users->getUserByEmail($email);
         if ($user === null) {
-            $this->session->set('errors', ['email' => 'ユーザーが見つかりません。']);
+            $this->session->set('errors', ['email' => 'User not found.']);
 
             return $this->response->redirect('/user/forgot-password');
         }

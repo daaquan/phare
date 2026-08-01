@@ -20,12 +20,12 @@ export default function Profile() {
         patch('/settings/profile');
     };
 
-    // 認証メール再送（未認証ユーザー向け）。
+    // Resend the verification email (for unverified users).
     const resend = useForm({});
     const resendVerification = () =>
         resend.post('/user/email/verification-notification');
 
-    // アカウント削除（パスワード再入力を要求）。
+    // Delete the account, re-asking for the password.
     const remove = useForm({ password: '' });
     const deleteAccount = (e: FormEvent) => {
         e.preventDefault();
@@ -33,12 +33,12 @@ export default function Profile() {
     };
 
     return (
-        <SettingsLayout title="プロフィール">
-            <Head title="プロフィール設定" />
+        <SettingsLayout title="Profile">
+            <Head title="Profile settings" />
 
             <form onSubmit={submit} className="space-y-4">
                 <div className="space-y-2">
-                    <Label htmlFor="name">名前</Label>
+                    <Label htmlFor="name">Name</Label>
                     <Input
                         id="name"
                         value={data.name}
@@ -50,7 +50,7 @@ export default function Profile() {
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="email">メールアドレス</Label>
+                    <Label htmlFor="email">Email address</Label>
                     <Input
                         id="email"
                         type="email"
@@ -65,7 +65,7 @@ export default function Profile() {
                 {auth.user && !auth.user.email_verified && (
                     <div className="rounded-md bg-amber-500/10 px-3 py-2 text-sm">
                         <p className="text-amber-700 dark:text-amber-400">
-                            メールアドレスが未確認です。
+                            Your email address is unverified.
                         </p>
                         <button
                             type="button"
@@ -73,13 +73,13 @@ export default function Profile() {
                             disabled={resend.processing}
                             className="mt-1 font-medium text-primary underline-offset-4 hover:underline"
                         >
-                            確認メールを再送する
+                            Resend the verification email
                         </button>
                     </div>
                 )}
 
                 <Button type="submit" disabled={processing}>
-                    保存
+                    Save
                 </Button>
             </form>
 
@@ -88,16 +88,16 @@ export default function Profile() {
             <section className="space-y-4">
                 <div>
                     <h3 className="text-base font-semibold text-destructive">
-                        アカウントの削除
+                        Delete account
                     </h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                        アカウントを削除すると、すべてのデータが完全に失われます。この操作は取り消せません。
+                        Deleting your account permanently destroys all of its data. This cannot be undone.
                     </p>
                 </div>
 
                 <form onSubmit={deleteAccount} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="delete_password">パスワード</Label>
+                        <Label htmlFor="delete_password">Password</Label>
                         <Input
                             id="delete_password"
                             type="password"
@@ -105,7 +105,7 @@ export default function Profile() {
                             onChange={(e) =>
                                 remove.setData('password', e.target.value)
                             }
-                            placeholder="確認のためパスワードを入力"
+                            placeholder="Enter your password to confirm"
                         />
                         {errors.password && (
                             <p className="text-sm text-destructive">
@@ -119,7 +119,7 @@ export default function Profile() {
                         variant="destructive"
                         disabled={remove.processing}
                     >
-                        アカウントを削除
+                        Delete account
                     </Button>
                 </form>
             </section>

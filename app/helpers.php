@@ -1,7 +1,7 @@
 <?php
 
 /*
- * アプリ固有のグローバルヘルパー関数を定義するファイル。
- * composer.json の autoload.files から読み込まれる。
- * 現時点では空。関数を追加する際はここに記述する。
+ * Application-specific global helper functions.
+ * Loaded through autoload.files in composer.json.
+ * Empty for now; add functions here.
  */

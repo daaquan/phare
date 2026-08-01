@@ -5,9 +5,9 @@ import AppLayout from '@/layouts/AppLayout';
 import { cn } from '@/lib/utils';
 
 const tabs = [
-    { label: 'プロフィール', href: '/settings/profile' },
-    { label: 'セキュリティ', href: '/settings/security' },
-    { label: '外観', href: '/settings/appearance' },
+    { label: 'Profile', href: '/settings/profile' },
+    { label: 'Security', href: '/settings/security' },
+    { label: 'Appearance', href: '/settings/appearance' },
 ];
 
 interface SettingsLayoutProps {
@@ -21,7 +21,7 @@ export default function SettingsLayout({
     const { url } = usePage();
 
     return (
-        <AppLayout title="設定">
+        <AppLayout title="Settings">
             <div className="flex flex-col gap-8 lg:flex-row">
                 <nav className="flex shrink-0 gap-1 lg:w-48 lg:flex-col">
                     {tabs.map((tab) => (

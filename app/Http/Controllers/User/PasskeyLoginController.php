@@ -10,9 +10,9 @@ use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
 
 /**
- * パスキー（WebAuthn）でのログイン。ユーザー名なしの discoverable credential を使い、
- * アサーション検証に成功したら所有ユーザーでログインする。パスキーは強い要素のため
- * パスワード・二段階認証はスキップする。フロントエンドは fetch で呼び JSON を受け取る。
+ * Passkey (WebAuthn) login. Uses a username-less discoverable credential and logs
+ * in the owning user once the assertion verifies. A passkey is a strong factor, so
+ * password and two-factor are skipped. The frontend calls this with fetch and reads JSON.
  */
 class PasskeyLoginController extends Controller
 {
@@ -31,13 +31,13 @@ class PasskeyLoginController extends Controller
         $optionsJson = (string)$this->session->get('passkey.request');
         $this->session->remove('passkey.request');
         if ($optionsJson === '') {
-            return $this->json(['message' => 'セッションが切れました。やり直してください。'], 422);
+            return $this->json(['message' => 'Your session expired. Please try again.'], 422);
         }
 
         $body = $request->getJsonRawBody(true) ?: [];
         $response = $body['response'] ?? null;
         if (!is_array($response)) {
-            return $this->json(['message' => '不正なリクエストです。'], 422);
+            return $this->json(['message' => 'Malformed request.'], 422);
         }
 
         try {
@@ -47,7 +47,7 @@ class PasskeyLoginController extends Controller
         }
 
         if (!$user instanceof User) {
-            return $this->json(['message' => 'パスキーでのログインに失敗しました。'], 422);
+            return $this->json(['message' => 'Passkey login failed.'], 422);
         }
 
         Auth::login($user);

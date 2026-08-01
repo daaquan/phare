@@ -48,12 +48,12 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'sticky' => true, // 同じリクエスト内で同じコネクションを使い回すか(レプリケーションディレイの問題を回避するために必要)
-            'strict' => true, // 無効な値や欠けている値を含むデータをINSERT/UPDATEしようとするとエラーが発生する
-            'engine' => 'InnoDB', // テーブル作成時に使用するストレージエンジン
-            'charset' => 'utf8mb4', // テーブル作成時に使用する文字セット
-            'collation' => 'utf8mb4_bin', // テーブル作成時に使用する照合順序(バイナリー比較で大文字小文字を区別する)
-            // 'collation' => 'utf8mb4_unicode_ci', // 大文字小文字を区別しない照合順序(パフォーマンスが比較的に悪い)
+            'sticky' => true, // Reuse the same connection within a request (needed to dodge replication lag)
+            'strict' => true, // Error out when INSERT/UPDATE carries invalid or missing values
+            'engine' => 'InnoDB', // Storage engine used when creating tables
+            'charset' => 'utf8mb4', // Character set used when creating tables
+            'collation' => 'utf8mb4_bin', // Collation used when creating tables (binary comparison, case sensitive)
+            // 'collation' => 'utf8mb4_unicode_ci', // Case-insensitive collation (comparatively slower)
         ],
 
         'pgsql' => [

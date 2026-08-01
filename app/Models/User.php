@@ -12,7 +12,7 @@ use Phare\Eloquent\Model;
  * @property int $id
  * @property string $name
  * @property string $email
- * @property \DateTime|string|null $email_verified_at 読み出しは datetime キャスト、代入は文字列/null も可
+ * @property \DateTime|string|null $email_verified_at Reads through the datetime cast; assignment also accepts string|null
  * @property string $password
  * @property \DateTime $birthday
  * @property string|null $two_factor_secret
@@ -22,7 +22,7 @@ use Phare\Eloquent\Model;
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
  *
- * Phalcon のマジックファインダー（実体は Model::__callStatic）。
+ * Phalcon magic finders (implemented by Model::__callStatic).
  *
  * @method static static|null findFirstById(mixed $id)
  * @method static static|null findFirstByEmail(string $email)
@@ -64,17 +64,17 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     ];
 
     /**
-     * 管理者か（管理画面アクセス制御に使用）。
+     * Whether the user is an admin (drives admin screen access control).
      */
     public function isAdmin(): bool
     {
-        // readAttribute は未設定カラムでも例外を投げず null を返す
-        // （is_admin マイグレーション未適用の環境/テストでも安全）。
+        // readAttribute returns null instead of throwing for an unset column, which
+        // keeps this safe where the is_admin migration has not run (tests included).
         return (bool)$this->readAttribute('is_admin');
     }
 
     /**
-     * ユーザーは複数の投稿を持つ。
+     * A user has many posts.
      */
     public function posts()
     {
@@ -82,7 +82,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * ユーザーは複数のパスキー（WebAuthn 資格情報）を持つ。
+     * A user has many passkeys (WebAuthn credentials).
      */
     public function passkeys()
     {
@@ -95,7 +95,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * メール認証が済んでいるか。
+     * Whether the email address has been verified.
      */
     public function hasVerifiedEmail(): bool
     {
@@ -103,7 +103,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * メール認証済みとして記録する。
+     * Record the email address as verified.
      */
     public function markEmailAsVerified(): void
     {
@@ -112,7 +112,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * メール認証リンクに埋め込むハッシュ（Laravel 互換: sha1(email)）。
+     * The hash embedded in the verification link (Laravel compatible: sha1(email)).
      */
     public function verificationHash(): string
     {
@@ -120,7 +120,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * 二段階認証が有効化（確認済み）か。
+     * Whether two-factor is enabled (i.e. confirmed).
      */
     public function hasTwoFactorEnabled(): bool
     {
@@ -129,7 +129,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * リカバリーコード一覧（未消費分）。
+     * The unused recovery codes.
      *
      * @return array<int, string>
      */
@@ -145,7 +145,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * 新しいリカバリーコード一式を生成して返す（保存はしない）。
+     * Generate and return a fresh set of recovery codes without persisting them.
      *
      * @return array<int, string>
      */
@@ -153,14 +153,14 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     {
         $codes = [];
         for ($i = 0; $i < $count; $i++) {
-            $codes[] = strtoupper(bin2hex(random_bytes(5))); // 10桁の英数字
+            $codes[] = strtoupper(bin2hex(random_bytes(5))); // 10 alphanumeric characters
         }
 
         return $codes;
     }
 
     /**
-     * リカバリーコードを 1 つ消費する。成功すれば残りを保存して true。
+     * Consume one recovery code. On success the remainder is saved and true returned.
      */
     public function consumeRecoveryCode(string $code): bool
     {

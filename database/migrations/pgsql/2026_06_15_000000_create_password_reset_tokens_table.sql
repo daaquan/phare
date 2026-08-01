@@ -1,4 +1,4 @@
--- パスワードリセット用トークンテーブル
+-- Password reset tokens table
 CREATE TABLE `password_reset_tokens`
 (
     `email`      varchar(100) NOT NULL,

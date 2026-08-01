@@ -11,12 +11,12 @@ use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
 
 /**
- * パスキー（WebAuthn 資格情報）の登録・削除。フロントエンドは fetch で呼び、
- * 登録レスポンスやエラーを JSON で受け取る（Inertia ページ遷移ではない）。
+ * Register and delete passkeys (WebAuthn credentials). The frontend calls these with
+ * fetch and reads the registration response or error as JSON -- not an Inertia visit.
  *
- * ponytail: Laravel は password.confirm でも保護するが、ここは
- * auth + verified + 登録時の WebAuthn ユーザー認証ジェスチャ（生体/PIN）を
- * 再認証とみなして簡素化している。より厳格にするなら password.confirm を追加。
+ * ponytail: Laravel also guards these with password.confirm; here auth + verified
+ * plus the WebAuthn user gesture at registration time (biometric/PIN) count as the
+ * re-authentication. Add password.confirm if you want it stricter.
  */
 class PasskeyController extends Controller
 {
@@ -45,13 +45,13 @@ class PasskeyController extends Controller
         $optionsJson = (string)$this->session->get('passkey.creation');
         $this->session->remove('passkey.creation');
         if ($optionsJson === '') {
-            return $this->json(['message' => 'セッションが切れました。やり直してください。'], 422);
+            return $this->json(['message' => 'Your session expired. Please try again.'], 422);
         }
 
         $body = $request->getJsonRawBody(true) ?: [];
         $response = $body['response'] ?? null;
         if (!is_array($response)) {
-            return $this->json(['message' => '不正なリクエストです。'], 422);
+            return $this->json(['message' => 'Malformed request.'], 422);
         }
 
         try {
@@ -62,10 +62,10 @@ class PasskeyController extends Controller
                 trim((string)($body['name'] ?? '')),
             );
         } catch (\Throwable $e) {
-            return $this->json(['message' => 'パスキーの登録に失敗しました。'], 422);
+            return $this->json(['message' => 'Passkey registration failed.'], 422);
         }
 
-        $this->flashSession->success('パスキーを登録しました。');
+        $this->flashSession->success('Passkey registered.');
 
         return $this->json(['ok' => true]);
     }
@@ -85,7 +85,7 @@ class PasskeyController extends Controller
 
         if ($passkey instanceof Passkey) {
             $passkey->delete();
-            $this->flashSession->success('パスキーを削除しました。');
+            $this->flashSession->success('Passkey deleted.');
         }
 
         return $this->json(['ok' => true]);

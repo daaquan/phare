@@ -23,19 +23,19 @@ class PasswordController extends Controller
         $confirmation = (string)$request->get('password_confirmation');
 
         if (!Auth::attempt(['id' => $user->id, 'password' => $current])) {
-            $this->session->set('errors', ['current_password' => '現在のパスワードが正しくありません。']);
+            $this->session->set('errors', ['current_password' => 'Your current password is not correct.']);
 
             return $this->response->redirect('/settings/security');
         }
 
         if (strlen($password) < 8) {
-            $this->session->set('errors', ['password' => 'パスワードは8文字以上で入力してください。']);
+            $this->session->set('errors', ['password' => 'The password must be at least 8 characters.']);
 
             return $this->response->redirect('/settings/security');
         }
 
         if ($password !== $confirmation) {
-            $this->session->set('errors', ['password' => 'パスワードが一致しません。']);
+            $this->session->set('errors', ['password' => 'The passwords do not match.']);
 
             return $this->response->redirect('/settings/security');
         }
@@ -43,7 +43,7 @@ class PasswordController extends Controller
         $user->password = $password;
         $user->save();
 
-        $this->flashSession->success('パスワードを更新しました。');
+        $this->flashSession->success('Password updated.');
 
         return $this->response->redirect('/settings/security');
     }

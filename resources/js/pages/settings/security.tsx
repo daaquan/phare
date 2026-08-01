@@ -31,7 +31,7 @@ export default function Security() {
     const { errors, twoFactor, passkeys } =
         usePage<SharedProps & SecurityProps>().props;
 
-    // パスワード変更。
+    // Password change.
     const password = useForm({
         current_password: '',
         password: '',
@@ -44,7 +44,7 @@ export default function Security() {
         });
     };
 
-    // 二段階認証。
+    // Two-factor authentication.
     const enableForm = useForm({});
     const confirmForm = useForm({ code: '' });
     const recoveryForm = useForm({});
@@ -56,22 +56,22 @@ export default function Security() {
     };
 
     return (
-        <SettingsLayout title="セキュリティ">
-            <Head title="セキュリティ設定" />
+        <SettingsLayout title="Security">
+            <Head title="Security settings" />
 
             <div className="space-y-10">
-                {/* パスワード変更 */}
+                {/* Password change */}
                 <section className="space-y-4">
                     <div>
-                        <h3 className="text-base font-semibold">パスワード</h3>
+                        <h3 className="text-base font-semibold">Password</h3>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            安全のため、長くランダムなパスワードを使用してください。
+                            Use a long, random password to stay secure.
                         </p>
                     </div>
 
                     <form onSubmit={submitPassword} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="current_password">現在のパスワード</Label>
+                            <Label htmlFor="current_password">Current password</Label>
                             <Input
                                 id="current_password"
                                 type="password"
@@ -88,7 +88,7 @@ export default function Security() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="password">新しいパスワード</Label>
+                            <Label htmlFor="password">New password</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -106,7 +106,7 @@ export default function Security() {
 
                         <div className="space-y-2">
                             <Label htmlFor="password_confirmation">
-                                新しいパスワード（確認）
+                                New password (confirm)
                             </Label>
                             <Input
                                 id="password_confirmation"
@@ -122,44 +122,44 @@ export default function Security() {
                         </div>
 
                         <Button type="submit" disabled={password.processing}>
-                            パスワードを更新
+                            Update password
                         </Button>
                     </form>
                 </section>
 
                 <Separator />
 
-                {/* 二段階認証 */}
+                {/* Two-factor authentication */}
                 <section className="space-y-4">
                     <div>
-                        <h3 className="text-base font-semibold">二段階認証</h3>
+                        <h3 className="text-base font-semibold">Two-factor authentication</h3>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            ログイン時に認証アプリ（Google Authenticator
-                            など）のコード入力を必須にします。
+                            Require a code from an authenticator app (Google Authenticator and
+                            the like) at login.
                         </p>
                     </div>
 
-                    {/* 無効状態 */}
+                    {/* Disabled */}
                     {!twoFactor.enabled && !twoFactor.pending && (
                         <Button
                             onClick={() => enableForm.post('/settings/two-factor/enable')}
                             disabled={enableForm.processing}
                         >
-                            二段階認証を有効にする
+                            Enable two-factor authentication
                         </Button>
                     )}
 
-                    {/* 確認待ち: セットアップキー + コード確認 */}
+                    {/* Awaiting confirmation: setup key + code check */}
                     {twoFactor.pending && (
                         <div className="space-y-4">
                             <div className="rounded-md border p-4">
-                                <p className="text-sm font-medium">セットアップキー</p>
+                                <p className="text-sm font-medium">Setup key</p>
                                 <p className="mt-1 font-mono text-sm break-all">
                                     {twoFactor.secret}
                                 </p>
                                 <p className="mt-2 text-xs text-muted-foreground">
-                                    認証アプリに上記キーを手動で登録するか、次の URI
-                                    を読み込んでください:
+                                    Add the key above to your authenticator manually, or load this URI
+                                    instead:
                                 </p>
                                 <p className="mt-1 font-mono text-xs break-all text-muted-foreground">
                                     {twoFactor.otpauthUri}
@@ -167,7 +167,7 @@ export default function Security() {
                             </div>
 
                             <form onSubmit={confirm} className="space-y-3">
-                                <Label>認証コード</Label>
+                                <Label>Authentication code</Label>
                                 <InputOTP
                                     maxLength={6}
                                     value={confirmForm.data.code}
@@ -190,25 +190,25 @@ export default function Security() {
                                     type="submit"
                                     disabled={confirmForm.processing}
                                 >
-                                    確認して有効化
+                                    Confirm and enable
                                 </Button>
                             </form>
                         </div>
                     )}
 
-                    {/* 有効状態: リカバリーコード + 無効化 */}
+                    {/* Enabled: recovery codes + disable */}
                     {twoFactor.enabled && (
                         <div className="space-y-6">
                             <p className="rounded-md bg-primary/10 px-3 py-2 text-sm text-primary">
-                                二段階認証は有効です。
+                                Two-factor authentication is enabled.
                             </p>
 
                             <div>
                                 <h4 className="text-sm font-semibold">
-                                    リカバリーコード
+                                    Recovery codes
                                 </h4>
                                 <p className="mt-1 text-sm text-muted-foreground">
-                                    認証アプリを使えない場合に備え、安全な場所に保管してください。各コードは一度だけ使用できます。
+                                    Keep these somewhere safe in case you lose your authenticator. Each code works once.
                                 </p>
                                 <ul className="mt-3 grid grid-cols-2 gap-2 rounded-md bg-muted p-4 font-mono text-sm">
                                     {(twoFactor.recoveryCodes ?? []).map((code) => (
@@ -225,7 +225,7 @@ export default function Security() {
                                     }
                                     disabled={recoveryForm.processing}
                                 >
-                                    リカバリーコードを再生成
+                                    Regenerate recovery codes
                                 </Button>
                             </div>
 
@@ -236,7 +236,7 @@ export default function Security() {
                                 }
                                 disabled={disableForm.processing}
                             >
-                                二段階認証を無効にする
+                                Disable two-factor authentication
                             </Button>
                         </div>
                     )}
@@ -244,12 +244,12 @@ export default function Security() {
 
                 <Separator />
 
-                {/* パスキー */}
+                {/* Passkeys */}
                 <section className="space-y-4">
                     <div>
-                        <h3 className="text-base font-semibold">パスキー</h3>
+                        <h3 className="text-base font-semibold">Passkeys</h3>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            指紋・顔認証・端末のPINでパスワードなしにログインできます。
+                            Log in without a password using a fingerprint, face or device PIN.
                         </p>
                     </div>
 

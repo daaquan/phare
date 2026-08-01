@@ -1,3 +1,3 @@
--- 管理画面 (broadcasting monitor) アクセス制御用フラグを users に追加
+-- Add the flag gating admin screen (broadcasting monitor) access to users
 ALTER TABLE `users`
     ADD COLUMN `is_admin` boolean NOT NULL DEFAULT false;

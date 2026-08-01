@@ -39,7 +39,7 @@ class RegisterController extends Controller
         }
 
         if (($data['password'] ?? null) !== ($data['password_confirmation'] ?? null)) {
-            $this->session->set('errors', ['password' => 'パスワードが一致しません。']);
+            $this->session->set('errors', ['password' => 'The passwords do not match.']);
 
             return $this->response->redirect('/user/register');
         }
@@ -47,7 +47,7 @@ class RegisterController extends Controller
         try {
             $user = $this->users->createUser($request->only(['name', 'email', 'password']));
         } catch (\Throwable $e) {
-            $this->session->set('errors', ['email' => 'このメールアドレスは既に使用されています。']);
+            $this->session->set('errors', ['email' => 'That email address is already taken.']);
 
             return $this->response->redirect('/user/register');
         }
