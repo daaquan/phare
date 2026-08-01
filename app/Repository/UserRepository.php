@@ -26,7 +26,7 @@ class UserRepository implements UserContract
             return null;
         }
 
-        $id = is_array($decoded) ? implode('', $decoded) : (string)$decoded;
+        $id = implode('', $decoded);
 
         if ($id === '' || !ctype_digit($id) || $id === '0') {
             return null;

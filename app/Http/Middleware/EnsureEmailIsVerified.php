@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
 use Phare\Contracts\Http\MiddlewareContract;
@@ -18,7 +19,7 @@ class EnsureEmailIsVerified extends MiddlewareContract implements BeforeMiddlewa
     {
         $user = Auth::user();
 
-        if ($user !== null && method_exists($user, 'hasVerifiedEmail') && !$user->hasVerifiedEmail()) {
+        if ($user instanceof User && !$user->hasVerifiedEmail()) {
             return app('response')->redirect('/user/verify-email');
         }
 

@@ -25,6 +25,9 @@ php artisan serve
 ./vendor/bin/pint
 ./vendor/bin/pint --test                             # check without fixing
 
+# Static analysis (PHPStan level 5, config: phpstan.neon.dist)
+./vendor/bin/phpstan analyse
+
 # Frontend assets (Vite + React + Inertia + shadcn/ui + Tailwind v4)
 npm run dev        # Vite dev server (HMR; writes public/hot)
 npm run build      # production build (writes public/build + manifest.json)
@@ -63,6 +66,7 @@ php artisan queue:work
 
 - **PHP 8.2+** required, with Phalcon extension (`ext-phalcon ~5.4`)
 - **Pint config**: `pint.json` — Laravel preset with custom rules (concat spacing, cast spacing, etc.)
+- **PHPStan config**: `phpstan.neon.dist` — level 5 over `app`/`database`/`config`/`routes`, with `_ide_helper.php` in `scanFiles` (that file declares the global facade aliases `App`, `Auth`, `ID`, … registered at runtime from `config/app.php`). 6 findings remain and are known false positives from Phalcon's dynamism: `DiInterface::bind()/singleton()` in the two `ServiceProviderInterface` providers (the union param type hides the Phare container), `Application::handle()` in `App\Http\Kernel`, the `?->` guard in `PostController` (a Phalcon relation can still be false at runtime), and the `\ID::decode()` dead-catch (thrown through the facade proxy).
 - **Test env**: `phpunit.xml` sets `APP_ENV=testing`, `DB_CONNECTION=sqlite`, `DB_DATABASE=testing`, `CACHE_DRIVER=array`, `QUEUE_CONNECTION=sync`
 - **Phalcon ORM settings**: Configured in `config/app.php` under `phalcon.orm` — notably `exception_on_failed_save=true`, `ignore_unknown_columns=true`
 

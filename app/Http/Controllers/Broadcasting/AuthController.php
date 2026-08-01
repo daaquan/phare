@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Broadcasting;
 
 use App\Http\Controllers\Controller;
 use Phare\Attributes\Route;
+use Phare\Broadcasting\AccessDeniedException;
 use Phare\Http\Request;
 use Phare\Support\Facades\Broadcast;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * private / presence チャンネルの購読認可エンドポイント。
@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         try {
             $result = Broadcast::auth($request);
-        } catch (AccessDeniedHttpException) {
+        } catch (AccessDeniedException) {
             return $this->json(['message' => 'Forbidden'], 403);
         }
 

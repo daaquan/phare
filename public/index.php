@@ -1,5 +1,8 @@
 <?php
 
+use Phare\Contracts\Http\Kernel;
+use Phare\Foundation\AbstractApplication;
+
 define('APP_START', microtime(true));
 
 /*
@@ -13,7 +16,7 @@ define('APP_START', microtime(true));
 |
 */
 
-/** @var \Phare\Foundation\AbstractApplication $app */
+/** @var AbstractApplication $app */
 $app = require __DIR__ . '/../bootstrap/app.php';
 
 /*
@@ -28,8 +31,8 @@ $app = require __DIR__ . '/../bootstrap/app.php';
 |
 */
 
-/** @var \Phare\Contracts\Http\Kernel $kernel */
-$kernel = $app->make(\Phare\Contracts\Http\Kernel::class);
+/** @var Kernel $kernel */
+$kernel = $app->make(Kernel::class);
 
 $response = $kernel->handle(
     $request = $app->make('request')

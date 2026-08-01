@@ -249,11 +249,10 @@ Phare FrameworkはPHPUnitとPest PHPによるテストをサポートしてい�
 
 ## 静的解析
 
-PHP Insightsを利用した静的コード解析も設定されています。
-コードの品質をチェックするために、以下のコマンドを実行できます。
+PHPStan (level 5, 設定は `phpstan.neon.dist`) で静的解析を行います。
 
 ```bash
-./vendor/bin/phpinsights
+./vendor/bin/phpstan analyse
 ```
 
 ## 貢献

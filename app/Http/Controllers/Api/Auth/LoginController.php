@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
+use App\Models\User;
 use Phare\Attributes\Route;
 use Phare\Foundation\Http\ResponseStatusCode;
 
@@ -31,7 +32,12 @@ class LoginController extends Controller
             return response(['message' => 'Unauthorized'], ResponseStatusCode::BAD_UNAUTHORIZED);
         }
 
-        return response(['user_id' => \ID::encode(\Auth::user()->id)]);
+        $user = \Auth::user();
+        if (!$user instanceof User) {
+            return response(['message' => 'Unauthorized'], ResponseStatusCode::BAD_UNAUTHORIZED);
+        }
+
+        return response(['user_id' => \ID::encode($user->id)]);
     }
 
     #[Route('logout', methods: ['POST'], name: 'logout')]

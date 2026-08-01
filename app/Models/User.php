@@ -12,12 +12,20 @@ use Phare\Eloquent\Model;
  * @property int $id
  * @property string $name
  * @property string $email
- * @property \DateTime $email_verified_at
+ * @property \DateTime|string|null $email_verified_at 読み出しは datetime キャスト、代入は文字列/null も可
  * @property string $password
  * @property \DateTime $birthday
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property \DateTime|string|null $two_factor_confirmed_at
  * @property bool $is_admin
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
+ *
+ * Phalcon のマジックファインダー（実体は Model::__callStatic）。
+ *
+ * @method static static|null findFirstById(mixed $id)
+ * @method static static|null findFirstByEmail(string $email)
  */
 class User extends Model implements AuthenticatableContract, CanResetPassword
 {
