@@ -9,19 +9,19 @@ use Phare\Http\Request;
 use Phare\Support\Facades\Broadcast;
 
 /**
- * private / presence チャンネルの購読認可エンドポイント。
- * laravel-echo (pusher-js) が POST /broadcasting/auth に socket_id と
- * channel_name を送ってくる。Laravel の同名エンドポイント相当。
+ * Subscription authorisation endpoint for private / presence channels.
+ * laravel-echo (pusher-js) posts socket_id and channel_name to
+ * POST /broadcasting/auth. Equivalent to the Laravel endpoint of the same name.
  */
 class AuthController extends Controller
 {
     #[Route('auth', methods: ['POST'], middlewares: ['auth'], name: 'broadcasting.auth')]
     public function authenticate(Request $request)
     {
-        // チャンネル認可コールバックをリクエスト時に登録する。
-        // ブロードキャスター(driver)はインスタンスがキャッシュされるため、
-        // ここで登録 → 直後の auth() 評価で同じインスタンスが参照される。
-        // ブート順依存を避けるための lazy 登録。
+        // Register the channel authorisation callbacks per request. Broadcaster
+        // (driver) instances are cached, so registering here means the auth()
+        // call right below sees the same instance. Lazy registration keeps this
+        // independent of boot order.
         require base_path('routes/channels.php');
 
         try {
@@ -30,7 +30,7 @@ class AuthController extends Controller
             return $this->json(['message' => 'Forbidden'], 403);
         }
 
-        // pusher ドライバは署名済み JSON 文字列を返す。bool/配列はラップ済み。
+        // The pusher driver returns a signed JSON string; bools/arrays are wrapped.
         return $this->rawJson(is_string($result) ? $result : (string)json_encode($result));
     }
 }

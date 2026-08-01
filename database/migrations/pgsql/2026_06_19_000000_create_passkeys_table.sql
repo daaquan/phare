@@ -1,4 +1,4 @@
--- パスキー (WebAuthn 資格情報) テーブル
+-- Passkeys (WebAuthn credentials) table
 CREATE TABLE `passkeys`
 (
     `id`            bigint unsigned NOT NULL AUTO_INCREMENT,

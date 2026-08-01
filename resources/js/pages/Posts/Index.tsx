@@ -33,8 +33,8 @@ export default function PostsIndex({ title, posts }: PostsIndexProps) {
                             <thead>
                                 <tr className="border-b text-left text-muted-foreground">
                                     <th className="py-2 pr-4">ID</th>
-                                    <th className="py-2 pr-4">タイトル</th>
-                                    <th className="py-2">投稿者</th>
+                                    <th className="py-2 pr-4">Title</th>
+                                    <th className="py-2">Author</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,7 +57,7 @@ export default function PostsIndex({ title, posts }: PostsIndexProps) {
                     </CardContent>
                 </Card>
             ) : (
-                <p className="text-muted-foreground">投稿がありません。</p>
+                <p className="text-muted-foreground">No posts yet.</p>
             )}
 
             <div className="mt-6 flex items-center justify-between">
@@ -68,7 +68,7 @@ export default function PostsIndex({ title, posts }: PostsIndexProps) {
                     disabled={posts.current_page <= 1}
                 >
                     <Link href={`/posts?page=${posts.current_page - 1}`}>
-                        前へ
+                        Previous
                     </Link>
                 </Button>
                 <span className="text-sm text-muted-foreground">
@@ -81,7 +81,7 @@ export default function PostsIndex({ title, posts }: PostsIndexProps) {
                     disabled={posts.current_page >= posts.last_page}
                 >
                     <Link href={`/posts?page=${posts.current_page + 1}`}>
-                        次へ
+                        Next
                     </Link>
                 </Button>
             </div>

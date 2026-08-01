@@ -3,11 +3,11 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | デフォルトメーラー
+    | Default mailer
     |--------------------------------------------------------------------------
     |
-    | 送信に使用するメーラーを指定します。ローカルでは `log` ドライバが
-    | メッセージを storage/logs に記録し、実際の送信は行いません。
+    | The mailer used to send messages. Locally the `log` driver writes them
+    | to storage/logs instead of delivering anything.
     |
     */
     // NOTE: avoid passing 'log' as the env() default — Phare defines a log()

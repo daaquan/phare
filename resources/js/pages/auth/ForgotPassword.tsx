@@ -19,17 +19,17 @@ export default function ForgotPassword() {
 
     return (
         <GuestLayout>
-            <Head title="パスワードをお忘れですか" />
+            <Head title="Forgot your password" />
             <Card>
                 <CardContent className="space-y-4 pt-6">
-                    <h1 className="text-xl font-semibold">パスワード再設定</h1>
+                    <h1 className="text-xl font-semibold">Reset your password</h1>
                     <p className="text-sm text-muted-foreground">
-                        登録済みのメールアドレスに再設定用リンクを送信します。
+                        We will email a reset link to your registered address.
                     </p>
 
                     <form onSubmit={submit} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="email">メールアドレス</Label>
+                            <Label htmlFor="email">Email address</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -49,7 +49,7 @@ export default function ForgotPassword() {
                             className="w-full"
                             disabled={processing}
                         >
-                            リンクを送信
+                            Send the link
                         </Button>
 
                         <p className="text-center text-sm">
@@ -57,7 +57,7 @@ export default function ForgotPassword() {
                                 href="/user/login"
                                 className="text-primary underline-offset-4 hover:underline"
                             >
-                                ログインに戻る
+                                Back to login
                             </Link>
                         </p>
                     </form>

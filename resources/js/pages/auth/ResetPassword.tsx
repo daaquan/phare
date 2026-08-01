@@ -29,14 +29,14 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
 
     return (
         <GuestLayout>
-            <Head title="新しいパスワード" />
+            <Head title="New password" />
             <Card>
                 <CardContent className="space-y-4 pt-6">
-                    <h1 className="text-xl font-semibold">新しいパスワード</h1>
+                    <h1 className="text-xl font-semibold">New password</h1>
 
                     <form onSubmit={submit} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="email">メールアドレス</Label>
+                            <Label htmlFor="email">Email address</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -52,7 +52,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="password">新しいパスワード</Label>
+                            <Label htmlFor="password">New password</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -71,7 +71,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
 
                         <div className="space-y-2">
                             <Label htmlFor="password_confirmation">
-                                パスワード（確認）
+                                Password (confirm)
                             </Label>
                             <Input
                                 id="password_confirmation"
@@ -92,7 +92,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                             className="w-full"
                             disabled={processing}
                         >
-                            パスワードを再設定
+                            Reset password
                         </Button>
                     </form>
                 </CardContent>

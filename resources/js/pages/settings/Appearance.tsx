@@ -6,20 +6,20 @@ import { cn } from '@/lib/utils';
 import { type Appearance, useAppearance } from '@/hooks/use-appearance';
 
 const options: { value: Appearance; label: string; icon: typeof Sun }[] = [
-    { value: 'light', label: 'ライト', icon: Sun },
-    { value: 'dark', label: 'ダーク', icon: Moon },
-    { value: 'system', label: 'システム', icon: Monitor },
+    { value: 'light', label: 'Light', icon: Sun },
+    { value: 'dark', label: 'Dark', icon: Moon },
+    { value: 'system', label: 'System', icon: Monitor },
 ];
 
 export default function Appearance() {
     const { appearance, setAppearance } = useAppearance();
 
     return (
-        <SettingsLayout title="外観">
-            <Head title="外観設定" />
+        <SettingsLayout title="Appearance">
+            <Head title="Appearance settings" />
 
             <p className="mb-4 text-sm text-muted-foreground">
-                アプリの配色を選択します。
+                Choose the colour scheme for the app.
             </p>
 
             <div className="grid grid-cols-3 gap-3">

@@ -41,11 +41,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | アプリケーション名
+    | Application name
     |--------------------------------------------------------------------------
     |
-    | アプリケーションを識別する名前を指定します。
-    | 通知やその他の場所に配置する必要がある場合に使用されます。
+    | The name identifying this application. Used wherever it needs to be
+    | placed, such as notifications.
     |
     */
 
@@ -53,11 +53,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | 稼働環境
+    | Environment
     |--------------------------------------------------------------------------
     |
-    | 環境変数に設定することで、アプリケーションの環境を指定できます。
-    | さまざまなサービスをどのように設定するかを決定する場合があります。
+    | Set through an environment variable. It may decide how the various
+    | services are configured.
     |
     */
 
@@ -65,11 +65,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | デバッグモード
+    | Debug mode
     |--------------------------------------------------------------------------
     |
-    | 有効にすると、エラーの詳細が表示されます。
-    | 本番環境では無効にすることをお勧めします。
+    | When enabled, error details are displayed.
+    | Keeping this off in production is recommended.
     |
     */
 
@@ -77,10 +77,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | タイムゾーン
+    | Timezone
     |--------------------------------------------------------------------------
     |
-    | PHPの日付と日時関数に使用されます。
+    | Used by the PHP date and time functions.
     |
     */
 
@@ -88,10 +88,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | ロケール
+    | Locale
     |--------------------------------------------------------------------------
     |
-    | 翻訳サービスプロバイダで使用されるデフォルトのロケールを決定します。
+    | The default locale used by the translation service provider.
     |
     */
 
@@ -99,10 +99,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | フォールバックロケール
+    | Fallback locale
     |--------------------------------------------------------------------------
     |
-    | 現在のロケールが利用できない場合に使用するロケールを決定します。
+    | The locale used when the current one is unavailable.
     |
     */
 
@@ -110,11 +110,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | フェイカーロケール
+    | Faker locale
     |--------------------------------------------------------------------------
     |
-    | Faker PHPライブラリが、データベースシードの生成時に使用するロケールを決定します。
-    | 例えば、電話番号や住所情報などのローカライズされたデータを取得するために使用されます。
+    | The locale the Faker PHP library uses when generating database seeds.
+    | It produces localised data such as phone numbers and addresses.
     |
     */
 
@@ -122,12 +122,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | 暗号化キー
+    | Encryption key
     |--------------------------------------------------------------------------
     |
-    | このキーは暗号化サービスによって使用され、バイナリーまたはランダムな文字列に設定します。
-    | そうしないと、これらの暗号化された文字列は安全ではなくなります。
-    | アプリケーションをデプロイする前に、必ず設定してください！
+    | Used by the encryption service; set it to a random binary string.
+    | Without it the encrypted strings are not secure.
+    | Always set this before deploying the application.
     |
     */
 
@@ -137,51 +137,51 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Phalcon設定
+    | Phalcon settings
     |--------------------------------------------------------------------------
     |
-    | Phalconフレームワークのデフォルト設定を変更することができます。
+    | Overrides for the Phalcon framework defaults.
     |
     */
 
     'phalcon' => [
         // https://docs.phalcon.io/5.0/ja-jp/db-models
         'orm' => [
-            'enable_implicit_joins' => false, // モデル間の関連を使用して、暗黙の結合を有効にするかどうか
-            'exception_on_failed_save' => true, // モデルの保存に失敗した場合に例外をスローするかどうか
-            'force_casting' => false, // データベースから取得した値をキャストするかどうか
-            'ignore_unknown_columns' => true, // モデルに定義されていないカラムを無視するかどうか
-            'not_null_validations' => true, // モデルのプロパティがNOT NULLである場合に、NULLを許可するかどうか
-            'resultset_prefetch_records' => '0', // プリフェッチするレコード数
-            'update_snapshot_on_save' => true, // モデルのスナップショットを更新するかどうか
-            'virtual_foreign_keys' => false, // 仮想外部キーを有効にするかどうか
+            'enable_implicit_joins' => false, // Whether relations between models enable implicit joins
+            'exception_on_failed_save' => true, // Whether a failed model save throws
+            'force_casting' => false, // Whether values read from the database are cast
+            'ignore_unknown_columns' => true, // Whether columns not defined on the model are ignored
+            'not_null_validations' => true, // Whether NULL is allowed for properties whose column is NOT NULL
+            'resultset_prefetch_records' => '0', // Number of records to prefetch
+            'update_snapshot_on_save' => true, // Whether the model snapshot is refreshed on save
+            'virtual_foreign_keys' => false, // Whether virtual foreign keys are enabled
             // optional
-            'cache_level' => 3, // 0: キャッシュしない, 1: メタデータのみキャッシュ, 2: メタデータと結果セットをキャッシュ, 3: メタデータと結果セットをキャッシュし、キャッシュを使用してクエリを作成
-            'case_insensitive_column_map' => false, // カラム名をキーとする配列を作成する際に、キーを小文字にするかどうか
-            'cast_last_insert_id_to_int' => false, // 最後に挿入されたIDを整数にキャストするかどうか
-            'cast_on_hydrate' => false, // ハイドレーション時に値をキャストするかどうか
-            'column_renaming' => true, // カラム名を変更するかどうか
-            'disable_assign_setters' => false, // プロパティに値を設定する際に、セッターを使用するかどうか
-            'enable_literals' => true, // リテラルオブジェクトを有効にするかどうか
-            'events' => true, // イベントを有効にするかどうか
-            'exception_on_failed_metadata_save' => true, // メタデータの保存に失敗した場合に例外をスローするかどうか
+            'cache_level' => 3, // 0: no cache, 1: metadata only, 2: metadata + resultsets, 3: metadata + resultsets, and queries built from the cache
+            'case_insensitive_column_map' => false, // Whether keys are lowercased when building column-name-keyed arrays
+            'cast_last_insert_id_to_int' => false, // Whether the last insert id is cast to int
+            'cast_on_hydrate' => false, // Whether values are cast during hydration
+            'column_renaming' => true, // Whether column renaming is enabled
+            'disable_assign_setters' => false, // Whether setters are used when assigning to properties
+            'enable_literals' => true, // Whether literal objects are enabled
+            'events' => true, // Whether events are enabled
+            'exception_on_failed_metadata_save' => true, // Whether a failed metadata save throws
             'late_state_binding' => false, // Late state binding of the Phalcon\Mvc\Model::cloneResultMap() method
-            'unique_cache_id' => 3, // キャッシュIDのユニーク性を保証するための値
+            'unique_cache_id' => 3, // Value guaranteeing cache id uniqueness
         ],
         'db' => [
-            'escape_identifiers' => 'On', // クエリの識別子をエスケープする
-            'force_casting' => 'Off', // データベースから取得した値をキャストする
+            'escape_identifiers' => 'On', // Escape identifiers in queries
+            'force_casting' => 'Off', // Cast values read from the database
         ],
-        'warning.enable' => true, // ワーニングを有効にする
+        'warning.enable' => true, // Enable warnings
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | サービスプロバイダー
+    | Service providers
     |--------------------------------------------------------------------------
     |
-    | アプリケーション起動時に自動的にロードされるサービスプロバイダーをここに記載します。
-    | アプリケーションの機能を拡張するために、独自のサービスをこの配列に追加してください。
+    | Service providers loaded automatically when the application boots.
+    | Add your own services to this array to extend the application.
     |
     */
 
@@ -216,12 +216,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | エイリアス
+    | Aliases
     |--------------------------------------------------------------------------
     |
-    | アプリケーション起動時に自動的にロードされるファサードのエイリアスをここに記載します。
-    | ファサードは、コンテナーに登録されたサービスをstaticメソッドで呼び出すための簡単な方法です。
-    | 例えば、$app['auth']->check() と書く代わりに、\Auth::check() と書くことができます。
+    | Facade aliases loaded automatically when the application boots.
+    | A facade is a shorthand for calling a container-registered service statically:
+    | \Auth::check() instead of $app['auth']->check().
     |
     */
 

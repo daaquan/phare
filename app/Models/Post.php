@@ -31,7 +31,7 @@ class Post extends Model
     ];
 
     /**
-     * 投稿は 1 人のユーザーに属する。
+     * A post belongs to one user.
      */
     public function user()
     {

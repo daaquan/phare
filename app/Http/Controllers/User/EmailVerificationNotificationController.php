@@ -26,7 +26,7 @@ class EmailVerificationNotificationController extends Controller
             $this->sendVerificationEmail($user);
         }
 
-        $this->flashSession->success('認証メールを再送しました。');
+        $this->flashSession->success('Verification email resent.');
 
         return $this->response->redirect('/user/verify-email');
     }

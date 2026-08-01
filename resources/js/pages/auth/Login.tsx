@@ -46,7 +46,7 @@ export default function Login({ strings }: LoginProps) {
             toast.error(
                 err instanceof Error
                     ? err.message
-                    : 'パスキーでのログインに失敗しました。',
+                    : 'Passkey login failed.',
             );
             setPasskeyBusy(false);
         }
@@ -114,7 +114,7 @@ export default function Login({ strings }: LoginProps) {
                         <div className="flex items-center gap-3">
                             <Separator className="flex-1" />
                             <span className="text-xs text-muted-foreground">
-                                または
+                                or
                             </span>
                             <Separator className="flex-1" />
                         </div>
@@ -126,7 +126,7 @@ export default function Login({ strings }: LoginProps) {
                             disabled={passkeyBusy}
                         >
                             <KeyRound className="size-4" />
-                            パスキーでログイン
+                            Log in with a passkey
                         </Button>
                     </div>
                 </CardContent>

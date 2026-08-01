@@ -21,25 +21,25 @@ export default function ConfirmPassword() {
 
     return (
         <GuestLayout>
-            <Head title="パスワードの確認" />
+            <Head title="Confirm password" />
             <Card>
                 <CardContent className="pt-2">
                     <div className="mb-4 flex items-center justify-center gap-2">
                         <Lock className="size-6 text-primary" />
                         <h1 className="text-xl font-semibold">
-                            パスワードの確認
+                            Confirm password
                         </h1>
                     </div>
 
                     <Separator className="mb-6" />
 
                     <p className="mb-4 text-sm text-muted-foreground">
-                        これは保護された領域です。続行するにはパスワードを再入力してください。
+                        This is a protected area. Re-enter your password to continue.
                     </p>
 
                     <form onSubmit={submit} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="password">パスワード</Label>
+                            <Label htmlFor="password">Password</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -62,7 +62,7 @@ export default function ConfirmPassword() {
                             className="w-full"
                             disabled={processing}
                         >
-                            確認
+                            Confirm
                         </Button>
                     </form>
                 </CardContent>

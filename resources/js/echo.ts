@@ -2,9 +2,9 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
 /**
- * Laravel Echo クライアント。Soketi (Pusher プロトコル互換) に接続する。
- * 設定は Vite env (VITE_PUSHER_*) から読む。鍵が未設定なら接続しない
- * （Soketi なしのローカルでコンソールエラーを出さないため）。
+ * Laravel Echo client, connecting to Soketi (Pusher protocol compatible).
+ * Configuration comes from Vite env (VITE_PUSHER_*). Without a key it does not
+ * connect, so local runs without Soketi stay free of console errors.
  */
 
 declare global {
@@ -14,7 +14,7 @@ declare global {
     }
 }
 
-/** Inertia の初期ページ JSON から CSRF トークンを取り出す（セッション単位で安定）。 */
+/** Read the CSRF token out of the initial Inertia page JSON (stable per session). */
 function csrfToken(): string {
     const el = document.getElementById('app');
     try {

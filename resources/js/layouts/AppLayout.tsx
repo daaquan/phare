@@ -24,7 +24,7 @@ interface AppLayoutProps {
 const navItems = [
     { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { label: 'Posts', href: '/posts', icon: FileText },
-    { label: '設定', href: '/settings/profile', icon: Settings },
+    { label: 'Settings', href: '/settings/profile', icon: Settings },
 ];
 
 export default function AppLayout({
@@ -86,7 +86,7 @@ export default function AppLayout({
                                 onSelect={() => router.post('/user/logout')}
                             >
                                 <LogOut className="size-4" />
-                                ログアウト
+                                Log out
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -94,12 +94,12 @@ export default function AppLayout({
 
                 {auth.user && !auth.user.email_verified && (
                     <div className="flex items-center justify-between gap-4 bg-amber-100 px-6 py-2 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-200">
-                        <span>メールアドレスが未確認です。</span>
+                        <span>Your email address is unverified.</span>
                         <Link
                             href="/user/verify-email"
                             className="font-medium underline-offset-4 hover:underline"
                         >
-                            確認する
+                            Verify
                         </Link>
                     </div>
                 )}

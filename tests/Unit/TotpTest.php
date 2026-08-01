@@ -3,9 +3,9 @@
 use App\Models\User;
 use App\Support\TwoFactor\Totp;
 
-// RFC 6238 のテストベクター: ASCII シークレット "12345678901234567890" =
-// Base32 "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ"。t=59 のとき 8桁コードは 94287082、
-// 末尾 6 桁は 287082。
+// RFC 6238 test vector: the ASCII secret "12345678901234567890" is
+// Base32 "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ". At t=59 the 8-digit code is
+// 94287082, whose last 6 digits are 287082.
 const RFC_SECRET = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
 
 test('codeAt matches the RFC 6238 test vector', function () {

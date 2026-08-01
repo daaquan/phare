@@ -10,9 +10,9 @@ use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Inertia;
 
 /**
- * Laravel パリティ: 機密操作の前にパスワードを再確認させる画面。
- * 確認に成功すると `auth.password_confirmed_at` をセッションに記録し、
- * `password.confirm` ミドルウェアがそのタイムスタンプを参照する。
+ * Laravel parity: re-confirm the password before a sensitive operation.
+ * A successful confirmation records `auth.password_confirmed_at` in the session,
+ * which the `password.confirm` middleware reads.
  */
 class ConfirmablePasswordController extends Controller
 {
@@ -33,7 +33,7 @@ class ConfirmablePasswordController extends Controller
         $password = (string)$request->get('password');
 
         if (!Auth::attempt(['id' => $user->id, 'password' => $password])) {
-            $this->session->set('errors', ['password' => 'パスワードが正しくありません。']);
+            $this->session->set('errors', ['password' => 'That password is not correct.']);
 
             return $this->response->redirect('/user/confirm-password');
         }

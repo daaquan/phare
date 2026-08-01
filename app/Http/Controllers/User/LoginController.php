@@ -50,7 +50,7 @@ class LoginController extends Controller
         ];
 
         if (\Auth::attempt($credentials)) {
-            // 二段階認証が有効なら、コード確認が済むまでログインを保留する。
+            // With two-factor enabled, hold the login until the code is confirmed.
             if ($user->hasTwoFactorEnabled()) {
                 \Auth::logout();
                 $this->session->set('login.id', $user->id);

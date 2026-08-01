@@ -3,8 +3,8 @@
 namespace App\Support\TwoFactor;
 
 /**
- * 依存ライブラリなしの TOTP 実装 (RFC 6238, HMAC-SHA1 / 30秒 / 6桁)。
- * Google Authenticator・1Password などの標準オーセンティケーターと互換。
+ * Dependency-free TOTP implementation (RFC 6238, HMAC-SHA1 / 30s / 6 digits).
+ * Compatible with standard authenticators such as Google Authenticator and 1Password.
  */
 final class Totp
 {
@@ -15,7 +15,7 @@ final class Totp
     private const DIGITS = 6;
 
     /**
-     * ランダムな Base32 シークレットを生成する。
+     * Generate a random Base32 secret.
      */
     public static function generateSecret(int $length = 16): string
     {
@@ -28,7 +28,7 @@ final class Totp
     }
 
     /**
-     * 認証アプリ登録用の otpauth:// URI を組み立てる。
+     * Build the otpauth:// URI an authenticator app registers from.
      */
     public static function provisioningUri(string $secret, string $label, string $issuer): string
     {
@@ -43,7 +43,8 @@ final class Totp
     }
 
     /**
-     * 入力コードが現在の時間枠（前後の許容窓を含む）で有効か検証する。
+     * Check whether the submitted code is valid for the current time step (including
+     * the tolerated window on either side).
      */
     public static function verify(string $secret, string $code, int $window = 1): bool
     {
@@ -64,7 +65,7 @@ final class Totp
     }
 
     /**
-     * 指定した UNIX 時刻における 6 桁コードを算出する。
+     * Compute the 6-digit code for the given UNIX timestamp.
      */
     public static function codeAt(string $secret, int $timestamp): string
     {

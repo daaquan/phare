@@ -26,12 +26,12 @@ export default function Register() {
 
     return (
         <GuestLayout>
-            <Head title="新規登録" />
+            <Head title="Sign up" />
             <Card>
                 <CardContent className="pt-2">
                     <div className="mb-4 flex items-center justify-center gap-2">
                         <UserPlus className="size-6 text-primary" />
-                        <h1 className="text-xl font-semibold">新規登録</h1>
+                        <h1 className="text-xl font-semibold">Sign up</h1>
                     </div>
 
                     <Separator className="mb-6" />
@@ -39,7 +39,7 @@ export default function Register() {
                     <form onSubmit={submit} className="space-y-4">
                         <Field
                             id="name"
-                            label="名前"
+                            label="Name"
                             value={data.name}
                             error={errors.name}
                             onChange={(v) => setData('name', v)}
@@ -47,7 +47,7 @@ export default function Register() {
                         <Field
                             id="email"
                             type="email"
-                            label="メールアドレス"
+                            label="Email address"
                             value={data.email}
                             error={errors.email}
                             onChange={(v) => setData('email', v)}
@@ -55,7 +55,7 @@ export default function Register() {
                         <Field
                             id="password"
                             type="password"
-                            label="パスワード"
+                            label="Password"
                             value={data.password}
                             error={errors.password}
                             onChange={(v) => setData('password', v)}
@@ -63,7 +63,7 @@ export default function Register() {
                         <Field
                             id="password_confirmation"
                             type="password"
-                            label="パスワード（確認）"
+                            label="Password (confirm)"
                             value={data.password_confirmation}
                             error={errors.password_confirmation}
                             onChange={(v) => setData('password_confirmation', v)}
@@ -74,16 +74,16 @@ export default function Register() {
                             className="w-full"
                             disabled={processing}
                         >
-                            登録
+                            Sign up
                         </Button>
 
                         <p className="text-center text-sm text-muted-foreground">
-                            すでにアカウントをお持ちですか？{' '}
+                            Already have an account?{' '}
                             <Link
                                 href="/user/login"
                                 className="text-primary underline-offset-4 hover:underline"
                             >
-                                ログイン
+                                Log in
                             </Link>
                         </p>
                     </form>

@@ -39,7 +39,7 @@ class PasswordResetLinkController extends Controller
             $this->sendPasswordResetEmail($email, $token);
         }
 
-        $this->flashSession->success('パスワード再設定用のリンクを送信しました。');
+        $this->flashSession->success('A password reset link has been sent.');
 
         return $this->response->redirect('/user/forgot-password');
     }

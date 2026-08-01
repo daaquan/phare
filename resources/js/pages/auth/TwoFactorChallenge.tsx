@@ -30,26 +30,26 @@ export default function TwoFactorChallenge() {
 
     return (
         <GuestLayout>
-            <Head title="二段階認証" />
+            <Head title="Two-factor authentication" />
             <Card>
                 <CardContent className="pt-2">
                     <div className="mb-4 flex items-center justify-center gap-2">
                         <ShieldCheck className="size-6 text-primary" />
-                        <h1 className="text-xl font-semibold">二段階認証</h1>
+                        <h1 className="text-xl font-semibold">Two-factor authentication</h1>
                     </div>
 
                     <Separator className="mb-6" />
 
                     <p className="mb-4 text-sm text-muted-foreground">
                         {useRecovery
-                            ? 'リカバリーコードのいずれかを入力してください。'
-                            : '認証アプリに表示されているコードを入力してください。'}
+                            ? 'Enter one of your recovery codes.'
+                            : 'Enter the code shown in your authenticator app.'}
                     </p>
 
                     <form onSubmit={submit} className="space-y-4">
                         {!useRecovery ? (
                             <div className="space-y-2">
-                                <Label>認証コード</Label>
+                                <Label>Authentication code</Label>
                                 <InputOTP
                                     maxLength={6}
                                     value={data.code}
@@ -66,7 +66,7 @@ export default function TwoFactorChallenge() {
                         ) : (
                             <div className="space-y-2">
                                 <Label htmlFor="recovery_code">
-                                    リカバリーコード
+                                    Recovery code
                                 </Label>
                                 <Input
                                     id="recovery_code"
@@ -90,7 +90,7 @@ export default function TwoFactorChallenge() {
                             className="w-full"
                             disabled={processing}
                         >
-                            ログイン
+                            Log in
                         </Button>
                     </form>
 
@@ -100,8 +100,8 @@ export default function TwoFactorChallenge() {
                         className="mt-4 w-full text-center text-sm text-muted-foreground underline-offset-4 hover:underline"
                     >
                         {useRecovery
-                            ? '認証コードを使う'
-                            : 'リカバリーコードを使う'}
+                            ? 'Use an authentication code'
+                            : 'Use a recovery code'}
                     </button>
                 </CardContent>
             </Card>

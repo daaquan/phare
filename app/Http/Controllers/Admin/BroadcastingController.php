@@ -15,10 +15,11 @@ use Phare\Support\Facades\Log;
 use Pusher\Pusher;
 
 /**
- * Broadcasting 監視ダッシュボード。Soketi (Pusher プロトコル) の HTTP API を
- * Pusher SDK 経由で叩き、占有チャンネル / 購読数 / presence メンバーを返す。
+ * Broadcasting monitor dashboard. Calls the Soketi (Pusher protocol) HTTP API
+ * through the Pusher SDK and returns occupied channels, subscription counts and
+ * presence members.
  *
- * Soketi 未起動でもダッシュボードは落とさない（空 + 警告ログ）。
+ * The dashboard stays up when Soketi is down: empty results plus a warning log.
  */
 class BroadcastingController extends Controller
 {
@@ -31,7 +32,7 @@ class BroadcastingController extends Controller
     }
 
     /**
-     * 占有中チャンネル一覧（購読数つき）。
+     * Occupied channels, with their subscription counts.
      */
     #[Route('broadcasting/channels', middlewares: ['auth', 'verified', 'admin'], name: 'admin.broadcasting.channels')]
     public function channels(Request $request)
@@ -57,15 +58,15 @@ class BroadcastingController extends Controller
 
             return $this->json(['ok' => true, 'channels' => $channels]);
         } catch (\Throwable $e) {
-            Log::warning('Broadcasting monitor: getChannels 失敗', ['error' => $e->getMessage()]);
+            Log::warning('Broadcasting monitor: getChannels failed', ['error' => $e->getMessage()]);
 
             return $this->json(['ok' => false, 'channels' => [], 'error' => $e->getMessage()]);
         }
     }
 
     /**
-     * 単一チャンネルの詳細（占有・購読数、presence ならメンバー）。
-     * チャンネル名はドットを含むためクエリ ?name= で受ける。
+     * One channel in detail: occupancy, subscription count, and members for presence.
+     * Channel names contain dots, so they arrive as the ?name= query parameter.
      */
     #[Route('broadcasting/channel', middlewares: ['auth', 'verified', 'admin'], name: 'admin.broadcasting.channel')]
     public function channel(Request $request)
@@ -98,14 +99,14 @@ class BroadcastingController extends Controller
 
             return $this->json(['ok' => true, 'channel' => $payload]);
         } catch (\Throwable $e) {
-            Log::warning('Broadcasting monitor: getChannelInfo 失敗', ['error' => $e->getMessage()]);
+            Log::warning('Broadcasting monitor: getChannelInfo failed', ['error' => $e->getMessage()]);
 
             return $this->json(['ok' => false, 'error' => $e->getMessage()]);
         }
     }
 
     /**
-     * テスト送信。現在の管理者の private チャンネルと presence-monitor に流す。
+     * Test broadcast, sent to the current admin's private channel and presence-monitor.
      */
     #[Route('broadcasting/test', methods: ['POST'], middlewares: ['auth', 'verified', 'admin'], name: 'admin.broadcasting.test')]
     public function test(Request $request)
@@ -122,22 +123,22 @@ class BroadcastingController extends Controller
 
             return $this->json(['ok' => true]);
         } catch (\Throwable $e) {
-            Log::warning('Broadcasting monitor: test send 失敗', ['error' => $e->getMessage()]);
+            Log::warning('Broadcasting monitor: test send failed', ['error' => $e->getMessage()]);
 
             return $this->json(['ok' => false, 'error' => $e->getMessage()]);
         }
     }
 
     /**
-     * 監視 API は Soketi (Pusher プロトコル) の HTTP クライアント前提。
-     * 他ドライバ構成では例外にして、呼び出し側の catch で ok:false を返す。
+     * The monitor API assumes the Soketi (Pusher protocol) HTTP client. Any other
+     * driver throws, and the caller's catch turns that into ok:false.
      */
     private function pusher(): Pusher
     {
         $driver = Broadcast::driver('pusher');
 
         if (!$driver instanceof PusherBroadcaster) {
-            throw new \RuntimeException('broadcasting: pusher ドライバが構成されていません');
+            throw new \RuntimeException('broadcasting: the pusher driver is not configured');
         }
 
         return $driver->getPusher();
@@ -156,7 +157,7 @@ class BroadcastingController extends Controller
     }
 
     /**
-     * フロントへ渡す接続メタ（鍵は公開鍵のみ）。
+     * Connection metadata for the frontend (public key only).
      *
      * @return array<string, mixed>
      */

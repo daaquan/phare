@@ -71,7 +71,7 @@ export default function Broadcasting({ connection }: Props) {
         return () => clearInterval(id);
     }, [loadChannels]);
 
-    // ライブ受信: presence-monitor に届くテスト送信を表示し、Echo 経路を実証。
+    // Live receive: show test sends arriving on presence-monitor, proving the Echo path.
     useEcho(
         'monitor',
         '.message',
@@ -124,20 +124,20 @@ export default function Broadcasting({ connection }: Props) {
                     }
                 >
                     {reachable === null
-                        ? '接続確認中…'
+                        ? 'Checking connection…'
                         : reachable
-                          ? '● 接続OK'
-                          : '● 接続不可'}
+                          ? '● Connected'
+                          : '● Unreachable'}
                 </span>
             </div>
 
             {error && !reachable && (
                 <Card className="mb-6 border-red-300">
                     <CardContent className="py-3 text-sm text-red-600">
-                        Soketi に接続できません: {error}
+                        Cannot reach Soketi: {error}
                         <br />
                         <span className="text-muted-foreground">
-                            `npx @soketi/soketi start` を起動し、PUSHER_* env を確認してください。
+                            Start `npx @soketi/soketi start` and check the PUSHER_* env values.
                         </span>
                     </CardContent>
                 </Card>
@@ -146,18 +146,18 @@ export default function Broadcasting({ connection }: Props) {
             <div className="grid gap-6 lg:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>占有チャンネル</CardTitle>
+                        <CardTitle>Occupied channels</CardTitle>
                         <CardDescription>
-                            {POLL_MS / 1000}s ごとに自動更新
+                            Refreshes every {POLL_MS / 1000}s
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
                                 <tr className="border-b text-left text-muted-foreground">
-                                    <th className="py-2 pr-4">チャンネル</th>
-                                    <th className="py-2 pr-4">種別</th>
-                                    <th className="py-2">購読数</th>
+                                    <th className="py-2 pr-4">Channel</th>
+                                    <th className="py-2 pr-4">Type</th>
+                                    <th className="py-2">Subscribers</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,7 +167,7 @@ export default function Broadcasting({ connection }: Props) {
                                             colSpan={3}
                                             className="py-4 text-muted-foreground"
                                         >
-                                            占有中のチャンネルはありません
+                                            No channels are occupied
                                         </td>
                                     </tr>
                                 )}
@@ -192,9 +192,9 @@ export default function Broadcasting({ connection }: Props) {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>テスト送信 + ライブ受信</CardTitle>
+                        <CardTitle>Test send + live receive</CardTitle>
                         <CardDescription>
-                            presence-monitor 経由で配信を実証
+                            Proves delivery through presence-monitor
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
@@ -202,17 +202,17 @@ export default function Broadcasting({ connection }: Props) {
                             <Input
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
-                                placeholder="メッセージ"
+                                placeholder="Message"
                             />
                             <Button onClick={sendTest} disabled={sending}>
-                                {sending ? '送信中…' : '送信'}
+                                {sending ? 'Sending…' : 'Send'}
                             </Button>
                         </div>
 
                         <ul className="space-y-1 text-sm">
                             {live.length === 0 && (
                                 <li className="text-muted-foreground">
-                                    受信待ち…（送信するとここに表示）
+                                    Waiting for messages… (sends show up here)
                                 </li>
                             )}
                             {live.map((m, i) => (

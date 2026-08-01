@@ -15,26 +15,26 @@ export default function VerifyEmail() {
 
     return (
         <GuestLayout>
-            <Head title="メール認証" />
+            <Head title="Email verification" />
             <Card>
                 <CardContent className="space-y-4 pt-6">
-                    <h1 className="text-xl font-semibold">メールアドレスの確認</h1>
+                    <h1 className="text-xl font-semibold">Verify your email address</h1>
                     <p className="text-sm text-muted-foreground">
-                        登録時に送信した確認メールのリンクをクリックしてください。
-                        メールが届かない場合は再送できます。
+                        Click the link in the verification email sent when you registered.
+                        If it never arrived, you can have it resent.
                     </p>
 
                     <div className="flex items-center justify-between">
                         <form onSubmit={resend}>
                             <Button type="submit" disabled={processing}>
-                                認証メールを再送
+                                Resend verification email
                             </Button>
                         </form>
                         <Button
                             variant="ghost"
                             onClick={() => router.post('/user/logout')}
                         >
-                            ログアウト
+                            Log out
                         </Button>
                     </div>
                 </CardContent>
