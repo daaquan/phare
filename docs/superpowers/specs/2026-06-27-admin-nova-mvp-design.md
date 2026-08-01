@@ -22,7 +22,7 @@ in the app.
 - **Framework** `/opt/framework/src/Phare/Admin/` — engine. English comments.
   Package version bump required to consume in app.
 - **App** `/opt/phare/app/Admin/` — concrete resources (`PostResource`,
-  `UserResource`). Japanese comments.
+  `UserResource`). English comments.
 
 Mirrors the existing `Phare\Inertia` / `Phare\Broadcasting` domain-dir +
 ServiceProvider convention.

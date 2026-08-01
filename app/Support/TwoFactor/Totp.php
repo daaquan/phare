@@ -43,7 +43,8 @@ final class Totp
     }
 
     /**
-     * Verify that the input code is valid for the current time step, including the allowed adjacent steps.
+     * Check whether the submitted code is valid for the current time step (including
+     * the tolerated window on either side).
      */
     public static function verify(string $secret, string $code, int $window = 1): bool
     {

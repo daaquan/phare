@@ -15,8 +15,9 @@ use Phare\Support\Facades\Log;
 use Pusher\Pusher;
 
 /**
- * Broadcasting monitoring dashboard. Uses the Pusher SDK to call the HTTP API
- * of Soketi (Pusher protocol) and return occupied channels, subscriber counts, and presence members.
+ * Broadcasting monitor dashboard. Calls the Soketi (Pusher protocol) HTTP API
+ * through the Pusher SDK and returns occupied channels, subscription counts and
+ * presence members.
  *
  * The dashboard stays up when Soketi is down: empty results plus a warning log.
  */

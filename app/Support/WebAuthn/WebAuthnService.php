@@ -27,9 +27,10 @@ use Webauthn\PublicKeyCredentialUserEntity;
 /**
  * Server-side wrapper around WebAuthn (passkey) handling.
  *
- * Delegates signature and attestation verification to web-auth/webauthn-lib.
- * Implementing WebAuthn (CBOR + COSE + EC/RSA signatures) ourselves poses significant
- * security risks, so the application only generates options, stores credentials, and connects the login flow.
+ * The cryptography -- signature and attestation verification -- is delegated to
+ * web-auth/webauthn-lib. Unlike TOTP, hand-rolling WebAuthn (CBOR + COSE + EC/RSA
+ * signatures) is too risky, so the app only builds options, stores credentials and
+ * wires the login.
  */
 final class WebAuthnService
 {

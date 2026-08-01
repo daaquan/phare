@@ -66,7 +66,7 @@ export default function TwoFactorChallenge() {
                         ) : (
                             <div className="space-y-2">
                                 <Label htmlFor="recovery_code">
-                                    Recovery codes
+                                    Recovery code
                                 </Label>
                                 <Input
                                     id="recovery_code"

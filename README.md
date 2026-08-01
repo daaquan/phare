@@ -39,7 +39,7 @@ Phare Framework ships a rich feature set aimed at rapid application development.
     * Convenient assertion methods for simulating HTTP requests and inspecting responses.
 * **Development tooling**:
     * Laravel Pint is integrated for automatic PSR-12 compliant code style fixes.
-    * PHP Insights static analysis is supported, helping keep code quality up.
+    * PHPStan static analysis is supported, helping keep code quality up.
 * **Useful utilities**:
     * A date/time class extending Chronos (`Phare\Support\Chronos`).
     * ID encoding/decoding through Sqids.
@@ -235,13 +235,11 @@ Phare Framework supports testing with both PHPUnit and Pest PHP.
     ./vendor/bin/pest
     ```
 
-Place test cases in the `tests/` directory.
-Unit tests typically live in `tests/Unit`, and feature tests in `tests/Feature` (depending on the project structure).
+Test cases live in the `tests/` directory. Unit tests conventionally go in `tests/Unit` and feature tests in `tests/Feature` (or wherever the project structure puts them).
 
 ## Code style
 
-This project uses Laravel Pint to keep code style consistent.
-Run the following command to format your code before committing.
+This project uses Laravel Pint to keep the code style consistent. Running it before committing is recommended.
 
 ```bash
 ./vendor/bin/pint

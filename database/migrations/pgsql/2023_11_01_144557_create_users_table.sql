@@ -1,4 +1,4 @@
--- User information table
+-- Users table
 CREATE TABLE `users`
 (
     `id`                bigint unsigned NOT NULL AUTO_INCREMENT,

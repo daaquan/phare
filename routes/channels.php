@@ -4,13 +4,12 @@ use App\Models\User;
 use Phare\Support\Facades\Broadcast;
 
 /*
- * Broadcast channel authorization.
- * Evaluated by POST /broadcasting/auth when subscribing to private / presence channels.
- * Callbacks receive (authenticated user, ...channel parameters)
- * - false / null  → deny access
- * - true          → allow access (private)
- * - array         → allow access + presence member information
- * as their return values.
+ * Broadcast channel authorisation.
+ * Evaluated from POST /broadcasting/auth when a private / presence channel is
+ * subscribed to. A callback receives (authenticated user, ...channel parameters)
+ * - false / null  -> denied
+ * - true          -> allowed (private)
+ * - an array      -> allowed, plus the presence member payload
  */
 
 // Private channel only its owner may subscribe to: private-App.User.{id}

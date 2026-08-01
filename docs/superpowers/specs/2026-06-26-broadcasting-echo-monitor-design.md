@@ -1,4 +1,4 @@
-# Broadcasting (Laravel Echo equivalent) + Monitoring Admin — Design
+# Broadcasting (Laravel Echo equivalent) + monitor admin screen — design
 
 Date: 2026-06-26
 Status: in progress
@@ -23,8 +23,8 @@ covers the app-side wiring, the JS client, and the monitor dashboard.
 ## Data flow
 
 ```
-PHP event → Broadcast facade → PusherBroadcaster → Soketi(WS) → laravel-echo(browser)
-                                     ↑                    ↓
+PHP event -> Broadcast facade -> PusherBroadcaster -> Soketi(WS) -> laravel-echo (browser)
+                                     ^                      |
                         POST /broadcasting/auth   private/presence subscription
 Monitor: Admin\BroadcastingController -> Pusher SDK (getPusher()->getChannels etc.)
          -> Soketi HTTP API -> React dashboard (polling)
@@ -53,7 +53,7 @@ Monitor: Admin\BroadcastingController -> Pusher SDK (getPusher()->getChannels et
 
 ### Monitor admin screen (`/admin/broadcasting`)
 - `App\Http\Controllers\Admin\BroadcastingController`
-  - `GET /admin/broadcasting` → `Inertia::render('admin/Broadcasting')`
+  - `GET /admin/broadcasting` -> `Inertia::render('admin/Broadcasting')`
   - `GET /admin/broadcasting/channels` -> Soketi's occupied channels (JSON)
   - `GET /admin/broadcasting/channels/{name}` -> occupancy/subscription count + presence members (JSON)
   - `POST /admin/broadcasting/test` -> dispatch `MessageBroadcast`
@@ -64,7 +64,7 @@ Monitor: Admin\BroadcastingController -> Pusher SDK (getPusher()->getChannels et
 
 ### Access control
 - Migration: `users.is_admin` boolean default false.
-- `App\Http\Middleware\EnsureUserIsAdmin` + Kernel `routeMiddleware['admin']`。
+- `App\Http\Middleware\EnsureUserIsAdmin` plus Kernel `routeMiddleware['admin']`.
 
 ## Out of scope (YAGNI)
 - A persistent event log: Soketi keeps no history. Add it later by receiving Soketi webhooks.
@@ -78,4 +78,4 @@ Monitor: Admin\BroadcastingController -> Pusher SDK (getPusher()->getChannels et
 
 ## Running locally
 - `npx @soketi/soketi start` (or docker). Env: `PUSHER_*` (app id/key/secret) plus
-  `PUSHER_HOST=127.0.0.1` `PUSHER_PORT=6001` `PUSHER_SCHEME=http`。
+  `PUSHER_HOST=127.0.0.1`, `PUSHER_PORT=6001`, `PUSHER_SCHEME=http`.

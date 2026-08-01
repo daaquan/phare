@@ -72,4 +72,6 @@ php artisan queue:work
 
 ## Language
 
-This project's code comments, config comments, and README are in Japanese. Maintain Japanese for user-facing strings and documentation.
+Code comments, config comments, docs, README, and hardcoded UI strings are in English (converted 2026-08-01). Write new code and documentation in English.
+
+The one exception is `lang/ja/*`, which is the Japanese locale bundle and stays Japanese; `lang/en/*` holds the English strings. `config/app.php` defaults `locale` to `en`.
