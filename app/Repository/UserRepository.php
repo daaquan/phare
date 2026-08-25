@@ -4,18 +4,17 @@ namespace App\Repository;
 
 use App\Contracts\Repository\UserContract;
 use App\Models\User;
-use Phalcon\Mvc\Model\Exception as ModelException;
 
 class UserRepository implements UserContract
 {
     public function getUserById(int $id): ?User
     {
-        return User::findFirstById($id);
+        return User::where('id', $id)->first();
     }
 
     public function getUserByEmail(string $email): ?User
     {
-        return User::findFirstByEmail($email);
+        return User::where('email', $email)->first();
     }
 
     public function getUserByPublicId(string $publicId): ?User
@@ -32,15 +31,15 @@ class UserRepository implements UserContract
             return null;
         }
 
-        return User::findFirstById($id);
+        return User::where('id', $id)->first();
     }
 
     public function createUser(array $data): User
     {
         $user = (new User())->fill($data);
 
-        if ($user->validationHasFailed() || !$user->create()) {
-            throw new ModelException(implode("\n", $user->getMessages()));
+        if (!$user->create()) {
+            throw new \RuntimeException('Failed to create user.');
         }
 
         return $user;
