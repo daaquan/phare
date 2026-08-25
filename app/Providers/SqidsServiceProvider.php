@@ -3,14 +3,12 @@
 namespace App\Providers;
 
 use App\Services\SqidsGenerator;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
-use Phare\Foundation\AbstractApplication as Application;
+use Phare\Support\ServiceProvider;
 
-class SqidsServiceProvider implements ServiceProviderInterface
+class SqidsServiceProvider extends ServiceProvider
 {
-    public function register(Application|DiInterface $app): void
+    public function register(): void
     {
-        $app->singleton('sqids', fn () => new SqidsGenerator());
+        $this->app->singleton('sqids', fn () => new SqidsGenerator());
     }
 }

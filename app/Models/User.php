@@ -21,11 +21,6 @@ use Phare\Eloquent\Model;
  * @property bool $is_admin
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
- *
- * Phalcon magic finders (implemented by Model::__callStatic).
- *
- * @method static static|null findFirstById(mixed $id)
- * @method static static|null findFirstByEmail(string $email)
  */
 class User extends Model implements AuthenticatableContract, CanResetPassword
 {

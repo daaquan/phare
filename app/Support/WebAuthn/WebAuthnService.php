@@ -72,7 +72,7 @@ final class WebAuthnService
 
         // Exclude existing passkeys so the same authenticator cannot register twice.
         $exclude = [];
-        foreach (Passkey::findByUserId((int)$user->id) as $passkey) {
+        foreach (Passkey::where('user_id', (int)$user->id)->get() as $passkey) {
             $exclude[] = PublicKeyCredentialDescriptor::create(
                 PublicKeyCredentialDescriptor::CREDENTIAL_TYPE_PUBLIC_KEY,
                 self::base64urlDecode((string)$passkey->credential_id),
@@ -178,7 +178,7 @@ final class WebAuthnService
             throw new \RuntimeException('Invalid assertion response');
         }
 
-        $passkey = Passkey::findFirstByCredentialId(self::base64urlEncode($credential->rawId));
+        $passkey = Passkey::where('credential_id', self::base64urlEncode($credential->rawId))->first();
         if (!$passkey instanceof Passkey) {
             return null;
         }
@@ -203,7 +203,7 @@ final class WebAuthnService
         $passkey->last_used_at = date('Y-m-d H:i:s');
         $passkey->save();
 
-        return User::findFirstById((int)$passkey->user_id);
+        return User::where('id', (int)$passkey->user_id)->first();
     }
 
     // ------------------------------------------------------------------
