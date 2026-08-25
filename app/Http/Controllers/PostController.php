@@ -18,10 +18,10 @@ class PostController extends Controller
         $perPage = 10;
         $page = max(1, (int)$request->getQuery('page', 'int', 1));
 
-        $total = (int)Post::count();
+        $posts = Post::query()->orderByDesc('id')->paginate($perPage, $page);
 
         $items = [];
-        foreach (Post::query()->orderByDesc('id')->forPage($page, $perPage)->get() as $post) {
+        foreach ($posts->items() as $post) {
             $items[] = [
                 'id' => $post->id,
                 'title' => $post->title,
@@ -33,8 +33,8 @@ class PostController extends Controller
             'title' => 'Posts',
             'posts' => [
                 'data' => $items,
-                'current_page' => $page,
-                'last_page' => max(1, (int)ceil($total / $perPage)),
+                'current_page' => $posts->currentPage(),
+                'last_page' => $posts->lastPage(),
             ],
         ]);
     }

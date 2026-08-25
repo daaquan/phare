@@ -63,6 +63,16 @@ function something() {}
 function migrateTestSchema($app): void
 {
     $connection = $app->make('db');
+
+    // This drops and recreates tables, so it must only ever reach the sqlite
+    // test database. A test run that boots with a non-testing config (e.g. a
+    // stale/shared config cache) would otherwise wipe the real database.
+    if ($connection->getType() !== 'sqlite') {
+        throw new RuntimeException(
+            'Refusing to build the test schema on a "' . $connection->getType() . '" connection.'
+        );
+    }
+
     $schema = new SchemaBuilder($connection);
 
     foreach (['posts', 'users', 'password_reset_tokens'] as $table) {

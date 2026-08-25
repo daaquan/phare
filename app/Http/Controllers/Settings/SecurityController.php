@@ -66,7 +66,7 @@ class SecurityController extends Controller
         }
 
         $passkeys = [];
-        foreach (Passkey::findByUserId((int)$user->id) as $passkey) {
+        foreach (Passkey::where('user_id', (int)$user->id)->get() as $passkey) {
             $passkeys[] = [
                 'id' => (int)$passkey->id,
                 'name' => (string)$passkey->name,
