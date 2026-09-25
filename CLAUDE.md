@@ -60,7 +60,8 @@ php artisan queue:work
 - **Shared props**: `App\Http\Middleware\HandleInertiaRequests` shares `auth.user`, `flash`, and validation `errors` (controllers flash field errors to the session via `Controller::backWithErrors`). Theme tokens (`.dark`) ship in `app.css`; the appearance toggle is client-side (`useAppearance` + a pre-paint script in `app.blade.php`).
 - **Auth**: full set — login, register, forgot/reset password (`PasswordBroker` + `log` mailer), email verification (hard `verified` gate, `sha1(email)` hash), settings (`/settings/{profile,password,appearance}`). `guest`/`verified` route middleware in `App\Http\Kernel`.
 - **Build gotcha**: rebuild (`npm run dev` / `npm run build`) after editing pages/components; Tailwind v4 JIT only emits classes seen in `@source` (`resources/js`, `resources/views`) at build time.
-- **Caveat**: route middleware (`auth`/`guest`/`verified`) run via Phalcon `application:beforeHandleRequest` events in production but are a no-op in the Pest test harness, so feature tests assert the rendered Inertia component, not redirects. DB-write flows segfault under the sqlite test driver (pre-existing Phalcon ORM issue) and are skipped.
+- **Caveat**: route middleware (`auth`/`guest`/`verified`) run via Phalcon `application:beforeHandleRequest` events; a middleware that returns without calling `$next` halts dispatch (framework `MiddlewareContract`), in production and in Pest alike, so guest hits on protected pages assert the 302 to login. DB-write flows segfault under the sqlite test driver (pre-existing Phalcon ORM issue) and are skipped.
+- **Inertia protocol (framework)**: page `url` is root-relative (absolute `http://` behind Cloudflare broke `history.pushState`), and redirects after Inertia PUT/PATCH/DELETE are coerced to 303.
 
 ## Key Configuration
 
