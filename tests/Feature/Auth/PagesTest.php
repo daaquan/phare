@@ -35,35 +35,18 @@ test('reset-password page renders with the token', function () {
         ->assertSee('abc123');
 });
 
-// Route middleware (auth/guest/verified) runs via Phalcon application events in
-// production but is a no-op in the test harness (same as the #3 dashboard test),
-// so these assert the rendered component rather than the redirect.
-test('verify-email page renders the VerifyEmail component', function () {
-    $this->get('/user/verify-email', authInertiaHeaders())
-        ->assertOk()
-        ->assertSee('"component":"auth\/VerifyEmail"');
-});
+// Authenticated renders would touch the User model (sqlite ORM segfault), so
+// the protected pages assert the auth middleware bounces guests to login.
+dataset('protected pages', [
+    '/user/verify-email',
+    '/user/confirm-password',
+    '/settings/profile',
+    '/settings/security',
+    '/settings/appearance',
+]);
 
-test('settings profile renders the Profile component', function () {
-    $this->get('/settings/profile', authInertiaHeaders())
-        ->assertOk()
-        ->assertSee('"component":"settings\/Profile"');
-});
-
-test('settings security renders the security component', function () {
-    $this->get('/settings/security', authInertiaHeaders())
-        ->assertOk()
-        ->assertSee('"component":"settings\/security"');
-});
-
-test('settings appearance renders the Appearance component', function () {
-    $this->get('/settings/appearance', authInertiaHeaders())
-        ->assertOk()
-        ->assertSee('"component":"settings\/Appearance"');
-});
-
-test('confirm-password page renders the ConfirmPassword component', function () {
-    $this->get('/user/confirm-password', authInertiaHeaders())
-        ->assertOk()
-        ->assertSee('"component":"auth\/ConfirmPassword"');
-});
+test('protected page redirects guests to login', function (string $uri) {
+    $this->get($uri, authInertiaHeaders())
+        ->assertStatus(302)
+        ->assertHeader('Location', app('url')->get(route('login')));
+})->with('protected pages');

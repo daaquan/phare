@@ -34,10 +34,10 @@ test('login renders the auth/Login Inertia component', function () {
         ->assertSee('"component":"auth\/Login"');
 });
 
-test('dashboard renders the Dashboard Inertia component', function () {
+test('dashboard redirects guests to login', function () {
     $this->get('/dashboard', inertiaHeaders())
-        ->assertOk()
-        ->assertSee('"component":"Dashboard"');
+        ->assertStatus(302)
+        ->assertHeader('Location', app('url')->get(route('login')));
 });
 
 test('the exception handler renders the Inertia Error page for 404s', function () {
