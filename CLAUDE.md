@@ -73,6 +73,6 @@ php artisan queue:work
 
 ## Language
 
-Code comments, config comments, docs, README, and hardcoded UI strings are in English (converted 2026-08-01). Write new code and documentation in English.
+Commit messages, code comments, config comments, docs, README, and hardcoded UI strings must be in English. Code and documentation were converted on 2026-08-01. Write new commits, code, and documentation in English.
 
 The one exception is `lang/ja/*`, which is the Japanese locale bundle and stays Japanese; `lang/en/*` holds the English strings. `config/app.php` defaults `locale` to `en`.
