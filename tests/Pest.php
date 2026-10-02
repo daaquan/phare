@@ -75,7 +75,7 @@ function migrateTestSchema($app): void
 
     $schema = new SchemaBuilder($connection);
 
-    foreach (['posts', 'users', 'password_reset_tokens'] as $table) {
+    foreach (['passkeys', 'posts', 'users', 'password_reset_tokens'] as $table) {
         if ($schema->hasTable($table)) {
             $connection->execute('DROP TABLE ' . $table);
         }
@@ -88,6 +88,10 @@ function migrateTestSchema($app): void
         $table->timestamp('email_verified_at')->nullable();
         $table->string('password');
         $table->date('birthday')->nullable();
+        $table->text('two_factor_secret')->nullable();
+        $table->text('two_factor_recovery_codes')->nullable();
+        $table->timestamp('two_factor_confirmed_at')->nullable();
+        $table->boolean('is_admin')->default(false);
         $table->timestamps();
     });
 
@@ -103,5 +107,16 @@ function migrateTestSchema($app): void
         $table->string('email')->primary();
         $table->string('token');
         $table->timestamp('created_at')->nullable();
+    });
+
+    $schema->create('passkeys', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->index();
+        $table->string('name')->default('');
+        $table->string('credential_id', 512)->unique();
+        $table->text('data');
+        $table->timestamp('last_used_at')->nullable();
+        $table->timestamps();
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
     });
 }
