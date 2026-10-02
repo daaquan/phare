@@ -3,7 +3,7 @@
   "rules": {
     "simplified_null_return": true,
     "braces": true,
-    "new_with_braces": {
+    "new_with_parentheses": {
       "anonymous_class": true,
       "named_class": true
     },
