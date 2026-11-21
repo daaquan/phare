@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\User;
+use App\Repository\UserRepository;
 use Phare\Database\Schema\Blueprint;
 use Phare\Database\Schema\SchemaBuilder;
+use Phare\Support\Facades\Auth;
 use Tests\TestCase;
 
 /*
@@ -119,4 +122,37 @@ function migrateTestSchema($app): void
         $table->timestamps();
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
     });
+}
+
+/**
+ * Persist a verified user (password "secret123") on the sqlite test database.
+ *
+ * @param array<string, mixed> $attributes
+ */
+function createTestUser(array $attributes = []): User
+{
+    $created = (new UserRepository())->createUser(array_merge([
+        'name' => 'Test User',
+        'email' => 'user' . bin2hex(random_bytes(4)) . '@example.com',
+        'password' => 'secret123',
+        'email_verified_at' => '2026-01-01 00:00:00',
+    ], $attributes));
+
+    return User::findFirst((int)$created['id']);
+}
+
+/**
+ * Sign the user in for the following requests (the PHP session outlives the
+ * per-request application rebuild in MakesHttpRequests).
+ */
+function signIn(User $user): User
+{
+    Auth::login($user);
+
+    return $user;
+}
+
+function freshUser(int $id): User
+{
+    return User::findFirst($id);
 }

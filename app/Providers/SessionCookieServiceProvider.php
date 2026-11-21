@@ -17,7 +17,8 @@ class SessionCookieServiceProvider extends ServiceProvider
         $cookie = config('session.cookie');
         $cookie = is_object($cookie) && method_exists($cookie, 'toArray') ? $cookie->toArray() : (array)$cookie;
 
-        if (!SessionCookie::apply($cookie)) {
+        // The CLI (tests, artisan) keeps one session alive across app rebuilds.
+        if (!SessionCookie::apply($cookie) && PHP_SAPI !== 'cli') {
             error_log('SessionCookieServiceProvider: session already active, cookie flags not applied.');
         }
     }

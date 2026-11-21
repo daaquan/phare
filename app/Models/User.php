@@ -107,11 +107,54 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * The hash embedded in the verification link (Laravel compatible: sha1(email)).
+     * How long an email verification link stays valid, in seconds.
      */
-    public function verificationHash(): string
+    public const VERIFICATION_TTL = 3600;
+
+    /**
+     * HMAC-SHA256 over id|email|expires keyed by APP_KEY. Unlike the old
+     * sha1(email) it cannot be computed from the address alone, it expires, and
+     * changing the email invalidates links issued for the previous address.
+     */
+    public function verificationHash(int $expires): string
     {
-        return sha1((string)$this->email);
+        $key = (string)config('app.key');
+        if ($key === '') {
+            throw new \RuntimeException('APP_KEY must be set to sign email verification links.');
+        }
+
+        return hash_hmac(
+            'sha256',
+            'verify-email|' . (int)$this->id . '|' . strtolower((string)$this->email) . '|' . $expires,
+            $key,
+        );
+    }
+
+    /**
+     * The signed path of a fresh verification link.
+     */
+    public function verificationPath(?int $now = null): string
+    {
+        $expires = ($now ?? time()) + self::VERIFICATION_TTL;
+
+        return '/user/verify-email/' . (int)$this->id . '/' . $expires . '/' . $this->verificationHash($expires);
+    }
+
+    /**
+     * Whether a verification link (id / expires / hash) was issued for this
+     * user and is still within its lifetime.
+     */
+    public function hasValidVerificationSignature(string $id, string $expires, string $hash, ?int $now = null): bool
+    {
+        if (!ctype_digit($id) || !ctype_digit($expires) || (int)$id !== (int)$this->id) {
+            return false;
+        }
+
+        if ((int)$expires < ($now ?? time())) {
+            return false;
+        }
+
+        return hash_equals($this->verificationHash((int)$expires), $hash);
     }
 
     /**

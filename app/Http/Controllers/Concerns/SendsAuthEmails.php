@@ -13,8 +13,7 @@ trait SendsAuthEmails
 {
     protected function sendVerificationEmail(User $user): void
     {
-        $link = $this->appUrl()
-            . '/user/verify-email/' . $user->id . '/' . $user->verificationHash();
+        $link = $this->appUrl() . $user->verificationPath();
 
         $html = '<p>Click the link below to verify your email address.</p>'
             . "<p><a href=\"{$link}\">{$link}</a></p>";

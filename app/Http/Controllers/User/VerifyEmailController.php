@@ -2,28 +2,26 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
+use Phare\Support\Facades\Auth;
 
 class VerifyEmailController extends Controller
 {
-    protected UserContract $users;
-
-    public function onConstruct(): void
+    /**
+     * The link is signed (HMAC over id|email|expires, see User::verificationHash)
+     * and only verifies the signed-in user: the {id} in the path must be theirs.
+     */
+    #[Route('verify-email/{id}/{expires}/{hash}', middlewares: ['auth'], name: 'verification.verify')]
+    public function verify(Request $request, string $id, string $expires, string $hash)
     {
-        $this->users = app(UserContract::class);
-    }
+        $user = Auth::user();
 
-    #[Route('verify-email/{id}/{hash}', middlewares: ['auth'], name: 'verification.verify')]
-    public function verify(Request $request, string $id, string $hash)
-    {
-        $user = $this->users->getUserById((int)$id);
+        if (!$user instanceof User || !$user->hasValidVerificationSignature($id, $expires, $hash)) {
+            $this->flashSession->error('That verification link is invalid or has expired. Request a new one.');
 
-        // Laravel-compatible hash check (sha1 of the email). The route is
-        // additionally auth-guarded so only the signed-in user can verify.
-        if ($user === null || !hash_equals($user->verificationHash(), $hash)) {
             return $this->response->redirect('/user/verify-email');
         }
 
