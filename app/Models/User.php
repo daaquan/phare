@@ -38,7 +38,7 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         'two_factor_secret',
         'two_factor_recovery_codes',
         'two_factor_confirmed_at',
-        'is_admin',
+        // is_admin is deliberately not mass assignable: set it explicitly.
     ];
 
     protected array $hidden = [

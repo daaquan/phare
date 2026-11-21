@@ -63,3 +63,16 @@ test('recovery codes use the expected format and support a custom count', functi
     }
     expect(User::generateRecoveryCodes(0))->toBe([]);
 });
+
+test('the admin flag cannot be mass assigned', function () {
+    $user = (new User())->fill(['name' => 'Mallory', 'email' => 'm@example.com', 'is_admin' => true]);
+
+    expect($user->isAdmin())->toBeFalse()
+        ->and((string)$user->name)->toBe('Mallory');
+});
+
+test('registration input cannot create an administrator', function () {
+    $user = createTestUser(['is_admin' => true]);
+
+    expect(freshUser((int)$user->id)->isAdmin())->toBeFalse();
+});
