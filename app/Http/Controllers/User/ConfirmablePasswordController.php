@@ -32,7 +32,7 @@ class ConfirmablePasswordController extends Controller
 
         $password = (string)$request->get('password');
 
-        if (!Auth::attempt(['id' => $user->id, 'password' => $password])) {
+        if (!Auth::validate(['id' => $user->id, 'password' => $password])) {
             $this->session->set('errors', ['password' => 'That password is not correct.']);
 
             return $this->response->redirect('/user/confirm-password');

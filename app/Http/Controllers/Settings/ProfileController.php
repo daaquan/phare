@@ -6,6 +6,7 @@ use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Concerns\SendsAuthEmails;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\Auth\AuthSession;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
@@ -76,13 +77,13 @@ class ProfileController extends Controller
 
         // Laravel parity: account deletion requires re-entering the password.
         $password = (string)$request->get('password');
-        if (!Auth::attempt(['id' => $user->id, 'password' => $password])) {
+        if (!Auth::validate(['id' => $user->id, 'password' => $password])) {
             $this->session->set('errors', ['password' => 'That password is not correct.']);
 
             return $this->response->redirect('/settings/profile');
         }
 
-        Auth::logout();
+        AuthSession::logout();
         $user->delete();
 
         $this->flashSession->success('Account deleted.');

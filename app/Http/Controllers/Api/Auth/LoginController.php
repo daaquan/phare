@@ -6,6 +6,7 @@ use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
 use App\Models\User;
+use App\Support\Auth\AuthSession;
 use Phare\Attributes\Route;
 use Phare\Foundation\Http\ResponseStatusCode;
 
@@ -58,7 +59,7 @@ class LoginController extends Controller
     #[Route('logout', methods: ['POST'], name: 'logout')]
     public function logout()
     {
-        \Auth::logout();
+        AuthSession::logout();
 
         return response(['message' => 'Logged out']);
     }

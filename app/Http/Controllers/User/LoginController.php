@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\LoginRequest;
+use App\Support\Auth\AuthSession;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Inertia;
@@ -72,7 +73,7 @@ class LoginController extends Controller
     #[Route('logout', methods: ['POST'], name: 'logout')]
     public function logout()
     {
-        \Auth::logout();
+        AuthSession::logout();
 
         return redirect(route('welcome'));
     }

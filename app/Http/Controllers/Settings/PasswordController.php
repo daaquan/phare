@@ -22,7 +22,7 @@ class PasswordController extends Controller
         $password = (string)$request->get('password');
         $confirmation = (string)$request->get('password_confirmation');
 
-        if (!Auth::attempt(['id' => $user->id, 'password' => $current])) {
+        if (!Auth::validate(['id' => $user->id, 'password' => $current])) {
             $this->session->set('errors', ['current_password' => 'Your current password is not correct.']);
 
             return $this->response->redirect('/settings/security');
@@ -42,6 +42,11 @@ class PasswordController extends Controller
 
         $user->password = $password;
         $user->save();
+
+        // Reset links issued for the old password die with it, and this browser
+        // moves to a new session id (the old one is deleted server-side).
+        app('password.broker')->deleteToken((string)$user->email);
+        $this->session->regenerateId(true);
 
         $this->flashSession->success('Password updated.');
 
