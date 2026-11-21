@@ -71,4 +71,26 @@ return [
 
     'lottery' => [2, 100],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Session Cookie
+    |--------------------------------------------------------------------------
+    |
+    | Applied to PHP's session cookie before the session starts
+    | (App\Support\Http\SessionCookie). HttpOnly keeps scripts away from the
+    | session id, Secure keeps it off plain http, and SameSite=Lax stops it
+    | riding along on cross-site POSTs. Secure defaults to on everywhere except
+    | the local and testing environments.
+    |
+    */
+
+    'cookie' => [
+        'name' => env('SESSION_COOKIE', 'PHPSESSID'),
+        'path' => '/',
+        'domain' => env('SESSION_DOMAIN', ''),
+        'secure' => (bool)env('SESSION_SECURE_COOKIE', !in_array(env('APP_ENV', 'production'), ['local', 'testing'], true)),
+        'http_only' => (bool)env('SESSION_HTTP_ONLY', true),
+        'same_site' => env('SESSION_SAME_SITE', 'lax'),
+    ],
+
 ];

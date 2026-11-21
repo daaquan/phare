@@ -1,11 +1,13 @@
 <?php
 
 use App\Providers\AppServiceProvider;
+use App\Providers\SessionCookieServiceProvider;
 use App\Providers\SqidsServiceProvider;
 use Phare\Broadcasting\BroadcastServiceProvider;
 use Phare\Inertia\InertiaServiceProvider;
 use Phare\Mail\MailServiceProvider;
 use Phare\Providers\AuthServiceProvider;
+use Phare\Providers\CacheProvider;
 use Phare\Providers\DatabaseProvider;
 use Phare\Providers\DebugLoggerProvider;
 use Phare\Providers\DebugWhoopsProvider;
@@ -80,12 +82,29 @@ return [
     | Debug mode
     |--------------------------------------------------------------------------
     |
-    | When enabled, error details are displayed.
-    | Keeping this off in production is recommended.
+    | When enabled, error details are displayed. It is always off when
+    | APP_ENV=production, whatever APP_DEBUG says, so a stray APP_DEBUG=true
+    | cannot leak stack traces and configuration from the live site.
     |
     */
 
-    'debug' => (bool)env('APP_DEBUG', false),
+    'debug' => env('APP_ENV', 'production') !== 'production' && (bool)env('APP_DEBUG', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Trusted proxies
+    |--------------------------------------------------------------------------
+    |
+    | Peers (REMOTE_ADDR) whose CF-Connecting-IP / X-Forwarded-For headers are
+    | believed when resolving the client IP for rate limiting. Requests from any
+    | other peer use REMOTE_ADDR as-is, so a client cannot spoof its own IP.
+    |
+    */
+
+    'trusted_proxies' => array_values(array_filter(array_map(
+        'trim',
+        explode(',', (string)env('TRUSTED_PROXIES', '127.0.0.1,::1'))
+    ))),
 
     /*
     |--------------------------------------------------------------------------
@@ -209,7 +228,9 @@ return [
         RouteServiceProvider::class,
         RequestProvider::class,
         ResponseProvider::class,
+        SessionCookieServiceProvider::class,
         SessionProvider::class,
+        CacheProvider::class,
         AuthServiceProvider::class,
         ModelProvider::class,
         DatabaseProvider::class,
