@@ -20,6 +20,14 @@ use Tests\TestCase;
 
 uses(TestCase::class)
     ->beforeEach(function () {
+        // MakesHttpRequests writes request headers into $_SERVER and never
+        // clears them; drop them so one test's headers do not leak into the next.
+        foreach (array_keys($_SERVER) as $key) {
+            if (str_starts_with((string)$key, 'HTTP_') || in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH'], true)) {
+                unset($_SERVER[$key]);
+            }
+        }
+
         $this->setUpApplication();
 
         if (in_array('sqlite', PDO::getAvailableDrivers(), true)) {
@@ -147,6 +155,10 @@ function createTestUser(array $attributes = []): User
  */
 function signIn(User $user): User
 {
+    // The process-wide session also carries state from earlier tests.
+    foreach (['auth.password_confirmed_at', 'url.intended', 'login.id', 'passkey.creation', 'errors'] as $key) {
+        app('session')->remove($key);
+    }
     Auth::login($user);
 
     return $user;

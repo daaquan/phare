@@ -1,15 +1,15 @@
 <?php
 
 /*
- * Smoke test for the public welcome page. It now renders through Inertia: a
- * normal browser visit returns the root HTML with the embedded page object,
- * which names the Welcome component. No DB access (a guest never triggers a
- * model lookup), so it runs regardless of the sqlite driver.
+ * Smoke test for the public welcome page, requested as an Inertia visit so the
+ * JSON page object is returned (the HTML shell needs a built Vite manifest,
+ * which the test environment does not have). The test previously passed only
+ * because an earlier test's X-Inertia header leaked through $_SERVER. No DB
+ * access (a guest never triggers a model lookup).
  */
 
 test('welcome page renders the Welcome component for guests', function () {
-    $this->get('/')
+    $this->get('/', ['X-Inertia' => 'true'])
         ->assertOk()
-        ->assertSee('Phare')
-        ->assertSee('Welcome');
+        ->assertSee('"component":"Welcome"');
 });
