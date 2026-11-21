@@ -28,14 +28,29 @@ class LoginController extends Controller
             return response($request->getMessages(), ResponseStatusCode::UNPROCESSABLE_ENTITY);
         }
 
-        if (!\Auth::attempt($request->only(['email', 'password']))) {
+        $credentials = $request->only(['email', 'password']);
+
+        // Check the password without starting a session: a correct password
+        // alone must not sign in an account that has two-factor enabled.
+        if (!\Auth::validate($credentials)) {
             return response(['message' => 'Unauthorized'], ResponseStatusCode::BAD_UNAUTHORIZED);
         }
 
-        $user = \Auth::user();
+        $user = $this->user->getUserByEmail((string)$credentials['email']);
         if (!$user instanceof User) {
             return response(['message' => 'Unauthorized'], ResponseStatusCode::BAD_UNAUTHORIZED);
         }
+
+        if ($user->hasTwoFactorEnabled()) {
+            // ponytail: no API two-factor step yet; these accounts sign in
+            // through the web login, which runs the challenge.
+            return response([
+                'message' => 'Two-factor authentication required. Sign in through the web login.',
+                'two_factor' => true,
+            ], ResponseStatusCode::FORBIDDEN);
+        }
+
+        \Auth::login($user);
 
         return response(['user_id' => \ID::encode($user->id)]);
     }

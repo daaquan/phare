@@ -49,14 +49,17 @@ class LoginController extends Controller
             'password' => $formData['password'],
         ];
 
-        if (\Auth::attempt($credentials)) {
-            // With two-factor enabled, hold the login until the code is confirmed.
+        if (\Auth::validate($credentials)) {
+            // With two-factor enabled, hold the login until the code is confirmed;
+            // the password alone never puts the user id into the auth session key.
             if ($user->hasTwoFactorEnabled()) {
-                \Auth::logout();
+                $this->session->regenerateId(true);
                 $this->session->set('login.id', $user->id);
 
                 return redirect('/user/two-factor-challenge');
             }
+
+            \Auth::login($user);
 
             return redirect('/');
         }

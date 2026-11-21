@@ -6,7 +6,6 @@ use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
-use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Inertia;
 
 class NewPasswordController extends Controller
@@ -65,8 +64,11 @@ class NewPasswordController extends Controller
         $user->save();
 
         $broker->deleteToken($email);
-        Auth::login($user);
 
-        return $this->response->redirect('/dashboard');
+        // No automatic login: signing in again goes through the normal login,
+        // which enforces two-factor authentication.
+        $this->flashSession->success('Your password has been reset. Please sign in.');
+
+        return $this->response->redirect('/user/login');
     }
 }
