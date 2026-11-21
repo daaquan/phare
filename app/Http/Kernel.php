@@ -7,6 +7,9 @@ use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\RequirePassword;
+use App\Http\Middleware\ThrottlePasswordChecks;
+use App\Http\Middleware\ThrottleRequests;
+use App\Http\Middleware\ThrottleTwoFactor;
 use App\Http\Middleware\VerifyCsrfToken;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
@@ -16,7 +19,6 @@ use Phare\Foundation\Bootstrap\LoadConfiguration;
 use Phare\Foundation\Bootstrap\RegisterFacades;
 use Phare\Foundation\Bootstrap\RegisterProviders;
 use Phare\Foundation\Http\Kernel as HttpKernel;
-use Phare\Middleware\ThrottleRequests;
 use Phare\Routing\Middleware\CorsMiddleware;
 
 class Kernel extends HttpKernel
@@ -46,6 +48,8 @@ class Kernel extends HttpKernel
     protected array $routeMiddleware = [
         'auth' => Authenticate::class,
         'throttle' => ThrottleRequests::class,
+        'throttle.password' => ThrottlePasswordChecks::class,
+        'throttle.two-factor' => ThrottleTwoFactor::class,
         'guest' => RedirectIfAuthenticated::class,
         'verified' => EnsureEmailIsVerified::class,
         'password.confirm' => RequirePassword::class,

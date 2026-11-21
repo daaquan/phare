@@ -26,7 +26,7 @@ class NewPasswordController extends Controller
         ]);
     }
 
-    #[Route('reset-password', methods: ['POST'], middlewares: ['guest'], name: 'password.update')]
+    #[Route('reset-password', methods: ['POST'], middlewares: ['guest', 'throttle.password'], name: 'password.update')]
     public function store(Request $request)
     {
         $email = (string)$request->get('email');

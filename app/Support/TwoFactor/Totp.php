@@ -48,20 +48,29 @@ final class Totp
      */
     public static function verify(string $secret, string $code, int $window = 1): bool
     {
+        return self::verifyStep($secret, $code, $window) !== null;
+    }
+
+    /**
+     * Like verify(), but returns the matched time step (null when no match) so
+     * the caller can refuse a step that was already used (replay).
+     */
+    public static function verifyStep(string $secret, string $code, int $window = 1, ?int $now = null): ?int
+    {
         $code = trim($code);
         if (!preg_match('/^\d{6}$/', $code)) {
-            return false;
+            return null;
         }
 
-        $now = time();
+        $now ??= time();
         for ($i = -$window; $i <= $window; $i++) {
-            $candidate = self::codeAt($secret, $now + ($i * self::PERIOD));
-            if (hash_equals($candidate, $code)) {
-                return true;
+            $timestamp = $now + ($i * self::PERIOD);
+            if (hash_equals(self::codeAt($secret, $timestamp), $code)) {
+                return intdiv($timestamp, self::PERIOD);
             }
         }
 
-        return false;
+        return null;
     }
 
     /**

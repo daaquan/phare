@@ -19,7 +19,7 @@ class LoginController extends Controller
         $this->user = app(UserContract::class);
     }
 
-    #[Route('login', methods: ['POST'], middlewares: ['throttle'], name: 'store')]
+    #[Route('login', methods: ['POST'], middlewares: ['throttle.password'], name: 'store')]
     public function store()
     {
         $request = new LoginRequest();

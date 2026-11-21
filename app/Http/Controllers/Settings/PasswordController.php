@@ -10,7 +10,7 @@ use Phare\Support\Facades\Auth;
 
 class PasswordController extends Controller
 {
-    #[Route('password', methods: ['PUT'], middlewares: ['auth', 'verified'], name: 'settings.password.update')]
+    #[Route('password', methods: ['PUT'], middlewares: ['auth', 'verified', 'throttle.password'], name: 'settings.password.update')]
     public function update(Request $request)
     {
         $user = Auth::user();

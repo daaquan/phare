@@ -22,7 +22,7 @@ class ConfirmablePasswordController extends Controller
         return Inertia::render('auth/ConfirmPassword');
     }
 
-    #[Route('confirm-password', methods: ['POST'], middlewares: ['auth'], name: 'password.confirm.store')]
+    #[Route('confirm-password', methods: ['POST'], middlewares: ['auth', 'throttle.password'], name: 'password.confirm.store')]
     public function store(Request $request)
     {
         $user = Auth::user();

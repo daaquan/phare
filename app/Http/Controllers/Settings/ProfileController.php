@@ -67,7 +67,7 @@ class ProfileController extends Controller
         return $this->response->redirect('/settings/profile');
     }
 
-    #[Route('profile', methods: ['DELETE'], middlewares: ['auth'], name: 'settings.profile.destroy')]
+    #[Route('profile', methods: ['DELETE'], middlewares: ['auth', 'throttle.password'], name: 'settings.profile.destroy')]
     public function destroy(Request $request)
     {
         $user = Auth::user();

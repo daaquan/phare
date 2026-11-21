@@ -6,6 +6,7 @@ use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Support\TwoFactor\Totp;
+use App\Support\TwoFactor\UsedTotpSteps;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
@@ -35,7 +36,7 @@ class TwoFactorChallengeController extends Controller
         return Inertia::render('auth/TwoFactorChallenge');
     }
 
-    #[Route('two-factor-challenge', methods: ['POST'], middlewares: ['guest', 'throttle'], name: 'two-factor.login.store')]
+    #[Route('two-factor-challenge', methods: ['POST'], middlewares: ['guest', 'throttle.two-factor'], name: 'two-factor.login.store')]
     public function store(Request $request)
     {
         $userId = $this->session->get('login.id');
@@ -57,7 +58,8 @@ class TwoFactorChallengeController extends Controller
         if ($recovery !== '') {
             $authenticated = $user->consumeRecoveryCode($recovery);
         } elseif ($code !== '') {
-            $authenticated = Totp::verify((string)$user->two_factor_secret, $code);
+            $step = Totp::verifyStep((string)$user->two_factor_secret, $code);
+            $authenticated = $step !== null && UsedTotpSteps::claim((int)$user->id, $step);
         }
 
         if (!$authenticated) {

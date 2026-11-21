@@ -33,7 +33,7 @@ class LoginController extends Controller
         ]);
     }
 
-    #[Route('login', methods: ['POST'], middlewares: ['throttle'], name: 'store')]
+    #[Route('login', methods: ['POST'], middlewares: ['throttle.password'], name: 'store')]
     public function store(LoginRequest $request)
     {
         $formData = $request->only(['email', 'password']);
