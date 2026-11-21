@@ -30,6 +30,9 @@ uses(TestCase::class)
 
         $this->setUpApplication();
 
+        // Rate-limit buckets must not carry over when a persistent cache is used.
+        app('cache')->flush();
+
         if (in_array('sqlite', PDO::getAvailableDrivers(), true)) {
             migrateTestSchema($this->app);
         }

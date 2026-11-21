@@ -95,7 +95,10 @@ class ThrottleRequests extends MiddlewareContract implements BeforeMiddleware
 
     protected function tooManyAttempts(int $retryAfter): ResponseInterface
     {
-        $this->app->stop();
+        // Halts a Micro (API) dispatch; web dispatch stops via MiddlewareContract.
+        if (method_exists($this->app, 'stop')) {
+            $this->app->stop();
+        }
 
         $response = $this->app['response'];
         $response->setStatusCode(429, 'Too Many Requests');
