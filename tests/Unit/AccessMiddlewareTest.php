@@ -115,6 +115,7 @@ test('password confirmation redirects missing or expired confirmations and prese
         $session->set('auth.password_confirmed_at', time() - (int)config('auth.password_timeout', 10800) - 60);
     }
     $request = $this->createMock(RequestInterface::class);
+    $request->method('getMethod')->willReturn('GET');
     $request->method('getURI')->willReturn('/settings/security?tab=passkeys');
 
     try {
@@ -149,6 +150,45 @@ test('recent password confirmation permits dispatch without replacing the intend
             ->and($session->get('url.intended'))->toBe('/original');
     } finally {
         $session->remove('auth.password_confirmed_at');
+        $session->remove('url.intended');
+    }
+});
+
+test('password confirmation sends non-GET requests back to the referring page path', function (string $referer, string $expected) {
+    $session = app('session');
+    $session->remove('auth.password_confirmed_at');
+    $request = $this->createMock(RequestInterface::class);
+    $request->method('getMethod')->willReturn('POST');
+    $request->method('getURI')->willReturn('/settings/passkeys/options');
+    $request->method('getHTTPReferer')->willReturn($referer);
+
+    try {
+        (new RequirePassword())->handle($request, fn () => $this->fail('Unconfirmed requests must stop.'));
+
+        expect($session->get('url.intended'))->toBe($expected);
+    } finally {
+        $session->remove('url.intended');
+    }
+})->with([
+    'same-site page' => ['https://phpfan.net/settings/security?tab=2fa', '/settings/security?tab=2fa'],
+    'foreign host keeps only the path' => ['https://evil.example/settings/profile', '/settings/profile'],
+    'protocol-relative trick' => ['https://phpfan.net//evil.example/x', '/dashboard'],
+    'no referer' => ['', '/dashboard'],
+]);
+
+test('password confirmation answers JSON callers with 423 instead of a redirect', function () {
+    $session = app('session');
+    $session->remove('auth.password_confirmed_at');
+    $request = $this->createMock(RequestInterface::class);
+    $request->method('getMethod')->willReturn('POST');
+    $request->method('getHeader')->willReturnCallback(fn (string $name) => $name === 'Accept' ? 'application/json' : '');
+
+    try {
+        $response = (new RequirePassword())->handle($request, fn () => $this->fail('Unconfirmed requests must stop.'));
+
+        expect($response->getStatusCode())->toBe(423)
+            ->and(json_decode((string)$response->getContent(), true))->toMatchArray(['redirect' => '/user/confirm-password']);
+    } finally {
         $session->remove('url.intended');
     }
 });

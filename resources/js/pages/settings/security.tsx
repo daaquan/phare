@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { Head, useForm, usePage } from '@inertiajs/react';
 
 import SettingsLayout from '@/layouts/SettingsLayout';
@@ -12,6 +12,7 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from '@/components/ui/input-otp';
+import { postConfirmedJson } from '@/lib/passkeys';
 import { type Passkey, type SharedProps } from '@/types';
 
 interface TwoFactorState {
@@ -19,7 +20,6 @@ interface TwoFactorState {
     pending: boolean;
     secret?: string;
     otpauthUri?: string;
-    recoveryCodes?: string[];
 }
 
 interface SecurityProps {
@@ -28,8 +28,27 @@ interface SecurityProps {
 }
 
 export default function Security() {
-    const { errors, twoFactor, passkeys } =
+    const { errors, twoFactor, passkeys, csrf_token } =
         usePage<SharedProps & SecurityProps>().props;
+
+    // Recovery codes are fetched on demand behind password.confirm, never
+    // shipped with the page props.
+    const [recoveryCodes, setRecoveryCodes] = useState<string[] | null>(null);
+    const [revealError, setRevealError] = useState<string | null>(null);
+    const revealRecoveryCodes = async () => {
+        setRevealError(null);
+        try {
+            const data = await postConfirmedJson(
+                '/settings/two-factor/recovery-codes/reveal',
+                csrf_token,
+            );
+            setRecoveryCodes(
+                Array.isArray(data.recoveryCodes) ? data.recoveryCodes.map(String) : [],
+            );
+        } catch (err) {
+            setRevealError(err instanceof Error ? err.message : 'Could not load the codes.');
+        }
+    };
 
     // Password change.
     const password = useForm({
@@ -210,17 +229,33 @@ export default function Security() {
                                 <p className="mt-1 text-sm text-muted-foreground">
                                     Keep these somewhere safe in case you lose your authenticator. Each code works once.
                                 </p>
-                                <ul className="mt-3 grid grid-cols-2 gap-2 rounded-md bg-muted p-4 font-mono text-sm">
-                                    {(twoFactor.recoveryCodes ?? []).map((code) => (
-                                        <li key={code}>{code}</li>
-                                    ))}
-                                </ul>
+                                {recoveryCodes === null ? (
+                                    <Button
+                                        variant="outline"
+                                        className="mt-3"
+                                        onClick={revealRecoveryCodes}
+                                    >
+                                        Show recovery codes
+                                    </Button>
+                                ) : (
+                                    <ul className="mt-3 grid grid-cols-2 gap-2 rounded-md bg-muted p-4 font-mono text-sm">
+                                        {recoveryCodes.map((code) => (
+                                            <li key={code}>{code}</li>
+                                        ))}
+                                    </ul>
+                                )}
+                                {revealError && (
+                                    <p className="mt-2 text-sm text-destructive">
+                                        {revealError}
+                                    </p>
+                                )}
                                 <Button
                                     variant="outline"
                                     className="mt-3"
                                     onClick={() =>
                                         recoveryForm.post(
                                             '/settings/two-factor/recovery-codes',
+                                            { onSuccess: () => setRecoveryCodes(null) },
                                         )
                                     }
                                     disabled={recoveryForm.processing}

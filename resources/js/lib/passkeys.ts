@@ -12,8 +12,20 @@ const jsonHeaders = (csrfToken: string): HeadersInit => ({
 });
 
 async function errorMessage(res: Response, fallback: string): Promise<string> {
-    const data = (await res.json().catch(() => ({}))) as { message?: string };
+    const data = (await res.json().catch(() => ({}))) as { message?: string; redirect?: string };
+    // 423: the password.confirm middleware wants a fresh password first.
+    if (res.status === 423) {
+        window.location.assign(data.redirect ?? '/user/confirm-password');
+    }
     return data.message ?? fallback;
+}
+
+/** POST to a password.confirm-guarded JSON endpoint (shared with the security page). */
+export async function postConfirmedJson(
+    url: string,
+    csrfToken: string,
+): Promise<Record<string, unknown>> {
+    return postJson(url, {}, csrfToken);
 }
 
 /** POST and parse JSON, throwing the server message on a non-2xx response. */

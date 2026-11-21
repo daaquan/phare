@@ -76,6 +76,27 @@ class TwoFactorAuthenticationController extends Controller
         return $this->response->redirect('/settings/security');
     }
 
+    /**
+     * Reveal the unused recovery codes (JSON, fetched on demand by the security page).
+     */
+    #[Route('two-factor/recovery-codes/reveal', methods: ['POST'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.recovery.show')]
+    public function showRecoveryCodes(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user instanceof User) {
+            $this->response->setStatusCode(401);
+            $this->response->setJsonContent(['message' => 'Unauthorized']);
+
+            return $this->response;
+        }
+
+        $this->response->setJsonContent([
+            'recoveryCodes' => $user->hasTwoFactorEnabled() ? $user->recoveryCodes() : [],
+        ]);
+
+        return $this->response;
+    }
+
     #[Route('two-factor', methods: ['DELETE'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.disable')]
     public function disable(Request $request)
     {

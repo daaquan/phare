@@ -45,10 +45,9 @@ class SecurityController extends Controller
             );
         }
 
-        // $enabled likewise implies $user is a User.
-        if ($enabled) {
-            $twoFactor['recoveryCodes'] = $user->recoveryCodes();
-        }
+        // Recovery codes are a second factor: they are not part of this page and
+        // are only revealed by TwoFactorAuthenticationController::showRecoveryCodes
+        // after a password confirmation.
 
         return Inertia::render('settings/security', [
             'twoFactor' => $twoFactor,

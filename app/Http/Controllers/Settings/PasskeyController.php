@@ -14,13 +14,13 @@ use Phare\Support\Facades\Auth;
  * Register and delete passkeys (WebAuthn credentials). The frontend calls these with
  * fetch and reads the registration response or error as JSON -- not an Inertia visit.
  *
- * ponytail: Laravel also guards these with password.confirm; here auth + verified
- * plus the WebAuthn user gesture at registration time (biometric/PIN) count as the
- * re-authentication. Add password.confirm if you want it stricter.
+ * Registration requires a recent password confirmation: the WebAuthn user gesture
+ * only proves possession of *an* authenticator, and a registered passkey signs in
+ * without password or two-factor. Unconfirmed fetch() calls get 423 JSON.
  */
 class PasskeyController extends Controller
 {
-    #[Route('passkeys/options', methods: ['POST'], middlewares: ['auth', 'verified'], name: 'settings.passkeys.options')]
+    #[Route('passkeys/options', methods: ['POST'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.passkeys.options')]
     public function options(Request $request)
     {
         $user = Auth::user();
@@ -34,7 +34,7 @@ class PasskeyController extends Controller
         return $this->rawJson($json);
     }
 
-    #[Route('passkeys', methods: ['POST'], middlewares: ['auth', 'verified'], name: 'settings.passkeys.store')]
+    #[Route('passkeys', methods: ['POST'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.passkeys.store')]
     public function store(Request $request)
     {
         $user = Auth::user();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Concerns\SendsAuthEmails;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -20,7 +21,8 @@ class ProfileController extends Controller
         return Inertia::render('settings/Profile');
     }
 
-    #[Route('profile', methods: ['PATCH'], middlewares: ['auth', 'verified'], name: 'settings.profile.update')]
+    // Changing the email hands over password-reset control, so it needs a fresh password.
+    #[Route('profile', methods: ['PATCH'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.profile.update')]
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -38,6 +40,12 @@ class ProfileController extends Controller
         }
 
         $emailChanged = $email !== (string)$user->email;
+
+        if ($emailChanged && app(UserContract::class)->getUserByEmail($email) !== null) {
+            $this->session->set('errors', ['email' => 'That email address is already taken.']);
+
+            return $this->response->redirect('/settings/profile');
+        }
 
         $user->name = $name;
         $user->email = $email;
