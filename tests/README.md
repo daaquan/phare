@@ -27,6 +27,15 @@ database drivers before running schema operations.
 - Inertia validation errors: empty object serialization and one-time consumption.
 - Password reset tokens: creation, incorrect tokens and deletion.
 
+- Account security (2026-11-21): signed email verification links (forged,
+  expired, foreign id), two-factor bypasses via API login and password reset,
+  password.confirm on email change / passkey registration / recovery codes,
+  session cleanup on logout and password change, client-IP rate limiting
+  behind the proxy, TOTP replay, and session cookie flags (checked in a child
+  process, since the Pest process already has an active session).
+- The end-to-end 429 cases need a persistent cache:
+  `CACHE_DRIVER=file ./vendor/bin/pest --filter="sixth attempt"`.
+
 ## Remaining gaps
 
 The two posts HTTP cases remain skipped because of the documented Phalcon/SQLite
