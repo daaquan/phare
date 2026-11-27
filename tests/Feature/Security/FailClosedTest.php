@@ -3,6 +3,7 @@
 use App\Http\Middleware\ThrottlePasswordChecks;
 use App\Http\Middleware\ThrottleRequests;
 use App\Support\Concurrency\FileLock;
+use App\Support\TwoFactor\Totp;
 use App\Support\TwoFactor\UsedTotpSteps;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response;
@@ -143,3 +144,28 @@ test('security stores reject cache writes that return false', function (string $
         app()->instance('cache', $original);
     }
 })->with(['throttle', 'totp']);
+
+test('a TOTP code cannot confirm two-factor setup twice (replay)', function () {
+    FileLock::$directory = $this->lockDir;
+    app('cache')->flush();
+    $secret = Totp::generateSecret();
+    $code = Totp::codeAt($secret, time());
+
+    expect(UsedTotpSteps::verifyAndClaim(11, $secret, $code))->toBeTrue()
+        ->and(UsedTotpSteps::verifyAndClaim(11, $secret, $code))->toBeFalse()
+        ->and(UsedTotpSteps::verifyAndClaim(11, $secret, '000000'))->toBeFalse();
+});
+
+test('TOTP confirmation is refused when the claim store fails', function () {
+    ini_set('error_log', $this->logFile);
+    $secret = Totp::generateSecret();
+    $code = Totp::codeAt($secret, time());
+
+    expect(UsedTotpSteps::verifyAndClaim(12, $secret, $code))->toBeFalse();
+});
+
+test('the confirm and challenge controllers both claim the TOTP step', function () {
+    foreach (['Settings/TwoFactorAuthenticationController', 'User/TwoFactorChallengeController'] as $c) {
+        expect(file_get_contents(dirname(__DIR__, 3) . "/app/Http/Controllers/$c.php"))->toContain('UsedTotpSteps::');
+    }
+});

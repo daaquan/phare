@@ -43,4 +43,15 @@ final class UsedTotpSteps
             return false;
         }
     }
+
+    /**
+     * Verify a TOTP code against the secret and claim its time step in one go,
+     * so every caller (login challenge, setup confirmation) rejects a replay.
+     */
+    public static function verifyAndClaim(int $userId, string $secret, string $code): bool
+    {
+        $step = Totp::verifyStep($secret, $code);
+
+        return $step !== null && self::claim($userId, $step);
+    }
 }

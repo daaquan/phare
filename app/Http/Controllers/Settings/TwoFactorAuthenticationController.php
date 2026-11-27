@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Support\TwoFactor\Totp;
+use App\Support\TwoFactor\UsedTotpSteps;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
@@ -46,7 +47,7 @@ class TwoFactorAuthenticationController extends Controller
         }
 
         $code = (string)$request->get('code');
-        if (!Totp::verify((string)$user->two_factor_secret, $code)) {
+        if (!UsedTotpSteps::verifyAndClaim((int)$user->id, (string)$user->two_factor_secret, $code)) {
             $this->session->set('errors', ['code' => 'That authentication code is not correct.']);
 
             return $this->response->redirect('/settings/security');
