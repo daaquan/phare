@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
+use App\Support\Auth\CredentialChange;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Inertia;
@@ -46,25 +47,41 @@ class NewPasswordController extends Controller
             return $this->response->redirect('/user/reset-password/' . $token . '?email=' . urlencode($email));
         }
 
-        $broker = app('password.broker');
-        if (!$broker->validateToken($email, $token)) {
-            $this->session->set('errors', ['email' => 'That token is invalid or has expired.']);
+        // Verify, write and consume under the per-email lock: a concurrent request
+        // with the same token waits, then finds it gone. Fail closed on lock errors.
+        try {
+            $result = CredentialChange::withEmailLock($email, function () use ($email, $token, $password): string {
+                $broker = app('password.broker');
+                if (!$broker->validateToken($email, $token)) {
+                    return 'token';
+                }
+
+                $user = $this->users->getUserByEmail($email);
+                if ($user === null) {
+                    return 'user';
+                }
+
+                if (CredentialChange::setPassword($user, $password) === null) {
+                    return 'busy';
+                }
+
+                $broker->deleteToken($email);
+
+                return 'ok';
+            });
+        } catch (\RuntimeException $e) {
+            $result = 'busy';
+        }
+
+        if ($result !== 'ok') {
+            $this->session->set('errors', ['email' => match ($result) {
+                'busy' => 'Please try again in a moment.',
+                'user' => 'User not found.',
+                default => 'That token is invalid or has expired.',
+            }]);
 
             return $this->response->redirect('/user/forgot-password');
         }
-
-        $user = $this->users->getUserByEmail($email);
-        if ($user === null) {
-            $this->session->set('errors', ['email' => 'User not found.']);
-
-            return $this->response->redirect('/user/forgot-password');
-        }
-
-        $user->password = $password;
-        $user->session_version = $user->sessionVersion() + 1; // signs every existing session out
-        $user->save();
-
-        $broker->deleteToken($email);
 
         // No automatic login: signing in again goes through the normal login,
         // which enforces two-factor authentication.

@@ -7,6 +7,7 @@ use App\Http\Controllers\Concerns\SendsAuthEmails;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Support\Auth\AuthSession;
+use App\Support\Auth\CredentialChange;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
@@ -49,19 +50,33 @@ class ProfileController extends Controller
         }
 
         $oldEmail = (string)$user->email;
-        $user->name = $name;
-        $user->email = $email;
 
-        if ($emailChanged) {
-            // Changing the email un-verifies the account and re-sends the link.
-            $user->email_verified_at = null;
+        try {
+            // Same lock as reset-link issuance: no token can be written for the old
+            // address after it was revoked here.
+            CredentialChange::withEmailLock($oldEmail, function () use ($user, $name, $email, $emailChanged, $oldEmail): void {
+                $user->name = $name;
+                $user->email = $email;
+
+                if ($emailChanged) {
+                    // Changing the email un-verifies the account and re-sends the link.
+                    $user->email_verified_at = null;
+                }
+
+                $user->save();
+
+                if ($emailChanged) {
+                    // Reset tokens are keyed by email: revoke any still-valid one on the old address.
+                    app('password.broker')->deleteToken($oldEmail);
+                }
+            });
+        } catch (\RuntimeException $e) {
+            $this->session->set('errors', ['email' => 'Please try again in a moment.']);
+
+            return $this->response->redirect('/settings/profile');
         }
 
-        $user->save();
-
         if ($emailChanged) {
-            // Reset tokens are keyed by email: revoke any still-valid one on the old address.
-            app('password.broker')->deleteToken($oldEmail);
             $this->sendVerificationEmail($user);
         }
 
@@ -88,10 +103,18 @@ class ProfileController extends Controller
 
         $email = (string)$user->email;
 
+        try {
+            CredentialChange::withEmailLock($email, function () use ($user, $email): void {
+                $user->delete();
+                // Revoke outstanding reset tokens so a new account on this email cannot reuse them.
+                app('password.broker')->deleteToken($email);
+            });
+        } catch (\RuntimeException $e) {
+            $this->session->set('errors', ['password' => 'Please try again in a moment.']);
+
+            return $this->response->redirect('/settings/profile');
+        }
         AuthSession::logout();
-        $user->delete();
-        // Revoke outstanding reset tokens so a new account on this email cannot reuse them.
-        app('password.broker')->deleteToken($email);
 
         $this->flashSession->success('Account deleted.');
 

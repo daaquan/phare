@@ -44,9 +44,9 @@ class TwoFactorChallengeController extends Controller
         }
 
         $user = $this->users->getUserById((int)$userId);
-        if (!$user instanceof User || !$user->hasTwoFactorEnabled()) {
-            $this->session->remove('login.id');
-            $this->session->remove('login.at');
+        // A password change since the password was verified voids this login.
+        if (!$user instanceof User || !$user->hasTwoFactorEnabled() || !AuthSession::pendingVersionHolds($user)) {
+            AuthSession::clearPendingTwoFactor();
 
             return $this->response->redirect('/user/login');
         }
@@ -67,8 +67,7 @@ class TwoFactorChallengeController extends Controller
             return $this->response->redirect('/user/two-factor-challenge');
         }
 
-        $this->session->remove('login.id');
-        $this->session->remove('login.at');
+        AuthSession::clearPendingTwoFactor();
         AuthSession::login($user);
 
         return $this->response->redirect('/dashboard');

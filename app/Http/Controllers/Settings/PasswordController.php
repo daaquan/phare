@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Support\Auth\AuthSession;
+use App\Support\Auth\CredentialChange;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
@@ -41,9 +42,15 @@ class PasswordController extends Controller
             return $this->response->redirect('/settings/security');
         }
 
-        $user->password = $password;
-        $user->session_version = $user->sessionVersion() + 1; // signs every other session out
-        $user->save();
+        // Re-reads the row under a lock and bumps session_version once (signs every other session out).
+        $updated = CredentialChange::setPassword($user, $password);
+        if ($updated === null) {
+            $this->session->set('errors', ['password' => 'Please try again in a moment.']);
+
+            return $this->response->redirect('/settings/security');
+        }
+        // Keep the request-local Auth user in step with the row (never saved from here).
+        $user->session_version = $updated->sessionVersion();
 
         // Reset links issued for the old password die with it, and this browser
         // moves to a new session id (the old one is deleted server-side).

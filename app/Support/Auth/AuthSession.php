@@ -19,6 +19,7 @@ final class AuthSession
         'auth.password_confirmed_at',
         'login.id',
         'login.at',
+        self::LOGIN_VERSION_KEY,
         'url.intended',
         'passkey.creation',
         'passkey.request',
@@ -28,6 +29,9 @@ final class AuthSession
     /** Session key holding the User::session_version this session was issued for. */
     public const VERSION_KEY = 'auth.session_version';
 
+    /** Session key holding the session_version at the moment the password was verified. */
+    public const LOGIN_VERSION_KEY = 'login.version';
+
     /**
      * Sign the user in and stamp the session with their current session_version.
      * Use this instead of Auth::login() so a later password change can end
@@ -35,6 +39,9 @@ final class AuthSession
      */
     public static function login(User $user): void
     {
+        // A new identity must not inherit the previous one's privileges
+        // (password confirmation, passkey challenges, pending logins).
+        self::forgetPrivilegedState();
         Auth::login($user);
         self::stamp($user);
         // Never carry a plaintext recovery batch across an identity change.
@@ -91,6 +98,26 @@ final class AuthSession
         $session = app('session');
         $session->set('login.id', $user->id);
         $session->set('login.at', time());
+        $session->set(self::LOGIN_VERSION_KEY, $user->sessionVersion());
+    }
+
+    /**
+     * Whether the account still has the session_version recorded when its
+     * password was verified (a password change in between voids the login).
+     */
+    public static function pendingVersionHolds(User $user): bool
+    {
+        $recorded = app('session')->get(self::LOGIN_VERSION_KEY);
+
+        return $recorded !== null && (int)$recorded === $user->sessionVersion();
+    }
+
+    public static function clearPendingTwoFactor(): void
+    {
+        $session = app('session');
+        foreach (['login.id', 'login.at', self::LOGIN_VERSION_KEY] as $key) {
+            $session->remove($key);
+        }
     }
 
     /**
@@ -108,8 +135,7 @@ final class AuthSession
 
         $age = time() - (int)$session->get('login.at', 0);
         if ($age < 0 || $age > (int)config('auth.two_factor_timeout', 300)) {
-            $session->remove('login.id');
-            $session->remove('login.at');
+            self::clearPendingTwoFactor();
 
             return null;
         }
