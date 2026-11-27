@@ -55,6 +55,13 @@ class ProfileController extends Controller
             // Same lock as reset-link issuance: no token can be written for the old
             // address after it was revoked here.
             CredentialChange::withEmailLock($oldEmail, function () use ($user, $name, $email, $emailChanged, $oldEmail): void {
+                // The address was read before the lock: re-read, and refuse when a
+                // concurrent request already moved the account off the locked address.
+                $fresh = User::findFirst((int)$user->id);
+                if (!$fresh instanceof User || (string)$fresh->email !== $oldEmail) {
+                    throw new \RuntimeException('account changed while waiting for the lock');
+                }
+
                 $user->name = $name;
                 $user->email = $email;
 
@@ -105,6 +112,11 @@ class ProfileController extends Controller
 
         try {
             CredentialChange::withEmailLock($email, function () use ($user, $email): void {
+                $fresh = User::findFirst((int)$user->id);
+                if (!$fresh instanceof User || (string)$fresh->email !== $email) {
+                    throw new \RuntimeException('account changed while waiting for the lock');
+                }
+
                 $user->delete();
                 // Revoke outstanding reset tokens so a new account on this email cannot reuse them.
                 app('password.broker')->deleteToken($email);

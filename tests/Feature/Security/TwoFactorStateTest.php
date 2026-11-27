@@ -66,7 +66,7 @@ test('mutateTwoFactor aborts when the row changes between read and write', funct
 test('confirming a pending setup generates and stores a fresh batch', function () {
     $user = createTestUser(['two_factor_secret' => Totp::generateSecret()]);
 
-    $codes = freshUser((int)$user->id)->confirmTwoFactor();
+    $codes = freshUser((int)$user->id)->confirmTwoFactor((string)$user->two_factor_secret);
 
     $after = freshUser((int)$user->id);
     expect($codes)->toHaveCount(8)
@@ -82,18 +82,29 @@ test('confirming replaces the legacy plaintext list a pre-upgrade setup stored',
         'two_factor_recovery_codes' => json_encode(['LEGACYCODE1']),
     ]);
 
-    $codes = freshUser((int)$user->id)->confirmTwoFactor();
+    $codes = freshUser((int)$user->id)->confirmTwoFactor((string)$user->two_factor_secret);
 
     expect($codes)->not->toBeNull()->and(freshUser((int)$user->id)->recoveryCodeCount())->toBe(8)
         ->and(freshUser((int)$user->id)->consumeRecoveryCode('LEGACYCODE1'))->toBeFalse();
 });
 
+test('confirm is refused when the pending secret was replaced after the code was verified', function () {
+    $old = Totp::generateSecret();
+    $user = createTestUser(['two_factor_secret' => $old]);
+    $stale = freshUser((int)$user->id);
+
+    freshUser((int)$user->id)->beginTwoFactor(Totp::generateSecret());
+
+    expect($stale->confirmTwoFactor($old))->toBeNull()
+        ->and(freshUser((int)$user->id)->two_factor_confirmed_at)->toBeNull();
+});
+
 test('confirm is refused without a secret or when already confirmed', function () {
     $none = createTestUser();
-    expect(freshUser((int)$none->id)->confirmTwoFactor())->toBeNull();
+    expect(freshUser((int)$none->id)->confirmTwoFactor('x'))->toBeNull();
 
     $done = enabledUser();
-    expect(freshUser((int)$done->id)->confirmTwoFactor())->toBeNull()
+    expect(freshUser((int)$done->id)->confirmTwoFactor((string)freshUser((int)$done->id)->two_factor_secret))->toBeNull()
         ->and(freshUser((int)$done->id)->recoveryCodes())->toBe(['AAAAAAAAAA', 'BBBBBBBBBB']);
 });
 

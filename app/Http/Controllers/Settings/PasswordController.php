@@ -24,12 +24,6 @@ class PasswordController extends Controller
         $password = (string)$request->get('password');
         $confirmation = (string)$request->get('password_confirmation');
 
-        if (!Auth::validate(['id' => $user->id, 'password' => $current])) {
-            $this->session->set('errors', ['current_password' => 'Your current password is not correct.']);
-
-            return $this->response->redirect('/settings/security');
-        }
-
         if (strlen($password) < 8) {
             $this->session->set('errors', ['password' => 'The password must be at least 8 characters.']);
 
@@ -42,8 +36,38 @@ class PasswordController extends Controller
             return $this->response->redirect('/settings/security');
         }
 
-        // Re-reads the row under a lock and bumps session_version once (signs every other session out).
-        $updated = CredentialChange::setPassword($user, $password);
+        // Same lock order as the reset form (email lock, then account lock): the
+        // old password is re-checked and reset tokens are revoked inside the
+        // critical section, so a reset that validated its token earlier cannot
+        // overwrite this change afterwards.
+        $email = (string)$user->email;
+        $wrongPassword = false;
+        try {
+            $updated = CredentialChange::withEmailLock($email, function () use ($user, $current, $password, $email, &$wrongPassword): ?User {
+                if (!Auth::validate(['id' => $user->id, 'password' => $current])) {
+                    $wrongPassword = true;
+
+                    return null;
+                }
+
+                // Re-reads the row under a lock and bumps session_version once (signs every other session out).
+                $updated = CredentialChange::setPassword($user, $password);
+                if ($updated !== null) {
+                    app('password.broker')->deleteToken($email);
+                }
+
+                return $updated;
+            });
+        } catch (\RuntimeException $e) {
+            $updated = null;
+        }
+
+        if ($wrongPassword) {
+            $this->session->set('errors', ['current_password' => 'Your current password is not correct.']);
+
+            return $this->response->redirect('/settings/security');
+        }
+
         if ($updated === null) {
             $this->session->set('errors', ['password' => 'Please try again in a moment.']);
 
@@ -52,9 +76,7 @@ class PasswordController extends Controller
         // Keep the request-local Auth user in step with the row (never saved from here).
         $user->session_version = $updated->sessionVersion();
 
-        // Reset links issued for the old password die with it, and this browser
-        // moves to a new session id (the old one is deleted server-side).
-        app('password.broker')->deleteToken((string)$user->email);
+        // This browser moves to a new session id (the old one is deleted server-side).
         $this->session->regenerateId(true);
         AuthSession::stamp($user); // this browser stays signed in
 

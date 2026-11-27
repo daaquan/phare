@@ -330,11 +330,14 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
      *
      * @return array<int, string>|null plaintext, to be shown once
      */
-    public function confirmTwoFactor(): ?array
+    public function confirmTwoFactor(string $verifiedSecret): ?array
     {
         $codes = null;
-        $written = $this->mutateTwoFactor(function (self $user) use (&$codes): void {
-            if ($user->two_factor_secret === null || $user->two_factor_confirmed_at !== null) {
+        $written = $this->mutateTwoFactor(function (self $user) use (&$codes, $verifiedSecret): void {
+            // Only confirm the secret the code was checked against, not one that
+            // replaced it while waiting for the lock.
+            if ($user->two_factor_secret === null || !hash_equals((string)$user->two_factor_secret, $verifiedSecret)
+                || $user->two_factor_confirmed_at !== null) {
                 return;
             }
             $codes = self::generateRecoveryCodes();

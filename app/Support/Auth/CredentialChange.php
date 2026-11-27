@@ -26,7 +26,24 @@ final class CredentialChange
      */
     public static function withEmailLock(string $email, callable $callback): mixed
     {
-        return FileLock::run('reset_email_' . sha1(strtolower(trim($email))), $callback);
+        return FileLock::run('reset_email_' . sha1(self::lockKey($email)), $callback);
+    }
+
+    /**
+     * Fold the address the way the utf8mb4_unicode_ci columns do (case, accents,
+     * trailing spaces) so every spelling of one token row maps to one lock.
+     */
+    public static function lockKey(string $email): string
+    {
+        $email = trim($email);
+        if (class_exists(\Normalizer::class)) {
+            $decomposed = \Normalizer::normalize($email, \Normalizer::FORM_KD);
+            if (is_string($decomposed)) {
+                $email = (string)preg_replace('/\p{Mn}+/u', '', $decomposed);
+            }
+        }
+
+        return mb_strtolower($email);
     }
 
     /**

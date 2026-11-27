@@ -185,3 +185,7 @@ test('signing in as another account drops the previous password confirmation', f
     expect(app('session')->has('auth.password_confirmed_at'))->toBeFalse()
         ->and(app('session')->get(AuthSession::VERSION_KEY))->toBe(0);
 });
+
+test('the email lock key folds case, accents and padding like the column collation', function () {
+    expect(CredentialChange::lockKey(' José@Example.com '))->toBe(CredentialChange::lockKey('jose@example.com'));
+});

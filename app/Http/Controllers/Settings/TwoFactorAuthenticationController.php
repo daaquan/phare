@@ -54,7 +54,7 @@ class TwoFactorAuthenticationController extends Controller
             return $this->response->redirect('/settings/security');
         }
 
-        $codes = $user->confirmTwoFactor();
+        $codes = $user->confirmTwoFactor((string)$user->two_factor_secret);
         if ($codes === null) {
             $this->session->set('errors', ['code' => 'Two-factor setup could not be confirmed. Start again.']);
 
