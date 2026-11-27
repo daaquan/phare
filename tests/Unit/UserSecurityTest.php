@@ -35,13 +35,18 @@ test('a recovery code can be consumed only once and remaining codes are persiste
     {
         public int $saves = 0;
 
-        public function save(?array $attributes = null): bool
+        protected function reloadRecoveryCodes(): void {}
+
+        protected function persistTwoFactor(array $expected): bool
         {
             $this->saves++;
 
             return true;
         }
     };
+    $user->id = 3;
+    $user->two_factor_secret = 'SECRET';
+    $user->two_factor_confirmed_at = '2026-01-01 00:00:00';
     $user->two_factor_recovery_codes = '["ABC123DEF0","FED9876543"]';
 
     expect($user->consumeRecoveryCode('  abc123def0  '))->toBeTrue()

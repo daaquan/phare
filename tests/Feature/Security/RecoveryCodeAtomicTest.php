@@ -16,6 +16,8 @@ function recoveryUser(string $store, bool $failSave = false): User
         public function __construct(private string $store, private bool $failSave)
         {
             $this->id = 5;
+            $this->two_factor_secret = 'SECRET';
+            $this->two_factor_confirmed_at = '2026-01-01 00:00:00';
         }
 
         protected function reloadRecoveryCodes(): void
@@ -24,10 +26,10 @@ function recoveryUser(string $store, bool $failSave = false): User
             usleep(20000); // widen the race window between reload and save
         }
 
-        public function save(?array $attributes = null): bool
+        protected function persistTwoFactor(array $expected): bool
         {
-            if ($this->failSave) {
-                return false;
+            if ($this->failSave || (string)file_get_contents($this->store) !== (string)$expected[1]) {
+                return false; // write failed, or the "row" changed since it was read
             }
             file_put_contents($this->store, (string)$this->two_factor_recovery_codes);
 
@@ -86,7 +88,7 @@ test('a recovery code is refused when the lock is unavailable', function () {
 
     expect(recoveryUser($this->tmp)->consumeRecoveryCode('AAAAAAAAAA'))->toBeFalse()
         ->and(file_get_contents($this->tmp))->toBe('["AAAAAAAAAA","BBBBBBBBBB"]')
-        ->and(file_get_contents($this->logFile))->toContain('refusing code');
+        ->and(file_get_contents($this->logFile))->toContain('refused');
 });
 
 test('a recovery code is refused and left in place when the save fails', function () {

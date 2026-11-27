@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Support\Auth\AuthSession;
 use App\Support\TwoFactor\Totp;
 use Phalcon\Mvc\Router\Exception;
 
@@ -98,8 +99,8 @@ test('stored recovery codes can no longer be revealed', function () {
 });
 
 test('freshly generated recovery codes are shown once and then dropped', function () {
-    signIn(twoFactorEnabledUser());
-    app('session')->set(User::NEW_RECOVERY_CODES_KEY, ['NEWCODE111', 'NEWCODE222']);
+    $user = signIn(twoFactorEnabledUser());
+    AuthSession::flashRecoveryCodes($user, ['NEWCODE111', 'NEWCODE222']);
 
     $first = $this->get('/settings/security', ['X-Inertia' => 'true'])->assertOk()->getContent();
     $second = $this->get('/settings/security', ['X-Inertia' => 'true'])->assertOk()->getContent();

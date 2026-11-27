@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
-use App\Support\Concurrency\FileLock;
 use Phare\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -21,24 +20,17 @@ class HashRecoveryCodesCommand extends Command
         $failed = 0;
 
         foreach (User::find() as $row) {
-            try {
-                // Same lock + fresh read as consumeRecoveryCode(), so a concurrent
-                // login cannot have its spent code written back.
-                $changed = FileLock::run('recovery_codes_' . (int)$row->id, function () use ($row): bool {
-                    $user = User::findFirst((int)$row->id);
-                    if (!$user instanceof User || !$user->upgradeLegacyRecoveryCodes()) {
-                        return false;
-                    }
-                    if ($user->save() === false) {
-                        throw new \RuntimeException('save failed');
-                    }
-
-                    return true;
-                });
-                $upgraded += $changed ? 1 : 0;
-            } catch (\Throwable $e) {
+            // Same lock + fresh read + compare-and-swap as every other writer.
+            $user = User::findFirst((int)$row->id);
+            if (!$user instanceof User) {
+                continue;
+            }
+            if ($user->hashLegacyRecoveryCodes()) {
+                $upgraded++;
+            } elseif ($user->upgradeLegacyRecoveryCodes()) {
+                // legacy entries present but the locked write was refused
                 $failed++;
-                $this->output->writeError('User ' . (int)$row->id . ': ' . $e->getMessage());
+                $this->output->writeError('User ' . (int)$user->id . ': upgrade refused (see log for stage).');
             }
         }
 

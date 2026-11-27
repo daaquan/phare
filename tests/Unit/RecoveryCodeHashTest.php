@@ -19,7 +19,7 @@ function hashedUser(int $id = 7): User
             // in-memory only: no ORM in unit tests
         }
 
-        public function save(?array $attributes = null): bool
+        protected function persistTwoFactor(array $expected): bool
         {
             $this->saves++;
 
@@ -27,6 +27,8 @@ function hashedUser(int $id = 7): User
         }
     };
     $user->id = $id;
+    $user->two_factor_secret = 'SECRET';
+    $user->two_factor_confirmed_at = '2026-01-01 00:00:00';
 
     return $user;
 }

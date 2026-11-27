@@ -22,6 +22,7 @@ final class AuthSession
         'url.intended',
         'passkey.creation',
         'passkey.request',
+        User::NEW_RECOVERY_CODES_KEY,
     ];
 
     /** Session key holding the User::session_version this session was issued for. */
@@ -36,6 +37,50 @@ final class AuthSession
     {
         Auth::login($user);
         self::stamp($user);
+        // Never carry a plaintext recovery batch across an identity change.
+        app('session')->remove(User::NEW_RECOVERY_CODES_KEY);
+    }
+
+    /** How long a plaintext recovery batch may wait for its one render, in seconds. */
+    public const RECOVERY_CODES_TTL = 300;
+
+    /**
+     * Hold a freshly issued plaintext batch for the same user's next security
+     * page render. Bound to the user id and a timestamp.
+     *
+     * @param array<int, string> $codes
+     */
+    public static function flashRecoveryCodes(User $user, array $codes): void
+    {
+        app('session')->set(User::NEW_RECOVERY_CODES_KEY, [
+            'user' => (int)$user->id,
+            'at' => time(),
+            'codes' => array_values(array_map('strval', $codes)),
+        ]);
+    }
+
+    /**
+     * Take the pending batch (always removing it). Only the user it was issued
+     * for gets it, and only within RECOVERY_CODES_TTL; unbound legacy values are
+     * refused.
+     *
+     * @return array<int, string>
+     */
+    public static function pullRecoveryCodes(User $user): array
+    {
+        $session = app('session');
+        $entry = $session->get(User::NEW_RECOVERY_CODES_KEY);
+        $session->remove(User::NEW_RECOVERY_CODES_KEY);
+
+        if (!is_array($entry) || !isset($entry['user'], $entry['at'], $entry['codes']) || !is_array($entry['codes'])) {
+            return [];
+        }
+        $age = time() - (int)$entry['at'];
+        if ((int)$entry['user'] !== (int)$user->id || $age < 0 || $age > self::RECOVERY_CODES_TTL) {
+            return [];
+        }
+
+        return array_values(array_map('strval', $entry['codes']));
     }
 
     /**
