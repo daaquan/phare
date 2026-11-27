@@ -27,11 +27,13 @@ final class UsedTotpSteps
 
         try {
             return FileLock::run($key, function () use ($key, $step): bool {
-                $cache = app('cache');
+                $cache = app()->make('cache');
                 if ($step <= (int)$cache->get($key, 0)) {
                     return false;
                 }
-                $cache->put($key, $step, self::TTL_SECONDS);
+                if (!$cache->put($key, $step, self::TTL_SECONDS)) {
+                    throw new \RuntimeException('TOTP step could not be stored.');
+                }
 
                 return true;
             });

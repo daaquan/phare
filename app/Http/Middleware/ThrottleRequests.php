@@ -89,7 +89,9 @@ class ThrottleRequests extends MiddlewareContract implements BeforeMiddleware
         }
 
         $window['hits']++;
-        $cache->put($key, $window, $retryAfter);
+        if (!$cache->put($key, $window, $retryAfter)) {
+            throw new \RuntimeException('Rate limit counter could not be stored.');
+        }
 
         return [(int)$window['hits'], $retryAfter];
     }

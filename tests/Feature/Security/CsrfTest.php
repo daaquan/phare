@@ -58,3 +58,12 @@ test('safe methods need no token', function () {
     });
     expect($called)->toBeTrue();
 });
+
+test('every web write method rejects a missing token', function (string $method, string $uri) {
+    $this->call($method, $uri)->assertStatus(419);
+})->with([
+    ['POST', '/user/login'],
+    ['PUT', '/settings/password'],
+    ['PATCH', '/settings/profile'],
+    ['DELETE', '/settings/profile'],
+]);

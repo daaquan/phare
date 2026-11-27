@@ -6,6 +6,8 @@ use App\Support\Concurrency\FileLock;
 use App\Support\TwoFactor\UsedTotpSteps;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\Response;
+use Phare\Cache\Adapter\NullAdapter;
+use Phare\Foundation\Cache;
 
 /*
  * Authentication-sensitive limiters must fail closed: if the lock or cache
@@ -114,3 +116,30 @@ test('FileLock serialises concurrent processes (no lost updates)', function () {
     @unlink($counter);
     expect($total)->toBe($workers * $rounds);
 })->skip(!function_exists('pcntl_fork'), 'pcntl not available');
+
+test('security stores reject cache writes that return false', function (string $store) {
+    FileLock::$directory = $this->lockDir;
+    $cache = new Cache(new NullAdapter());
+    $original = app()->make('cache');
+    app()->instance('cache', $cache);
+
+    try {
+        if ($store === 'totp') {
+            expect(UsedTotpSteps::claim(7, 60000000))->toBeFalse();
+
+            return;
+        }
+
+        $passed = false;
+        $response = (new ThrottleRequests(app()))->handle(failClosedRequest(), function () use (&$passed) {
+            $passed = true;
+
+            return new Response();
+        });
+
+        expect($passed)->toBeFalse()
+            ->and($response->getStatusCode())->toBe(503);
+    } finally {
+        app()->instance('cache', $original);
+    }
+})->with(['throttle', 'totp']);
