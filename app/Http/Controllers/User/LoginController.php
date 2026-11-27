@@ -55,7 +55,7 @@ class LoginController extends Controller
             // the password alone never puts the user id into the auth session key.
             if ($user->hasTwoFactorEnabled()) {
                 $this->session->regenerateId(true);
-                $this->session->set('login.id', $user->id);
+                AuthSession::beginTwoFactor($user);
 
                 return redirect('/user/two-factor-challenge');
             }

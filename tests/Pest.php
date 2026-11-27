@@ -164,7 +164,7 @@ function createTestUser(array $attributes = []): User
 function signIn(User $user): User
 {
     // The process-wide session also carries state from earlier tests.
-    foreach (['auth.password_confirmed_at', 'url.intended', 'login.id', 'passkey.creation', 'errors'] as $key) {
+    foreach (['auth.password_confirmed_at', 'url.intended', 'login.id', 'login.at', 'passkey.creation', 'errors'] as $key) {
         app('session')->remove($key);
     }
     AuthSession::login($user);

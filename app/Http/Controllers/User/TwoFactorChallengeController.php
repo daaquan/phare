@@ -29,7 +29,7 @@ class TwoFactorChallengeController extends Controller
     #[Route('two-factor-challenge', middlewares: ['guest'], name: 'two-factor.login')]
     public function show(Request $request)
     {
-        if (!$this->session->has('login.id')) {
+        if (AuthSession::pendingTwoFactorId() === null) {
             return $this->response->redirect('/user/login');
         }
 
@@ -39,7 +39,7 @@ class TwoFactorChallengeController extends Controller
     #[Route('two-factor-challenge', methods: ['POST'], middlewares: ['guest', 'throttle.two-factor'], name: 'two-factor.login.store')]
     public function store(Request $request)
     {
-        $userId = $this->session->get('login.id');
+        $userId = AuthSession::pendingTwoFactorId();
         if ($userId === null) {
             return $this->response->redirect('/user/login');
         }
@@ -47,6 +47,7 @@ class TwoFactorChallengeController extends Controller
         $user = $this->users->getUserById((int)$userId);
         if (!$user instanceof User || !$user->hasTwoFactorEnabled()) {
             $this->session->remove('login.id');
+            $this->session->remove('login.at');
 
             return $this->response->redirect('/user/login');
         }
@@ -69,6 +70,7 @@ class TwoFactorChallengeController extends Controller
         }
 
         $this->session->remove('login.id');
+        $this->session->remove('login.at');
         AuthSession::login($user);
 
         return $this->response->redirect('/dashboard');

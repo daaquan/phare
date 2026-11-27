@@ -18,6 +18,7 @@ final class AuthSession
         self::VERSION_KEY,
         'auth.password_confirmed_at',
         'login.id',
+        'login.at',
         'url.intended',
         'passkey.creation',
         'passkey.request',
@@ -35,6 +36,40 @@ final class AuthSession
     {
         Auth::login($user);
         self::stamp($user);
+    }
+
+    /**
+     * Hold a password-verified login at the two-factor challenge, with a start time.
+     */
+    public static function beginTwoFactor(User $user): void
+    {
+        $session = app('session');
+        $session->set('login.id', $user->id);
+        $session->set('login.at', time());
+    }
+
+    /**
+     * The user id waiting at the two-factor challenge, or null when there is none
+     * or it is older than auth.two_factor_timeout (a missing start time counts as
+     * expired). An expired entry is dropped so the password must be entered again.
+     */
+    public static function pendingTwoFactorId(): ?int
+    {
+        $session = app('session');
+        $id = $session->get('login.id');
+        if ($id === null) {
+            return null;
+        }
+
+        $age = time() - (int)$session->get('login.at', 0);
+        if ($age < 0 || $age > (int)config('auth.two_factor_timeout', 300)) {
+            $session->remove('login.id');
+            $session->remove('login.at');
+
+            return null;
+        }
+
+        return (int)$id;
     }
 
     public static function stamp(User $user): void

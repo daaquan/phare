@@ -79,6 +79,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Two-factor challenge timeout
+    |--------------------------------------------------------------------------
+    |
+    | Seconds a password-verified login may wait at the two-factor challenge
+    | before the password has to be entered again.
+    |
+    */
+    'two_factor_timeout' => env('AUTH_TWO_FACTOR_TIMEOUT', 300),
+
+    /*
+    |--------------------------------------------------------------------------
     | Legacy compatibility (single-guard fallback)
     |--------------------------------------------------------------------------
     |
