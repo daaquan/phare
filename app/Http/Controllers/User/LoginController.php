@@ -60,7 +60,7 @@ class LoginController extends Controller
                 return redirect('/user/two-factor-challenge');
             }
 
-            \Auth::login($user);
+            AuthSession::login($user);
 
             return redirect('/');
         }

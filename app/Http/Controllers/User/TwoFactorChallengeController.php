@@ -5,11 +5,11 @@ namespace App\Http\Controllers\User;
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\Auth\AuthSession;
 use App\Support\TwoFactor\Totp;
 use App\Support\TwoFactor\UsedTotpSteps;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
-use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Inertia;
 
 /**
@@ -69,7 +69,7 @@ class TwoFactorChallengeController extends Controller
         }
 
         $this->session->remove('login.id');
-        Auth::login($user);
+        AuthSession::login($user);
 
         return $this->response->redirect('/dashboard');
     }

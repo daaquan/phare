@@ -61,6 +61,12 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     /**
      * Whether the user is an admin (drives admin screen access control).
      */
+    /** Bumped on password change/reset; see AuthSession::enforceVersion(). */
+    public function sessionVersion(): int
+    {
+        return (int)$this->readAttribute('session_version');
+    }
+
     public function isAdmin(): bool
     {
         // readAttribute returns null instead of throwing for an unset column, which

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\Auth\AuthSession;
 use App\Support\WebAuthn\WebAuthnService;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
-use Phare\Support\Facades\Auth;
 
 /**
  * Passkey (WebAuthn) login. Uses a username-less discoverable credential and logs
@@ -50,7 +50,7 @@ class PasskeyLoginController extends Controller
             return $this->json(['message' => 'Passkey login failed.'], 422);
         }
 
-        Auth::login($user);
+        AuthSession::login($user);
 
         return $this->json(['ok' => true, 'redirect' => '/dashboard']);
     }

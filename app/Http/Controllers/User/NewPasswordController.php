@@ -61,6 +61,7 @@ class NewPasswordController extends Controller
         }
 
         $user->password = $password;
+        $user->session_version = $user->sessionVersion() + 1; // signs every existing session out
         $user->save();
 
         $broker->deleteToken($email);

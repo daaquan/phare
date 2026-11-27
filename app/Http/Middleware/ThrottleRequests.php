@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Support\Concurrency\FileLock;
 use App\Support\Http\ClientIp;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
@@ -34,11 +35,11 @@ class ThrottleRequests extends MiddlewareContract implements BeforeMiddleware
         try {
             $hits = $this->hit(static::class . '|' . $this->signature($request), $retryAfter);
         } catch (\Throwable $e) {
-            // ponytail: fail open so a broken cache store cannot take the login
-            // pages down; the log line is the alarm.
-            error_log('ThrottleRequests: rate limiter unavailable: ' . $e->getMessage());
+            // Fail closed: these routes guard credentials, so an unreadable
+            // counter must not mean unlimited guesses.
+            error_log('ThrottleRequests: rate limiter unavailable, refusing request: ' . $e->getMessage());
 
-            return $next($request);
+            return $this->unavailable();
         }
 
         if ($hits > static::MAX_ATTEMPTS) {
@@ -56,13 +57,25 @@ class ThrottleRequests extends MiddlewareContract implements BeforeMiddleware
      *
      * Not Phare\RateLimit\RateLimiter: its "<sha1>:timer" keys contain ':',
      * which Phalcon's cache adapters reject, so it throws on every call.
-     * ponytail: read-then-write, so concurrent requests can slip a few extra
-     * attempts through; use an atomic increment (Redis) if that matters.
+     * The read-modify-write runs under a host-wide FileLock so concurrent
+     * workers cannot both read the same count (see FileLock for the ceiling).
      */
     protected function hit(string $signature, ?int &$retryAfter = null): int
     {
-        $cache = $this->app->make('cache');
         $key = 'throttle_' . sha1($signature);
+
+        $result = FileLock::run($key, fn () => $this->count($key));
+        $retryAfter = $result[1];
+
+        return $result[0];
+    }
+
+    /**
+     * @return array{0: int, 1: int} hits in the window, seconds until reset
+     */
+    private function count(string $key): array
+    {
+        $cache = $this->app->make('cache');
         $now = time();
 
         $window = $cache->get($key);
@@ -72,13 +85,13 @@ class ThrottleRequests extends MiddlewareContract implements BeforeMiddleware
 
         $retryAfter = max(1, (int)$window['reset'] - $now);
         if ($window['hits'] >= static::MAX_ATTEMPTS) {
-            return (int)$window['hits'] + 1;
+            return [(int)$window['hits'] + 1, $retryAfter];
         }
 
         $window['hits']++;
         $cache->put($key, $window, $retryAfter);
 
-        return (int)$window['hits'];
+        return [(int)$window['hits'], $retryAfter];
     }
 
     /**
@@ -91,6 +104,20 @@ class ThrottleRequests extends MiddlewareContract implements BeforeMiddleware
         $id = Auth::id();
 
         return $path . '|' . ($id !== null ? 'user:' . $id : 'ip:' . ClientIp::current());
+    }
+
+    protected function unavailable(): ResponseInterface
+    {
+        if (method_exists($this->app, 'stop')) {
+            $this->app->stop();
+        }
+
+        $response = $this->app['response'];
+        $response->setStatusCode(503, 'Service Unavailable');
+        $response->setHeader('Retry-After', '30');
+        $response->setJsonContent(['message' => 'Temporarily unavailable. Please try again shortly.']);
+
+        return $response;
     }
 
     protected function tooManyAttempts(int $retryAfter): ResponseInterface
