@@ -45,13 +45,13 @@ test('a recovery code can be consumed only once and remaining codes are persiste
     $user->two_factor_recovery_codes = '["ABC123DEF0","FED9876543"]';
 
     expect($user->consumeRecoveryCode('  abc123def0  '))->toBeTrue()
-        ->and($user->recoveryCodes())->toBe(['FED9876543'])
-        ->and($user->two_factor_recovery_codes)->toBe('["FED9876543"]')
+        ->and($user->recoveryCodeCount())->toBe(1)
+        ->and($user->two_factor_recovery_codes)->not->toContain('FED9876543') // upgraded to a hash
         ->and($user->saves)->toBe(1)
         ->and($user->consumeRecoveryCode('ABC123DEF0'))->toBeFalse()
         ->and($user->consumeRecoveryCode('UNKNOWN'))->toBeFalse()
         ->and($user->saves)->toBe(1)
-        ->and($user->recoveryCodes())->toBe(['FED9876543']);
+        ->and($user->recoveryCodeCount())->toBe(1);
 });
 
 test('recovery codes use the expected format and support a custom count', function () {

@@ -69,7 +69,7 @@ test('concurrent requests cannot spend the same recovery code twice', function (
     }
 
     expect($wins)->toBe(1)
-        ->and(json_decode((string)file_get_contents($this->tmp), true))->toBe(['BBBBBBBBBB']);
+        ->and(json_decode((string)file_get_contents($this->tmp), true))->toHaveCount(1)->and((string)file_get_contents($this->tmp))->not->toContain('AAAAAAAAAA', 'BBBBBBBBBB');
 })->skip(!function_exists('pcntl_fork'), 'pcntl not available');
 
 test('a stale in-memory copy cannot respend a code already consumed elsewhere', function () {

@@ -173,8 +173,15 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
             && $this->two_factor_confirmed_at !== null;
     }
 
+    /** Session key holding freshly generated plaintext codes for a single render. */
+    public const NEW_RECOVERY_CODES_KEY = 'two_factor.new_recovery_codes';
+
+    /** Prefix of a hashed recovery-code entry; legacy plaintext entries have none. */
+    private const RECOVERY_HASH_PREFIX = 'h1$';
+
     /**
-     * The unused recovery codes.
+     * The stored recovery-code entries: keyed hashes, plus any legacy plaintext
+     * codes not yet upgraded. Plaintext of a hashed code is not recoverable.
      *
      * @return array<int, string>
      */
@@ -187,6 +194,64 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         $codes = json_decode((string)$this->two_factor_recovery_codes, true);
 
         return is_array($codes) ? array_values(array_map('strval', $codes)) : [];
+    }
+
+    public function recoveryCodeCount(): int
+    {
+        return count($this->recoveryCodes());
+    }
+
+    /**
+     * HMAC-SHA256 under APP_KEY, bound to the user id. 40-bit codes would be
+     * brute-forceable from a leaked plain hash; the key makes a DB leak alone
+     * useless. Rotating APP_KEY invalidates every stored code (regenerate them).
+     */
+    public static function hashRecoveryCode(int $userId, string $code): string
+    {
+        $key = (string)config('app.key');
+        if ($key === '') {
+            throw new \RuntimeException('APP_KEY must be set to hash recovery codes.');
+        }
+
+        return self::RECOVERY_HASH_PREFIX
+            . hash_hmac('sha256', 'recovery-code|' . $userId . '|' . strtoupper(trim($code)), $key);
+    }
+
+    /**
+     * Replace the stored set with the hashes of these plaintext codes. The
+     * caller shows the plaintext to the user once and must not persist it.
+     *
+     * @param array<int, string> $plain
+     */
+    public function storeRecoveryCodes(array $plain): void
+    {
+        $this->two_factor_recovery_codes = json_encode(array_map(
+            fn (string $code): string => self::hashRecoveryCode((int)$this->id, $code),
+            array_values($plain),
+        ));
+    }
+
+    /**
+     * Hash any legacy plaintext entries in memory (not saved). Returns whether
+     * anything changed.
+     */
+    public function upgradeLegacyRecoveryCodes(): bool
+    {
+        $changed = false;
+        $entries = array_map(function (string $entry) use (&$changed): string {
+            if (str_starts_with($entry, self::RECOVERY_HASH_PREFIX)) {
+                return $entry;
+            }
+            $changed = true;
+
+            return self::hashRecoveryCode((int)$this->id, $entry);
+        }, $this->recoveryCodes());
+
+        if ($changed) {
+            $this->two_factor_recovery_codes = json_encode($entries);
+        }
+
+        return $changed;
     }
 
     /**
@@ -205,12 +270,13 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * Consume one recovery code. On success the remainder is saved and true returned.
+     * Consume one recovery code. On success the remainder is saved (legacy
+     * plaintext entries upgraded to hashes in the same write) and true returned.
      *
      * The read-modify-write runs under a per-user lock on freshly reloaded
      * state, so two concurrent requests cannot both spend the same code.
-     * Fails closed: if the lock, reload or save fails the code is refused
-     * (and logged) and the in-memory list is left untouched.
+     * Fails closed: if the lock, reload, hashing or save fails the code is
+     * refused (and logged) and the in-memory list is left untouched.
      */
     public function consumeRecoveryCode(string $code): bool
     {
@@ -220,15 +286,26 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         try {
             return FileLock::run('recovery_codes_' . (int)$this->id, function () use ($code): bool {
                 $this->reloadRecoveryCodes();
-                $codes = $this->recoveryCodes();
+                $submitted = self::hashRecoveryCode((int)$this->id, $code);
 
-                $index = array_search($code, $codes, true);
-                if ($index === false) {
+                // Compare against every entry (no early exit) in constant time.
+                $match = null;
+                $entries = $this->recoveryCodes();
+                foreach ($entries as $i => $entry) {
+                    $stored = str_starts_with($entry, self::RECOVERY_HASH_PREFIX)
+                        ? $entry
+                        : self::hashRecoveryCode((int)$this->id, $entry);
+                    if (hash_equals($stored, $submitted) && $match === null) {
+                        $match = $i;
+                    }
+                }
+                if ($match === null) {
                     return false;
                 }
 
-                unset($codes[$index]);
-                $this->two_factor_recovery_codes = json_encode(array_values($codes));
+                unset($entries[$match]);
+                $this->two_factor_recovery_codes = json_encode(array_values($entries));
+                $this->upgradeLegacyRecoveryCodes();
                 if ($this->save() === false) {
                     throw new \RuntimeException('Recovery codes could not be saved.');
                 }

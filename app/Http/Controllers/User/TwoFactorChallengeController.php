@@ -6,7 +6,6 @@ use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Support\Auth\AuthSession;
-use App\Support\TwoFactor\Totp;
 use App\Support\TwoFactor\UsedTotpSteps;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
@@ -59,8 +58,7 @@ class TwoFactorChallengeController extends Controller
         if ($recovery !== '') {
             $authenticated = $user->consumeRecoveryCode($recovery);
         } elseif ($code !== '') {
-            $step = Totp::verifyStep((string)$user->two_factor_secret, $code);
-            $authenticated = $step !== null && UsedTotpSteps::claim((int)$user->id, $step);
+            $authenticated = UsedTotpSteps::verifyAndClaim((int)$user->id, (string)$user->two_factor_secret, $code);
         }
 
         if (!$authenticated) {

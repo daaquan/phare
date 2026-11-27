@@ -27,9 +27,11 @@ class TwoFactorAuthenticationController extends Controller
 
         // Issue the unconfirmed secret and recovery codes (not confirmed yet).
         $user->two_factor_secret = Totp::generateSecret();
-        $user->two_factor_recovery_codes = json_encode(User::generateRecoveryCodes());
+        $codes = User::generateRecoveryCodes();
+        $user->storeRecoveryCodes($codes);
         $user->two_factor_confirmed_at = null;
         $user->save();
+        $this->flashNewRecoveryCodes($codes);
 
         return $this->response->redirect('/settings/security');
     }
@@ -69,8 +71,10 @@ class TwoFactorAuthenticationController extends Controller
             return $this->response->redirect('/user/login');
         }
 
-        $user->two_factor_recovery_codes = json_encode(User::generateRecoveryCodes());
+        $codes = User::generateRecoveryCodes();
+        $user->storeRecoveryCodes($codes);
         $user->save();
+        $this->flashNewRecoveryCodes($codes);
 
         $this->flashSession->success('Recovery codes regenerated.');
 
@@ -78,24 +82,14 @@ class TwoFactorAuthenticationController extends Controller
     }
 
     /**
-     * Reveal the unused recovery codes (JSON, fetched on demand by the security page).
+     * Recovery codes are stored as hashes, so the plaintext exists only here:
+     * flashed for the very next security page render, then gone.
+     *
+     * @param array<int, string> $codes
      */
-    #[Route('two-factor/recovery-codes/reveal', methods: ['POST'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.recovery.show')]
-    public function showRecoveryCodes(Request $request)
+    private function flashNewRecoveryCodes(array $codes): void
     {
-        $user = Auth::user();
-        if (!$user instanceof User) {
-            $this->response->setStatusCode(401);
-            $this->response->setJsonContent(['message' => 'Unauthorized']);
-
-            return $this->response;
-        }
-
-        $this->response->setJsonContent([
-            'recoveryCodes' => $user->hasTwoFactorEnabled() ? $user->recoveryCodes() : [],
-        ]);
-
-        return $this->response;
+        $this->session->set(User::NEW_RECOVERY_CODES_KEY, $codes);
     }
 
     #[Route('two-factor', methods: ['DELETE'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.disable')]
@@ -110,6 +104,7 @@ class TwoFactorAuthenticationController extends Controller
         $user->two_factor_recovery_codes = null;
         $user->two_factor_confirmed_at = null;
         $user->save();
+        $this->session->remove(User::NEW_RECOVERY_CODES_KEY);
 
         $this->flashSession->success('Two-factor authentication disabled.');
 

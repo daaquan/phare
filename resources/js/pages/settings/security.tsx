@@ -12,7 +12,6 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from '@/components/ui/input-otp';
-import { postConfirmedJson } from '@/lib/passkeys';
 import { type Passkey, type SharedProps } from '@/types';
 
 interface TwoFactorState {
@@ -20,6 +19,8 @@ interface TwoFactorState {
     pending: boolean;
     secret?: string;
     otpauthUri?: string;
+    recoveryCodeCount?: number;
+    newRecoveryCodes?: string[];
 }
 
 interface SecurityProps {
@@ -28,27 +29,12 @@ interface SecurityProps {
 }
 
 export default function Security() {
-    const { errors, twoFactor, passkeys, csrf_token } =
+    const { errors, twoFactor, passkeys } =
         usePage<SharedProps & SecurityProps>().props;
 
-    // Recovery codes are fetched on demand behind password.confirm, never
-    // shipped with the page props.
-    const [recoveryCodes, setRecoveryCodes] = useState<string[] | null>(null);
-    const [revealError, setRevealError] = useState<string | null>(null);
-    const revealRecoveryCodes = async () => {
-        setRevealError(null);
-        try {
-            const data = await postConfirmedJson(
-                '/settings/two-factor/recovery-codes/reveal',
-                csrf_token,
-            );
-            setRecoveryCodes(
-                Array.isArray(data.recoveryCodes) ? data.recoveryCodes.map(String) : [],
-            );
-        } catch (err) {
-            setRevealError(err instanceof Error ? err.message : 'Could not load the codes.');
-        }
-    };
+    // Recovery codes are stored hashed: the plaintext is only in the props of
+    // the page rendered right after they were generated.
+    const newRecoveryCodes = twoFactor.newRecoveryCodes ?? null;
 
     // Password change.
     const password = useForm({
@@ -229,24 +215,21 @@ export default function Security() {
                                 <p className="mt-1 text-sm text-muted-foreground">
                                     Keep these somewhere safe in case you lose your authenticator. Each code works once.
                                 </p>
-                                {recoveryCodes === null ? (
-                                    <Button
-                                        variant="outline"
-                                        className="mt-3"
-                                        onClick={revealRecoveryCodes}
-                                    >
-                                        Show recovery codes
-                                    </Button>
+                                {newRecoveryCodes ? (
+                                    <>
+                                        <p className="mt-2 text-sm font-medium">
+                                            Copy these now. They will not be shown again.
+                                        </p>
+                                        <ul className="mt-3 grid grid-cols-2 gap-2 rounded-md bg-muted p-4 font-mono text-sm">
+                                            {newRecoveryCodes.map((code) => (
+                                                <li key={code}>{code}</li>
+                                            ))}
+                                        </ul>
+                                    </>
                                 ) : (
-                                    <ul className="mt-3 grid grid-cols-2 gap-2 rounded-md bg-muted p-4 font-mono text-sm">
-                                        {recoveryCodes.map((code) => (
-                                            <li key={code}>{code}</li>
-                                        ))}
-                                    </ul>
-                                )}
-                                {revealError && (
-                                    <p className="mt-2 text-sm text-destructive">
-                                        {revealError}
+                                    <p className="mt-2 text-sm">
+                                        {twoFactor.recoveryCodeCount ?? 0} unused
+                                        recovery codes remain. Regenerate to get a new set.
                                     </p>
                                 )}
                                 <Button
@@ -255,8 +238,7 @@ export default function Security() {
                                     onClick={() =>
                                         recoveryForm.post(
                                             '/settings/two-factor/recovery-codes',
-                                            { onSuccess: () => setRecoveryCodes(null) },
-                                        )
+                                                                                    )
                                     }
                                     disabled={recoveryForm.processing}
                                 >

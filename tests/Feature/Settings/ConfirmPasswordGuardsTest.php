@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Support\TwoFactor\Totp;
+use Phalcon\Mvc\Router\Exception;
 
 /*
  * A stolen session alone must not be enough to take an account over: changing
@@ -88,21 +89,22 @@ test('the security page no longer ships recovery codes', function () {
         ->and($response->getContent())->toContain('"enabled":true');
 });
 
-test('recovery codes are revealed only after a password confirmation', function () {
+test('stored recovery codes can no longer be revealed', function () {
     signIn(twoFactorEnabledUser());
-
-    $this->post('/settings/two-factor/recovery-codes/reveal', [], JSON_HEADERS)
-        ->assertStatus(423);
-
     confirmPasswordNow();
 
-    $this->post('/settings/two-factor/recovery-codes/reveal', [], JSON_HEADERS)
-        ->assertOk()
-        ->assertSee('"recoveryCodes":["AAAAA11111","BBBBB22222"]');
+    expect(fn () => $this->post('/settings/two-factor/recovery-codes/reveal', [], JSON_HEADERS))
+        ->toThrow(Exception::class);
 });
 
-test('the recovery code endpoint redirects guests to login', function () {
-    $this->post('/settings/two-factor/recovery-codes/reveal')
-        ->assertStatus(302)
-        ->assertHeader('Location', app('url')->get(route('login')));
+test('freshly generated recovery codes are shown once and then dropped', function () {
+    signIn(twoFactorEnabledUser());
+    app('session')->set(User::NEW_RECOVERY_CODES_KEY, ['NEWCODE111', 'NEWCODE222']);
+
+    $first = $this->get('/settings/security', ['X-Inertia' => 'true'])->assertOk()->getContent();
+    $second = $this->get('/settings/security', ['X-Inertia' => 'true'])->assertOk()->getContent();
+
+    expect($first)->toContain('NEWCODE111')->toContain('"recoveryCodeCount":2')
+        ->and($second)->not->toContain('NEWCODE111')
+        ->and(app('session')->has(User::NEW_RECOVERY_CODES_KEY))->toBeFalse();
 });
