@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Concurrency\FileLock;
 use Phare\Auth\Authenticatable;
 use Phare\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Phare\Contracts\Auth\CanResetPassword;
@@ -205,21 +206,58 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
 
     /**
      * Consume one recovery code. On success the remainder is saved and true returned.
+     *
+     * The read-modify-write runs under a per-user lock on freshly reloaded
+     * state, so two concurrent requests cannot both spend the same code.
+     * Fails closed: if the lock, reload or save fails the code is refused
+     * (and logged) and the in-memory list is left untouched.
      */
     public function consumeRecoveryCode(string $code): bool
     {
         $code = strtoupper(trim($code));
-        $codes = $this->recoveryCodes();
+        $before = $this->two_factor_recovery_codes;
 
-        $index = array_search($code, $codes, true);
-        if ($index === false) {
+        try {
+            return FileLock::run('recovery_codes_' . (int)$this->id, function () use ($code): bool {
+                $this->reloadRecoveryCodes();
+                $codes = $this->recoveryCodes();
+
+                $index = array_search($code, $codes, true);
+                if ($index === false) {
+                    return false;
+                }
+
+                unset($codes[$index]);
+                $this->two_factor_recovery_codes = json_encode(array_values($codes));
+                if ($this->save() === false) {
+                    throw new \RuntimeException('Recovery codes could not be saved.');
+                }
+
+                return true;
+            });
+        } catch (\Throwable $e) {
+            $this->two_factor_recovery_codes = $before;
+            error_log('User::consumeRecoveryCode: refusing code: ' . $e->getMessage());
+
             return false;
         }
+    }
 
-        unset($codes[$index]);
-        $this->two_factor_recovery_codes = json_encode(array_values($codes));
-        $this->save();
+    /**
+     * Re-read the stored code list so a stale in-memory copy cannot be spent
+     * again. Skipped for unsaved models; tests override it.
+     */
+    protected function reloadRecoveryCodes(): void
+    {
+        if (!$this->id) {
+            return;
+        }
 
-        return true;
+        $fresh = static::findFirst((int)$this->id);
+        if (!$fresh instanceof self) {
+            throw new \RuntimeException('Recovery codes could not be reloaded.');
+        }
+
+        $this->two_factor_recovery_codes = $fresh->two_factor_recovery_codes;
     }
 }
