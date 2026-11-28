@@ -1,6 +1,7 @@
 <?php
 
 use App\Support\WebAuthn\WebAuthnService;
+use Composer\InstalledVersions;
 
 /**
  * The passkey cryptography is verified by web-auth/webauthn-lib, which has its own
@@ -48,4 +49,11 @@ it('issues independent 32-byte challenges for discoverable login', function () {
         ->and($first['rpId'])->toBe($host)
         ->and($first['allowCredentials'] ?? [])->toBe([])
         ->and($first['userVerification'])->toBe('preferred');
+});
+
+it('runs a webauthn-lib release that carries the security fixes', function () {
+    // Advisories (GHSA-c9p6-r72h-rp3x, GHSA-2jv3-c2vg-rhc4, GHSA-p653-gg6c-rrjw, ...) affect < 5.3.13.
+    $version = InstalledVersions::getPrettyVersion('web-auth/webauthn-lib');
+
+    expect(version_compare(ltrim((string)$version, 'v'), '5.3.13', '>='))->toBeTrue();
 });
