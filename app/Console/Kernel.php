@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\AboutCommand;
 use App\Console\Commands\Creator\MakeMigrationCommand;
+use App\Console\Commands\HashRecoveryCodesCommand;
 use App\Console\Commands\KeyGenerateCommand;
 use App\Console\Commands\Migrate\MigrateCommand;
 use App\Console\Commands\ServeCommand;
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
      */
     protected array $commands = [
         AboutCommand::class,
+        HashRecoveryCodesCommand::class,
         KeyGenerateCommand::class,
         MigrateCommand::class,
         MakeMigrationCommand::class,

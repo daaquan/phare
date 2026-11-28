@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Concurrency\FileLock;
 use Phare\Auth\Authenticatable;
 use Phare\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Phare\Contracts\Auth\CanResetPassword;
@@ -61,6 +62,12 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     /**
      * Whether the user is an admin (drives admin screen access control).
      */
+    /** Bumped on password change/reset; see AuthSession::enforceVersion(). */
+    public function sessionVersion(): int
+    {
+        return (int)$this->readAttribute('session_version');
+    }
+
     public function isAdmin(): bool
     {
         // readAttribute returns null instead of throwing for an unset column, which
@@ -166,8 +173,15 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
             && $this->two_factor_confirmed_at !== null;
     }
 
+    /** Session key holding freshly generated plaintext codes for a single render. */
+    public const NEW_RECOVERY_CODES_KEY = 'two_factor.new_recovery_codes';
+
+    /** Prefix of a hashed recovery-code entry; legacy plaintext entries have none. */
+    private const RECOVERY_HASH_PREFIX = 'h1$';
+
     /**
-     * The unused recovery codes.
+     * The stored recovery-code entries: keyed hashes, plus any legacy plaintext
+     * codes not yet upgraded. Plaintext of a hashed code is not recoverable.
      *
      * @return array<int, string>
      */
@@ -180,6 +194,64 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
         $codes = json_decode((string)$this->two_factor_recovery_codes, true);
 
         return is_array($codes) ? array_values(array_map('strval', $codes)) : [];
+    }
+
+    public function recoveryCodeCount(): int
+    {
+        return count($this->recoveryCodes());
+    }
+
+    /**
+     * HMAC-SHA256 under APP_KEY, bound to the user id. 40-bit codes would be
+     * brute-forceable from a leaked plain hash; the key makes a DB leak alone
+     * useless. Rotating APP_KEY invalidates every stored code (regenerate them).
+     */
+    public static function hashRecoveryCode(int $userId, string $code): string
+    {
+        $key = (string)config('app.key');
+        if ($key === '') {
+            throw new \RuntimeException('APP_KEY must be set to hash recovery codes.');
+        }
+
+        return self::RECOVERY_HASH_PREFIX
+            . hash_hmac('sha256', 'recovery-code|' . $userId . '|' . strtoupper(trim($code)), $key);
+    }
+
+    /**
+     * Replace the stored set with the hashes of these plaintext codes. The
+     * caller shows the plaintext to the user once and must not persist it.
+     *
+     * @param array<int, string> $plain
+     */
+    public function storeRecoveryCodes(array $plain): void
+    {
+        $this->two_factor_recovery_codes = json_encode(array_map(
+            fn (string $code): string => self::hashRecoveryCode((int)$this->id, $code),
+            array_values($plain),
+        ));
+    }
+
+    /**
+     * Hash any legacy plaintext entries in memory (not saved). Returns whether
+     * anything changed.
+     */
+    public function upgradeLegacyRecoveryCodes(): bool
+    {
+        $changed = false;
+        $entries = array_map(function (string $entry) use (&$changed): string {
+            if (str_starts_with($entry, self::RECOVERY_HASH_PREFIX)) {
+                return $entry;
+            }
+            $changed = true;
+
+            return self::hashRecoveryCode((int)$this->id, $entry);
+        }, $this->recoveryCodes());
+
+        if ($changed) {
+            $this->two_factor_recovery_codes = json_encode($entries);
+        }
+
+        return $changed;
     }
 
     /**
@@ -198,22 +270,218 @@ class User extends Model implements AuthenticatableContract, CanResetPassword
     }
 
     /**
-     * Consume one recovery code. On success the remainder is saved and true returned.
+     * Consume one recovery code. On success the remainder is saved (legacy
+     * plaintext entries upgraded to hashes in the same write) and true returned.
+     * Fails closed: if the lock, reload, hashing or write fails, or two-factor
+     * was disabled meanwhile, the code is refused.
      */
     public function consumeRecoveryCode(string $code): bool
     {
         $code = strtoupper(trim($code));
-        $codes = $this->recoveryCodes();
+        $spent = false;
 
-        $index = array_search($code, $codes, true);
-        if ($index === false) {
+        $written = $this->mutateTwoFactor(function (self $user) use ($code, &$spent): void {
+            if (!$user->hasTwoFactorEnabled()) {
+                return;
+            }
+            $submitted = self::hashRecoveryCode((int)$user->id, $code);
+
+            // Compare against every entry (no early exit) in constant time.
+            $match = null;
+            $entries = $user->recoveryCodes();
+            foreach ($entries as $i => $entry) {
+                $stored = str_starts_with($entry, self::RECOVERY_HASH_PREFIX)
+                    ? $entry
+                    : self::hashRecoveryCode((int)$user->id, $entry);
+                if (hash_equals($stored, $submitted) && $match === null) {
+                    $match = $i;
+                }
+            }
+            if ($match === null) {
+                return;
+            }
+
+            unset($entries[$match]);
+            $user->two_factor_recovery_codes = json_encode(array_values($entries));
+            $user->upgradeLegacyRecoveryCodes();
+            $spent = true;
+        });
+
+        return $written && $spent;
+    }
+
+    /**
+     * Start two-factor setup: store an unconfirmed secret and drop any earlier
+     * codes (a batch is issued only when setup is confirmed).
+     */
+    public function beginTwoFactor(string $secret): bool
+    {
+        return $this->mutateTwoFactor(function (self $user) use ($secret): void {
+            $user->two_factor_secret = $secret;
+            $user->two_factor_recovery_codes = null;
+            $user->two_factor_confirmed_at = null;
+        });
+    }
+
+    /**
+     * Confirm a pending setup and issue its recovery codes (also for setups
+     * begun before codes were issued at confirmation). Null when there is no
+     * pending secret, it is already confirmed, or the write was refused.
+     *
+     * @return array<int, string>|null plaintext, to be shown once
+     */
+    public function confirmTwoFactor(): ?array
+    {
+        $codes = null;
+        $written = $this->mutateTwoFactor(function (self $user) use (&$codes): void {
+            if ($user->two_factor_secret === null || $user->two_factor_confirmed_at !== null) {
+                return;
+            }
+            $codes = self::generateRecoveryCodes();
+            $user->storeRecoveryCodes($codes);
+            $user->two_factor_confirmed_at = date('Y-m-d H:i:s');
+        });
+
+        return $written ? $codes : null;
+    }
+
+    /**
+     * Replace the recovery codes of an enabled account.
+     *
+     * @return array<int, string>|null plaintext, to be shown once
+     */
+    public function regenerateRecoveryCodes(): ?array
+    {
+        $codes = null;
+        $written = $this->mutateTwoFactor(function (self $user) use (&$codes): void {
+            if (!$user->hasTwoFactorEnabled()) {
+                return;
+            }
+            $codes = self::generateRecoveryCodes();
+            $user->storeRecoveryCodes($codes);
+        });
+
+        return $written ? $codes : null;
+    }
+
+    public function disableTwoFactor(): bool
+    {
+        return $this->mutateTwoFactor(function (self $user): void {
+            $user->two_factor_secret = null;
+            $user->two_factor_recovery_codes = null;
+            $user->two_factor_confirmed_at = null;
+        });
+    }
+
+    /** Hash legacy plaintext entries. True when something was upgraded and written. */
+    public function hashLegacyRecoveryCodes(): bool
+    {
+        $changed = false;
+        $written = $this->mutateTwoFactor(function (self $user) use (&$changed): void {
+            $changed = $user->upgradeLegacyRecoveryCodes();
+        });
+
+        return $written && $changed;
+    }
+
+    /**
+     * The one writer of the two-factor columns. Under a per-user lock it reloads
+     * the row, lets $change edit this object, and writes only if the row is still
+     * what was read (compare-and-swap in SQL, so a second host cannot overwrite a
+     * newer list even though the lock is per host). Returns false, with the
+     * in-memory state restored, when nothing was written.
+     *
+     * Failures are logged as stage + user id only: exception messages can carry
+     * SQL parameters (recovery entries) and are deliberately not logged.
+     *
+     * @param callable(self): void $change
+     */
+    public function mutateTwoFactor(callable $change): bool
+    {
+        $backup = $this->twoFactorState();
+        $stage = 'lock';
+
+        try {
+            return FileLock::run('recovery_codes_' . (int)$this->id, function () use ($change, &$stage): bool {
+                $stage = 'reload';
+                $this->reloadRecoveryCodes();
+                $expected = $this->twoFactorState();
+
+                $stage = 'change';
+                $change($this);
+                $next = $this->twoFactorState();
+                if ($next === $expected) {
+                    return true; // nothing to write
+                }
+
+                $stage = 'write';
+                if (!$this->persistTwoFactor($expected)) {
+                    throw new \RuntimeException('Two-factor state changed concurrently.');
+                }
+
+                return true;
+            });
+        } catch (\Throwable) {
+            $this->applyTwoFactorState($backup);
+            error_log('User::mutateTwoFactor: refused (stage=' . $stage . ', user=' . (int)$this->id . ')');
+
             return false;
         }
+    }
 
-        unset($codes[$index]);
-        $this->two_factor_recovery_codes = json_encode(array_values($codes));
-        $this->save();
+    /** @return array{0: ?string, 1: ?string, 2: mixed} */
+    private function twoFactorState(): array
+    {
+        $at = $this->two_factor_confirmed_at;
 
-        return true;
+        return [
+            $this->two_factor_secret === null ? null : (string)$this->two_factor_secret,
+            $this->two_factor_recovery_codes === null ? null : (string)$this->two_factor_recovery_codes,
+            $at === null ? null : ($at instanceof \DateTimeInterface ? $at->format('Y-m-d H:i:s') : (string)$at),
+        ];
+    }
+
+    /** @param array{0: ?string, 1: ?string, 2: mixed} $state */
+    private function applyTwoFactorState(array $state): void
+    {
+        [$this->two_factor_secret, $this->two_factor_recovery_codes, $this->two_factor_confirmed_at] = $state;
+    }
+
+    /**
+     * Write the columns only if they still equal $expected (the values read
+     * under the lock). Overridden in tests that have no database.
+     *
+     * @param array{0: ?string, 1: ?string, 2: mixed} $expected
+     */
+    protected function persistTwoFactor(array $expected): bool
+    {
+        $now = $this->twoFactorState();
+        $db = app()->make($this->getWriteConnectionService());
+        $db->execute(
+            'UPDATE ' . $this->table . ' SET two_factor_secret = ?, two_factor_recovery_codes = ?, two_factor_confirmed_at = ?'
+            . " WHERE id = ? AND COALESCE(two_factor_secret, '') = ? AND COALESCE(two_factor_recovery_codes, '') = ?"
+            . " AND COALESCE(two_factor_confirmed_at, '') = ?",
+            [$now[0], $now[1], $now[2], (int)$this->id, (string)$expected[0], (string)$expected[1], (string)$expected[2]],
+        );
+
+        return $db->affectedRows() === 1;
+    }
+
+    /**
+     * Re-read the two-factor columns so a stale in-memory copy cannot be
+     * written back. Skipped for unsaved models; tests override it.
+     */
+    protected function reloadRecoveryCodes(): void
+    {
+        if (!$this->id) {
+            return;
+        }
+
+        $fresh = static::findFirst((int)$this->id);
+        if (!$fresh instanceof self) {
+            throw new \RuntimeException('Recovery codes could not be reloaded.');
+        }
+
+        $this->applyTwoFactorState($fresh->twoFactorState());
     }
 }

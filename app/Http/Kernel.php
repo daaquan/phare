@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EnsureEmailIsVerified;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -10,10 +11,10 @@ use App\Http\Middleware\RequirePassword;
 use App\Http\Middleware\ThrottlePasswordChecks;
 use App\Http\Middleware\ThrottleRequests;
 use App\Http\Middleware\ThrottleTwoFactor;
+use App\Http\Middleware\ValidateSessionVersion;
 use App\Http\Middleware\VerifyCsrfToken;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Http\ResponseInterface;
-use Phare\Auth\Middleware\Authenticate;
 use Phare\Foundation\Bootstrap\HandleExceptions;
 use Phare\Foundation\Bootstrap\LoadConfiguration;
 use Phare\Foundation\Bootstrap\RegisterFacades;
@@ -37,6 +38,7 @@ class Kernel extends HttpKernel
         'web' => [
             // \App\Http\Middleware\EncryptCookies::class,
             VerifyCsrfToken::class,
+            ValidateSessionVersion::class,
             HandleInertiaRequests::class,
         ],
 

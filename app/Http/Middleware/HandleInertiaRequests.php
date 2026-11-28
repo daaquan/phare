@@ -32,9 +32,34 @@ class HandleInertiaRequests extends MiddlewareContract implements BeforeMiddlewa
         Inertia::share('errors', $this->resolveErrors());
         // Share the session CSRF token so fetch-based endpoints (passkeys and the
         // like) can send it back in the X-CSRF-TOKEN header.
-        Inertia::share('csrf_token', app(Csrf::class)->getToken());
+        $token = app(Csrf::class)->getToken();
+        Inertia::share('csrf_token', $token);
+        $this->publishXsrfCookie($token);
 
         return $next();
+    }
+
+    /**
+     * Inertia's HTTP client copies the readable XSRF-TOKEN cookie into the
+     * X-XSRF-TOKEN header on every visit, which VerifyCsrfToken accepts. Same
+     * path/Secure/SameSite as the session cookie; not HttpOnly by design.
+     */
+    protected function publishXsrfCookie(string $token): void
+    {
+        if (($_COOKIE['XSRF-TOKEN'] ?? null) === $token || headers_sent()) {
+            return;
+        }
+
+        $cookie = config('session.cookie');
+        $cookie = is_object($cookie) && method_exists($cookie, 'toArray') ? $cookie->toArray() : (array)$cookie;
+
+        setcookie('XSRF-TOKEN', $token, [
+            'path' => (string)($cookie['path'] ?? '/'),
+            'domain' => (string)($cookie['domain'] ?? ''),
+            'secure' => (bool)($cookie['secure'] ?? true),
+            'httponly' => false,
+            'samesite' => (string)($cookie['same_site'] ?? 'Lax'),
+        ]);
     }
 
     /**

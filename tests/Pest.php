@@ -2,9 +2,10 @@
 
 use App\Models\User;
 use App\Repository\UserRepository;
+use App\Support\Auth\AuthSession;
 use Phare\Database\Schema\Blueprint;
 use Phare\Database\Schema\SchemaBuilder;
-use Phare\Support\Facades\Auth;
+use Phare\Security\Csrf;
 use Tests\TestCase;
 
 /*
@@ -29,6 +30,9 @@ uses(TestCase::class)
         }
 
         $this->setUpApplication();
+
+        // Web writes need the session CSRF token; tests that exercise CSRF drop it.
+        $_SERVER['HTTP_X_CSRF_TOKEN'] = app(Csrf::class)->getToken();
 
         // Rate-limit buckets must not carry over when a persistent cache is used.
         app('cache')->flush();
@@ -106,6 +110,7 @@ function migrateTestSchema($app): void
         $table->text('two_factor_recovery_codes')->nullable();
         $table->timestamp('two_factor_confirmed_at')->nullable();
         $table->boolean('is_admin')->default(false);
+        $table->integer('session_version')->default(0);
         $table->timestamps();
     });
 
@@ -159,10 +164,10 @@ function createTestUser(array $attributes = []): User
 function signIn(User $user): User
 {
     // The process-wide session also carries state from earlier tests.
-    foreach (['auth.password_confirmed_at', 'url.intended', 'login.id', 'passkey.creation', 'errors'] as $key) {
+    foreach (['auth.password_confirmed_at', 'url.intended', 'login.id', 'login.at', 'passkey.creation', 'errors'] as $key) {
         app('session')->remove($key);
     }
-    Auth::login($user);
+    AuthSession::login($user);
 
     return $user;
 }

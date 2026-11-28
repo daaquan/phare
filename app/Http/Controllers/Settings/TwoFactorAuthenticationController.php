@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\Auth\AuthSession;
 use App\Support\TwoFactor\Totp;
+use App\Support\TwoFactor\UsedTotpSteps;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
@@ -24,11 +26,11 @@ class TwoFactorAuthenticationController extends Controller
             return $this->response->redirect('/user/login');
         }
 
-        // Issue the unconfirmed secret and recovery codes (not confirmed yet).
-        $user->two_factor_secret = Totp::generateSecret();
-        $user->two_factor_recovery_codes = json_encode(User::generateRecoveryCodes());
-        $user->two_factor_confirmed_at = null;
-        $user->save();
+        // Issue the unconfirmed secret only; recovery codes are issued (and shown
+        // once) when the setup is confirmed.
+        if (!$user->beginTwoFactor(Totp::generateSecret())) {
+            $this->session->set('errors', ['code' => 'Two-factor setup could not be started. Try again.']);
+        }
 
         return $this->response->redirect('/settings/security');
     }
@@ -46,14 +48,19 @@ class TwoFactorAuthenticationController extends Controller
         }
 
         $code = (string)$request->get('code');
-        if (!Totp::verify((string)$user->two_factor_secret, $code)) {
+        if (!UsedTotpSteps::verifyAndClaim((int)$user->id, (string)$user->two_factor_secret, $code)) {
             $this->session->set('errors', ['code' => 'That authentication code is not correct.']);
 
             return $this->response->redirect('/settings/security');
         }
 
-        $user->two_factor_confirmed_at = date('Y-m-d H:i:s');
-        $user->save();
+        $codes = $user->confirmTwoFactor();
+        if ($codes === null) {
+            $this->session->set('errors', ['code' => 'Two-factor setup could not be confirmed. Start again.']);
+
+            return $this->response->redirect('/settings/security');
+        }
+        AuthSession::flashRecoveryCodes($user, $codes);
 
         $this->flashSession->success('Two-factor authentication enabled.');
 
@@ -68,33 +75,17 @@ class TwoFactorAuthenticationController extends Controller
             return $this->response->redirect('/user/login');
         }
 
-        $user->two_factor_recovery_codes = json_encode(User::generateRecoveryCodes());
-        $user->save();
+        $codes = $user->regenerateRecoveryCodes();
+        if ($codes === null) {
+            $this->session->set('errors', ['code' => 'Recovery codes could not be regenerated. Try again.']);
+
+            return $this->response->redirect('/settings/security');
+        }
+        AuthSession::flashRecoveryCodes($user, $codes);
 
         $this->flashSession->success('Recovery codes regenerated.');
 
         return $this->response->redirect('/settings/security');
-    }
-
-    /**
-     * Reveal the unused recovery codes (JSON, fetched on demand by the security page).
-     */
-    #[Route('two-factor/recovery-codes/reveal', methods: ['POST'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.recovery.show')]
-    public function showRecoveryCodes(Request $request)
-    {
-        $user = Auth::user();
-        if (!$user instanceof User) {
-            $this->response->setStatusCode(401);
-            $this->response->setJsonContent(['message' => 'Unauthorized']);
-
-            return $this->response;
-        }
-
-        $this->response->setJsonContent([
-            'recoveryCodes' => $user->hasTwoFactorEnabled() ? $user->recoveryCodes() : [],
-        ]);
-
-        return $this->response;
     }
 
     #[Route('two-factor', methods: ['DELETE'], middlewares: ['auth', 'verified', 'password.confirm'], name: 'settings.two-factor.disable')]
@@ -105,10 +96,12 @@ class TwoFactorAuthenticationController extends Controller
             return $this->response->redirect('/user/login');
         }
 
-        $user->two_factor_secret = null;
-        $user->two_factor_recovery_codes = null;
-        $user->two_factor_confirmed_at = null;
-        $user->save();
+        $this->session->remove(User::NEW_RECOVERY_CODES_KEY);
+        if (!$user->disableTwoFactor()) {
+            $this->session->set('errors', ['code' => 'Two-factor authentication could not be disabled. Try again.']);
+
+            return $this->response->redirect('/settings/security');
+        }
 
         $this->flashSession->success('Two-factor authentication disabled.');
 

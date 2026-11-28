@@ -48,6 +48,7 @@ class ProfileController extends Controller
             return $this->response->redirect('/settings/profile');
         }
 
+        $oldEmail = (string)$user->email;
         $user->name = $name;
         $user->email = $email;
 
@@ -59,6 +60,8 @@ class ProfileController extends Controller
         $user->save();
 
         if ($emailChanged) {
+            // Reset tokens are keyed by email: revoke any still-valid one on the old address.
+            app('password.broker')->deleteToken($oldEmail);
             $this->sendVerificationEmail($user);
         }
 
@@ -83,8 +86,12 @@ class ProfileController extends Controller
             return $this->response->redirect('/settings/profile');
         }
 
+        $email = (string)$user->email;
+
         AuthSession::logout();
         $user->delete();
+        // Revoke outstanding reset tokens so a new account on this email cannot reuse them.
+        app('password.broker')->deleteToken($email);
 
         $this->flashSession->success('Account deleted.');
 

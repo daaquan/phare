@@ -51,7 +51,7 @@ class LoginController extends Controller
             ], ResponseStatusCode::FORBIDDEN);
         }
 
-        \Auth::login($user);
+        AuthSession::login($user);
 
         return response(['user_id' => \ID::encode($user->id)]);
     }

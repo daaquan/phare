@@ -1,7 +1,6 @@
 <?php
 
 use App\Support\Auth\AuthSession;
-use Phare\Support\Facades\Auth;
 
 /*
  * Logging out must not leave privileges for the next person on the browser,
@@ -36,7 +35,7 @@ test('logout clears privileged session state and rotates the session id', functi
         ->and(session_id())->not->toBe($before);
 
     // The next user of the browser gets no password-confirmation grace period.
-    Auth::login(createTestUser()); // not signIn(): it clears the keys itself
+    AuthSession::login(createTestUser()); // not signIn(): it clears the keys itself
     $this->delete('/settings/two-factor')
         ->assertStatus(302)
         ->assertHeader('Location', app('url')->get('/user/confirm-password'));

@@ -5,11 +5,10 @@ namespace App\Http\Controllers\User;
 use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Support\TwoFactor\Totp;
+use App\Support\Auth\AuthSession;
 use App\Support\TwoFactor\UsedTotpSteps;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
-use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Inertia;
 
 /**
@@ -29,7 +28,7 @@ class TwoFactorChallengeController extends Controller
     #[Route('two-factor-challenge', middlewares: ['guest'], name: 'two-factor.login')]
     public function show(Request $request)
     {
-        if (!$this->session->has('login.id')) {
+        if (AuthSession::pendingTwoFactorId() === null) {
             return $this->response->redirect('/user/login');
         }
 
@@ -39,7 +38,7 @@ class TwoFactorChallengeController extends Controller
     #[Route('two-factor-challenge', methods: ['POST'], middlewares: ['guest', 'throttle.two-factor'], name: 'two-factor.login.store')]
     public function store(Request $request)
     {
-        $userId = $this->session->get('login.id');
+        $userId = AuthSession::pendingTwoFactorId();
         if ($userId === null) {
             return $this->response->redirect('/user/login');
         }
@@ -47,6 +46,7 @@ class TwoFactorChallengeController extends Controller
         $user = $this->users->getUserById((int)$userId);
         if (!$user instanceof User || !$user->hasTwoFactorEnabled()) {
             $this->session->remove('login.id');
+            $this->session->remove('login.at');
 
             return $this->response->redirect('/user/login');
         }
@@ -58,8 +58,7 @@ class TwoFactorChallengeController extends Controller
         if ($recovery !== '') {
             $authenticated = $user->consumeRecoveryCode($recovery);
         } elseif ($code !== '') {
-            $step = Totp::verifyStep((string)$user->two_factor_secret, $code);
-            $authenticated = $step !== null && UsedTotpSteps::claim((int)$user->id, $step);
+            $authenticated = UsedTotpSteps::verifyAndClaim((int)$user->id, (string)$user->two_factor_secret, $code);
         }
 
         if (!$authenticated) {
@@ -69,7 +68,8 @@ class TwoFactorChallengeController extends Controller
         }
 
         $this->session->remove('login.id');
-        Auth::login($user);
+        $this->session->remove('login.at');
+        AuthSession::login($user);
 
         return $this->response->redirect('/dashboard');
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\Passkey;
 use App\Models\User;
+use App\Support\Auth\AuthSession;
 use App\Support\TwoFactor\Totp;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
@@ -45,9 +46,17 @@ class SecurityController extends Controller
             );
         }
 
-        // Recovery codes are a second factor: they are not part of this page and
-        // are only revealed by TwoFactorAuthenticationController::showRecoveryCodes
-        // after a password confirmation.
+        // Recovery codes are stored hashed: the plaintext is only available in
+        // the render right after they were generated, then dropped from the session.
+        $twoFactor['recoveryCodeCount'] = $user instanceof User ? $user->recoveryCodeCount() : 0;
+        // A batch issued at confirm/regenerate waits in the session for this render
+        // only: bound to the user, short-lived, removed on read.
+        if ($enabled) {
+            $new = AuthSession::pullRecoveryCodes($user);
+            if ($new !== []) {
+                $twoFactor['newRecoveryCodes'] = $new;
+            }
+        }
 
         return Inertia::render('settings/security', [
             'twoFactor' => $twoFactor,

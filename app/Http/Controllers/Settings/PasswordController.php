@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\Auth\AuthSession;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
 use Phare\Support\Facades\Auth;
@@ -41,12 +42,14 @@ class PasswordController extends Controller
         }
 
         $user->password = $password;
+        $user->session_version = $user->sessionVersion() + 1; // signs every other session out
         $user->save();
 
         // Reset links issued for the old password die with it, and this browser
         // moves to a new session id (the old one is deleted server-side).
         app('password.broker')->deleteToken((string)$user->email);
         $this->session->regenerateId(true);
+        AuthSession::stamp($user); // this browser stays signed in
 
         $this->flashSession->success('Password updated.');
 

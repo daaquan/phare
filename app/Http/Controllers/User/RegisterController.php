@@ -6,9 +6,9 @@ use App\Contracts\Repository\UserContract;
 use App\Http\Controllers\Concerns\SendsAuthEmails;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\RegisterRequest;
+use App\Support\Auth\AuthSession;
 use Phare\Attributes\Route;
 use Phare\Http\Request;
-use Phare\Support\Facades\Auth;
 use Phare\Support\Facades\Inertia;
 
 class RegisterController extends Controller
@@ -53,7 +53,7 @@ class RegisterController extends Controller
         }
 
         $this->sendVerificationEmail($user);
-        Auth::login($user);
+        AuthSession::login($user);
 
         return $this->response->redirect('/user/verify-email');
     }
